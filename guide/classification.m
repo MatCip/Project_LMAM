@@ -1,0 +1,995 @@
+function varargout = classification(varargin)
+% CLASSIFICATION MATLAB code for classification.fig
+%      CLASSIFICATION, by itself, creates a new CLASSIFICATION or raises the existing
+%      singleton*.
+%
+%      H = CLASSIFICATION returns the handle to a new CLASSIFICATION or the handle to
+%      the existing singleton*.
+%
+%      CLASSIFICATION('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in CLASSIFICATION.M with the given input arguments.
+%
+%      CLASSIFICATION('Property','Value',...) creates a new CLASSIFICATION or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before classification_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to classification_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help classification
+
+% Last Modified by GUIDE v2.5 09-Nov-2017 12:05:50
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @classification_OpeningFcn, ...
+                   'gui_OutputFcn',  @classification_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before classification is made visible.
+function classification_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to classification (see VARARGIN)
+
+% Choose default command line output for classification
+% 
+handles.gyr1_LShank40_1=varargin{1};
+handles.gyr2_LShank40_1=varargin{2};
+handles.gyr3_LShank40_1=varargin{3};
+
+
+handles.acc1_LShank40_1=varargin{4};
+handles.acc2_LShank40_1=varargin{5};
+handles.acc3_LShank40_1=varargin{6};
+
+
+handles.gyr1_RShank40_1=varargin{7};
+handles.gyr2_RShank40_1=varargin{8};
+handles.gyr3_RShank40_1=varargin{9};
+
+
+handles.acc1_RShank40_1=varargin{10};
+handles.acc2_RShank40_1=varargin{11};
+handles.acc3_RShank40_1=varargin{12};
+
+handles.gyr1_LThigh40_1=varargin{13};
+handles.gyr2_LThigh40_1=varargin{14};
+handles.gyr3_LThigh40_1=varargin{15};
+
+
+handles.acc1_LThigh40_1=varargin{16};
+handles.acc2_LThigh40_1=varargin{17};
+handles.acc3_LThigh40_1=varargin{18};
+
+handles.gyr1_RThigh_lpf_1=varargin{19};
+handles.gyr2_RThigh_lpf_1=varargin{20};
+handles.gyr3_RThigh_lpf_1=varargin{21};
+
+handles.acc1_RThigh_lpf_1=varargin{22};
+handles.acc2_RThigh_lpf_1=varargin{23};
+handles.acc3_RThigh_lpf_1=varargin{24};
+
+
+handles.gyr1_trunk_lpf_1=varargin{25};
+handles.gyr2_trunk_lpf_1=varargin{26};
+handles.gyr3_trunk_lpf_1=varargin{27};
+
+
+handles.acc1_trunk_lpf_1=varargin{28};
+handles.acc2_trunk_lpf_1=varargin{29};
+handles.acc3_trunk_lpf_1=varargin{30};
+
+handles.trunk_cell=varargin{32};
+handles.thigh_cell=varargin{33};
+handles.shank_cell=varargin{34};
+
+
+handles.t_1=varargin{31};
+
+handles.acc1_trunk40=varargin{35};
+handles.acc2_trunk40=varargin{36};
+handles.acc3_trunk40=varargin{37};
+
+
+clearvars varargin
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes classification wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+function clear_values()
+handles.gyr1_LShank40_1=[];
+handles.gyr2_LShank40_1=[];
+handles.gyr3_LShank40_1=[];
+
+
+handles.acc1_LShank40_1=[];
+handles.acc2_LShank40_1=[];
+handles.acc3_LShank40_1=[];
+
+
+handles.gyr1_RShank40_1=[];
+handles.gyr2_RShank40_1=[];
+handles.gyr3_RShank40_1=[];
+
+
+handles.acc1_RShank40_1=[];
+handles.acc2_RShank40_1=[];
+handles.acc3_RShank40_1=[];
+
+handles.gyr1_LThigh40_1=[];
+handles.gyr2_LThigh40_1=[];
+handles.gyr3_LThigh40_1=[];
+
+
+handles.acc1_LThigh40_1=[];
+handles.acc2_LThigh40_1=[];
+handles.acc3_LThigh40_1=[];
+
+handles.gyr1_RThigh_lpf_1=[];
+handles.gyr2_RThigh_lpf_1= [];
+handles.gyr3_RThigh_lpf_1=[];
+
+handles.acc1_RThigh_lpf_1=[];
+handles.acc2_RThigh_lpf_1=[];
+handles.acc3_RThigh_lpf_1=[];
+
+
+handles.gyr1_trunk_lpf_1=[];
+handles.gyr2_trunk_lpf_1=[];
+handles.gyr3_trunk_lpf_1=[];
+
+
+handles.acc1_trunk_lpf_1=[];
+handles.acc2_trunk_lpf_1=[];
+handles.acc3_trunk_lpf_1=[];
+
+
+
+% --- Outputs from this function are returned to the command line.
+function varargout = classification_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% --- Executes on button press in checkbox1.
+function checkbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox1
+
+
+% --- Executes on selection change in popupmenu1.
+function popupmenu1_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu1
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject,'String',{'Select';'acc1';'acc2';'acc3'})
+
+
+% --- Executes on button press in checkbox2.
+function checkbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox2
+
+
+% --- Executes on selection change in popupmenu2.
+function popupmenu2_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu2 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu2
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject,'String',{'Select';'acc1';'acc2';'acc3'})
+
+% --- Executes on button press in checkbox3.
+function checkbox3_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox3
+
+
+% --- Executes on selection change in popupmenu3.
+function popupmenu3_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu3 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu3
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject,'String',{'Select';'gyr1';'gyr2';'gyr3'})
+
+% --- Executes on button press in checkbox5.
+function checkbox5_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox5
+
+
+% --- Executes on selection change in popupmenu4.
+function popupmenu4_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu4 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu4
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu4_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject,'String',{'Select';'gyr1';'gyr2';'gyr3'})
+
+
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+ acc1_trunk_lpf_1=handles.acc1_trunk_lpf_1;
+ acc2_trunk_lpf_1=handles.acc2_trunk_lpf_1;
+ acc3_trunk_lpf_1=handles.acc3_trunk_lpf_1;
+ t_1=handles.t_1;
+ axes(handles.axes1)
+ plot(handles.axes1,t_1,acc1_trunk_lpf_1,'r','LineWidth',1)
+ title('acc trunk')
+ hold on
+ plot(t_1,acc2_trunk_lpf_1,'k','LineWidth',1)
+ plot(t_1,acc3_trunk_lpf_1,'b','LineWidth',1)
+ legend('acc1','acc2','acc3');
+ hold off
+ 
+ axes(handles.axes2)
+ plot(handles.axes2,t_1,handles.gyr1_trunk_lpf_1,'r','LineWidth',1)
+ title('gir trunk')
+ hold on
+ plot(handles.t_1,handles.gyr2_trunk_lpf_1,'k','LineWidth',1)
+ plot(handles.t_1,handles.gyr3_trunk_lpf_1,'b','LineWidth',1)
+ legend('gyr1','gyr2','gyr3');
+ hold off 
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+ axes(handles.axes1)
+ plot(handles.t_1, handles.acc1_RThigh_lpf_1,'r','LineWidth',1)
+ title('acc Right-Thigh')
+ hold on
+ plot(handles.t_1, handles.acc2_RThigh_lpf_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.acc3_RThigh_lpf_1,'b','LineWidth',1)
+ legend('acc1','acc2','acc2');     
+ hold off 
+
+ axes(handles.axes2)
+ plot(handles.t_1, handles.gyr1_RThigh_lpf_1,'r','LineWidth',1)
+ title('gir Right Thigh')
+ hold on
+ plot(handles.t_1, handles.gyr2_RThigh_lpf_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.gyr3_RThigh_lpf_1,'b','LineWidth',1)
+ legend('gyr1','gyr2','gyr3');
+ hold off 
+
+
+
+
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if(get(handles.popupmenu5,'Value')==1)
+    
+axes(handles.axes1)     
+ plot(handles.t_1, handles.acc1_LShank40_1,'r','LineWidth',1)
+ title('acc Left-Shank')
+ hold on
+ plot(handles.t_1,handles.acc2_LShank40_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.acc3_LShank40_1,'b','LineWidth',1)
+ legend('acc1','acc2','acc2'); 
+ hold off 
+
+ axes(handles.axes2)
+ plot(handles.t_1, handles.gyr1_LShank40_1,'r','LineWidth',1)
+ title('gyr Left-Shank')
+ hold on
+ plot(handles.t_1, handles.gyr2_LShank40_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.gyr3_LShank40_1,'b','LineWidth',1)
+ legend('gyr1','gyr2','gyr3');
+ hold off 
+else
+ 
+ axes(handles.axes1) 
+ plot(handles.t_1, handles.acc1_RShank40_1,'r','LineWidth',1)
+ title('acc Right-Shank')
+ hold on
+ plot(handles.t_1, handles.acc2_RShank40_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.acc3_RShank40_1,'b','LineWidth',1)
+ legend('acc1','acc2','acc2');  
+ hold off 
+
+ axes(handles.axes2)
+ plot(handles.t_1,handles.gyr1_RShank40_1,'r','LineWidth',1)
+ title('acc Right-Shank')
+ hold on
+ plot(handles.t_1, handles.gyr2_RShank40_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.gyr3_RShank40_1,'b','LineWidth',1)
+ legend('gyr1','gyr2','gyr3');
+ hold off 
+end
+ 
+ 
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+disp(handles);
+clear_values();
+%TRUNK 
+
+val_trunk=get(handles.popupmenu1,'Value');
+inverse_trunk=get(handles.checkbox1,'Value');
+if(inverse_trunk==0)
+    inverse_trunk=1;
+else
+    inverse_trunk=-1;
+end
+
+switch val_trunk
+    case 1 
+        error_selection
+    case 2
+         
+         verticalAccTr=handles.trunk_cell{1}*inverse_trunk;
+         verticalAccTr40=handles.acc1_trunk40*inverse_trunk;
+         
+     case 3
+          
+          verticalAccTr=handles.trunk_cell{2}*inverse_trunk;
+          verticalAccTr40=handles.acc2_trunk40*inverse_trunk;
+    case 4
+        
+          verticalAccTr=handles.trunk_cell{3}*inverse_trunk;
+          verticalAccTr40=handles.acc3_trunk40*inverse_trunk;
+end
+
+if (get(handles.popupmenu9,'Value')==1)
+    
+        val_thigh=get(handles.popupmenu2,'Value');
+        inverse_thigh=get(handles.checkbox2,'Value');
+        if(inverse_thigh==0)
+            inverse_thigh=1;
+        else
+            inverse_thigh=-1;
+        end
+
+        switch val_thigh
+            case 1 
+                error_selection
+                 uiresume(handles.popupmenu2);
+            case 2
+
+                 frontalAccThigh=handles.thigh_cell{1,1}*inverse_thigh;
+
+
+             case 3
+
+                  frontalAccThigh=handles.thigh_cell{1,2}*inverse_thigh;
+            case 4
+
+                  frontalAccThigh=handles.thigh_cell{1,3}*inverse_thigh;
+        end
+
+else
+        val_thigh=get(handles.popupmenu2,'Value');
+        inverse_thigh=get(handles.checkbox2,'Value');
+        if(inverse_thigh==0)
+            inverse_thigh=1;
+        else
+            inverse_thigh=-1;
+        end
+
+        switch val_thigh
+            case 1 
+                error_selection
+                 uiresume(handles.popupmenu2);
+            case 2
+
+                 frontalAccThigh=handles.thigh_cell{2,1}*inverse_thigh;
+
+
+             case 3
+
+                  frontalAccThigh=handles.thigh_cell{2,2}*inverse_thigh;
+            case 4
+
+                  frontalAccThigh=handles.thigh_cell{2,3}*inverse_thigh;
+        end
+end
+
+
+val_Lshank=get(handles.popupmenu3,'Value');
+inverse_Lshank=get(handles.checkbox3,'Value');
+if(inverse_Lshank==0)
+    inverse_Lshank=1;
+else
+    inverse_Lshank=-1;
+end
+
+switch val_Lshank
+    case 1 
+        error_selection
+    case 2
+         
+          PitchGyroLShank=handles.shank_cell{1,1}*inverse_Lshank;
+         
+     case 3
+          
+          PitchGyroLShank=handles.shank_cell{1,2}*inverse_Lshank;
+    case 4
+        
+          PitchGyroLShank=handles.shank_cell{1,3}*inverse_Lshank;
+end
+
+val_Rshank=get(handles.popupmenu4,'Value');
+inverse_Rshank=get(handles.checkbox5,'Value');
+if(inverse_Rshank==0)
+    inverse_Rshank=1;
+else
+    inverse_Rshank=-1;
+end
+
+switch val_Lshank
+    case 1 
+        error_selection
+    case 2
+         
+          PitchGyroRShank=handles.shank_cell{2,1}*inverse_Rshank;
+         
+     case 3
+          
+          PitchGyroRShank=handles.shank_cell{2,2}*inverse_Rshank;
+    case 4
+        
+          PitchGyroRShank=handles.shank_cell{2,3}*inverse_Rshank;
+end
+
+
+verticalAccTr_lpf = sgolayfilt(verticalAccTr,1,1001);
+frontalAcc_Thigh_lpf = sgolayfilt(frontalAccThigh,1,1001);
+t=(1:length(verticalAccTr_lpf))/(200*60);
+figure
+ax1=subplot(411), plot(t,verticalAccTr_lpf,'LineWidth',1); title('Trunk Vertical Acc');
+ax2=subplot(412), plot(t,frontalAcc_Thigh_lpf,'LineWidth',1);title('Thigh Frontal Acc');
+ax3=subplot(413), plot(t,PitchGyroRShank,'LineWidth',1);title('RShank Pitch Gyro');
+ax4=subplot(414), plot(t,PitchGyroLShank,'LineWidth',1);title('LShank Pitch Gyro');
+xlabel('Time(min)')
+linkaxes([ax1 ax2 ax3 ax4],'x')
+
+
+[posture_ref,walk_ref]=classifyPA_2ShanksThighTrunk(verticalAccTr,frontalAccThigh,PitchGyroRShank,PitchGyroLShank,200);
+
+ta0=0.1; ta1=0.2; ta2=0.4; ta3=0.6;      %g
+tc1=70; tc2=100; tc3=130;        %steps/min
+td1=60; td2=120; td3=360;         %sec
+
+[n2,m2]=size(walk_ref);
+StWk_ref=[];EndWk_ref=[];steps_ref=[];
+for i=1:m2
+    StWk_ref(i)=walk_ref(i).start;
+    EndWk_ref(i)=walk_ref(i).end;
+    steps_ref(i)=walk_ref(i).steps; 
+    MeanCad_ref(i)=round((40*60*steps_ref(i))/(EndWk_ref(i)-StWk_ref(i)));   
+end
+ac=sqrt((handles.acc1_trunk40).^2+(handles.acc2_trunk40).^2+(handles.acc3_trunk40).^2); an=abs(ac-0.981);
+ns=40; nw=fix(length(ac)/ns);
+for k=0:nw-1
+    ll1=k*ns+1; ll2=(k+1)*ns;
+    ma1(k+1)=max(an(ll1:ll2)); ma2(k+1)=mean(an(ll1:ll2));
+end
+
+indwk=groupfind(posture_ref==4); stwk=ceil(indwk(:,1)/40); endwk=floor(indwk(:,2)/40);
+indst=groupfind(posture_ref==3); stst=ceil(indst(:,1)/40); endst=floor(indst(:,2)/40);
+indsi=groupfind(posture_ref==2 | posture_ref==1); stsi=ceil(indsi(:,1)/40); endsi=floor(indsi(:,2)/40);
+%%%%%%%%%%%%
+bactv3=zeros(1,nw);
+bactv4=zeros(1,nw);
+cad=MeanCad_ref;
+for j=1:length(stsi)
+    bactv3(stsi(j):endsi(j))=1;
+    bactv4(stsi(j):endsi(j))=1;
+end
+for j=1:length(stst)
+    bactv3(stst(j):endst(j))=3;
+    bactv4(stst(j):endst(j))=3;
+end
+
+for j=1:length(stwk)
+    if endwk(j)-stwk(j) <=td1 
+        bactv3(stwk(j):endwk(j))=7;
+        bactv4(stwk(j):endwk(j))=7;
+        
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=8;
+          bactv4(stwk(j):endwk(j))=8; 
+        end
+        
+        if cad(j) >tc2  && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=9;
+          bactv4(stwk(j):endwk(j))=9; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=10;
+          bactv4(stwk(j):endwk(j))=10; 
+        end
+        
+    end
+    if endwk(j)-stwk(j) >td1  && endwk(j)-stwk(j)<=td2
+        bactv3(stwk(j):endwk(j))=11;
+        bactv4(stwk(j):endwk(j))=11;
+       
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=12;
+          bactv4(stwk(j):endwk(j))=12; 
+        end
+       
+        if cad(j) >tc2 && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=13;
+          bactv4(stwk(j):endwk(j))=13; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=14;
+          bactv4(stwk(j):endwk(j))=14; 
+        end
+       
+    end
+    if endwk(j)-stwk(j) >td2  && endwk(j)-stwk(j)<=td3
+        bactv3(stwk(j):endwk(j))=15;
+        bactv4(stwk(j):endwk(j))=15;
+        
+        
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=16;
+          bactv4(stwk(j):endwk(j))=16; 
+        end
+       
+        if cad(j) >tc2 && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=17;
+          bactv4(stwk(j):endwk(j))=17; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=18;
+          bactv4(stwk(j):endwk(j))=18; 
+        end 
+    end
+    if endwk(j)-stwk(j) >=td3  
+        bactv3(stwk(j):endwk(j))=19;
+        bactv4(stwk(j):endwk(j))=19;
+        
+        
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=20;
+          bactv4(stwk(j):endwk(j))=20; 
+        end
+       
+        if cad(j) >tc2 && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=21;
+          bactv4(stwk(j):endwk(j))=21; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=22;
+          bactv4(stwk(j):endwk(j))=22; 
+        end 
+    end
+end
+       
+for j=1:length(stsi)
+    for k=0:length(endsi(j)-stsi(j))-1
+        if ma1(stsi(j)+k)>ta1  
+            bactv3(stsi(j)+k)=2;
+        end
+        if ma2(stsi(j)+k)>ta1 
+            bactv4(stsi(j)+k)=2;
+        end
+    end 
+end
+
+for j=1:length(stst)
+    for k=0:length(endst(j)-stst(j))-1
+        if ma1(stst(j)+k)>ta1 && ma1(stst(j)+k) <=ta2
+               bactv3(stst(j)+k)=4;
+        end
+        if ma2(stst(j)+k)>ta1 && ma2(stst(j)+k) <=ta2
+            bactv4(stst(j)+k)=4;
+        end
+    
+        if ma1(stst(j)+k)>ta2 && ma1(stst(j)+k) <=ta3
+            bactv3(stst(j)+k)=5;
+        end
+        if ma2(stst(j)+k)>ta2 && ma2(stst(j)+k) <=ta3
+            bactv4(stst(j)+k)=5;
+        end
+    
+        if ma1(stst(j)+k)>ta3 
+            bactv3(stst(j)+k)=6;
+        end
+        if ma2(stst(j)+k)>ta3 
+            bactv4(stst(j)+k)=6;
+        end  
+   end
+end
+
+
+bx=[1:1:22]; barcode1=[bactv3 bx]; bar2=[bactv4 bx];
+save 
+tb=(1:length(barcode1))/60;
+fig1=figure
+ax1=subplot(211),imagesc(barcode1);colormap jet; 
+set(fig1,'visible','off');
+ax2=subplot(212),plot(tb,barcode1);
+set(ax2,'ylim',[0,max(barcode1)]);
+xlabel('Time (min)');
+ylabel('Intensity States')
+set(gca,'Fontsize',13)
+supertitle('Pattern of PA intensity','FontSize',13,'Color','k')
+savefig(fig1,'Barcode.fig');
+% saveas(fig1,'BarChartFile','png')
+% saveas(fig1,'BarChartFile','tif')
+saveas(fig1,'BarChartFile','jpg')
+
+% Find Activity Level (up/down sairs, hill)
+
+
+ip=findchangepts(average_alt,'Statistic','linear','MaxNumChanges',25);
+
+actv_level=zeros(1,length(posture_ref));
+kl1=5;kl2=6; kl3=7; kl4=8;
+th1=2; th2=20;
+posture_DL=posture_ref;
+for j=1:length(ip)-1
+    if j==1
+        dur=ip(j)-1;
+        level=average_alt(ip(j))-average_alt(1);
+        %determine if Up/Down stairs, Elevator
+        if abs(level)>=th1 & abs(level)<=th2 & sign(level)==-1 %down, alt decreases
+           if  posture_DL(1:ip(j))==3 & (ip(j)-1)<=2*60*40   % possibly down elevator
+               actv_level(ip(j))=-kl1; 
+           end 
+        end 
+        if abs(level)>=th1 & abs(level)<=th2 &sign(level)==+1 %up
+           if  posture_DL(1:ip(j))==3 & (ip(j)-1)<=2*60*40   % possibly up elevator
+               actv_level(ip(j))=kl1; 
+           end 
+        end
+        
+        %determine if Up/Down stairs
+        if abs(level)>=th1 & abs(level)<=th2 & sign(level)==-1 %down, alt decreases
+           if  mode(posture_DL(1:ip(j)))==4    %  possibly down stairs
+               actv_level(ip(j))=-kl2; 
+           end 
+        end 
+        if abs(level)>=th1 & abs(level)<=th2 & sign(level)==+1 
+           if  mode(posture_DL(1:ip(j)))==4    % possibly up stairs
+               actv_level(ip(j))=kl2; 
+           end 
+        end 
+   
+        %determine if Up/Down Hill car/Bus
+        if abs(level)>=th2 & sign(level)==-1
+           if  mode(posture_DL(1:ip(j)))==2    % possibly uphill car/bus
+               actv_level(ip(j))=-kl3; 
+           end 
+        end
+        if abs(level)>=th2 & sign(level)==1
+           if  mode(posture_DL(1:ip(j)))==2    % possibly downhill car/bus
+               actv_level(ip(j))=kl3; 
+           end 
+        end
+        
+        %determine if Up/Down Hill sports
+        if abs(level)>=th2 & sign(level)==-1
+           if  mode(posture_DL(1:ip(j)))==3 | mode(posture_DL(1:ip(j)))==4  % possibly uphill car/bus
+               actv_level(ip(j))=-kl4; 
+           end 
+        end
+        if abs(level)>=th2 & sign(level)==1
+           if mode(posture_DL(1:ip(j)))==3 | mode(posture_DL(1:ip(j)))==4    % possibly downhill car/bus
+               actv_level(ip(j))=kl4; 
+           end 
+        end
+              
+    else
+        dur=ip(j+1)-ip(j);
+        level=average_alt(ip(j+1))-average_alt(ip(j));
+           %determine if Up/Down stairs, Elevator
+        if abs(level)>=th1 & abs(level)<=th2 & sign(level)==-1 %down, alt decreases
+           if  posture_DL(ip(j):ip(j+1))==3 & (ip(j+1)-ip(j))<=2*60*40   % possibly down elevator
+               actv_level(ip(j))=-kl1; 
+           end 
+        end 
+        if abs(level)>=th1 & abs(level)<=th2 &sign(level)==+1 %up
+           if  posture_DL(ip(j):ip(j+1))==3 & (ip(j+1)-ip(j))<=2*60*40   % possibly up elevator
+               actv_level(ip(j))=kl1; 
+           end 
+        end
+        
+        %determine if Up/Down stairs
+        if abs(level)>=th1 & abs(level)<=th2 & sign(level)==-1 %down, alt decreases
+           if  mode(posture_DL(ip(j):ip(j+1)))==4 | mode(posture_DL(ip(j):ip(j+1)))==3    %  possibly down stairs
+               actv_level(ip(j))=-kl2; 
+           end 
+        end 
+        if abs(level)>=th1 & abs(level)<=th2 & sign(level)==+1 
+           if  mode(posture_DL(ip(j):ip(j+1)))==4 | mode(posture_DL(ip(j):ip(j+1)))==3   % possibly up stairs
+               actv_level(ip(j))=kl2; 
+           end 
+        end 
+   
+        %determine if Up/Down Hill car/Bus
+        if abs(level)>=th2 & sign(level)==-1
+           if  mode(posture_DL(ip(j):ip(j+1)))==2    % possibly uphill car/bus
+               actv_level(ip(j))=-kl3; 
+           end 
+        end
+        if abs(level)>=th2 & sign(level)==1
+           if  mode(posture_DL(ip(j):ip(j+1)))==2    % possibly downhill car/bus
+               actv_level(ip(j))=kl3; 
+           end 
+        end
+        
+        %determine if Up/Down Hill sports
+        if abs(level)>=th2 & sign(level)==-1
+           if  mode(posture_DL(ip(j):ip(j+1)))==3 | mode(posture_DL(ip(j):ip(j+1)))==4  % possibly uphill car/bus
+               actv_level(ip(j))=-kl4; 
+           end 
+        end
+        if abs(level)>=th2 & sign(level)==1
+           if mode(posture_DL(ip(j):ip(j+1)))==3 | mode(posture_DL(ip(j):ip(j+1)))==4    % possibly downhill car/bus
+               actv_level(ip(j))=kl4; 
+           end 
+        end
+            
+    end
+
+end
+
+
+t=(1:length(posture_DL))/(40*60);
+fig2=figure
+ax1=gca;
+plot(t,posture_DL,'r','LineWidth',1);ylim([-8.2 8.2])
+hold on
+plot(t,actv_level,'b','LineWidth',2);xlabel({'Time (min)'})
+title('Pattern of PA behavior')
+set(ax1,'YTick',[-8 -7 -6 -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8]);
+set(ax1,'YTicklabels',{'DownHillActiv','DownHillPasiv','DownStairsWalk','DownStairsElevator', ' ',' ',' ',' ',' ','lying','sitting','standing','walking', 'UpStairsElevator','UpStairsWalk','UpHillPasiv','UpHillActiv'});
+ax1.YGrid = 'on'
+set(gca,'Fontsize',13)
+savefig(fig2,'PAPattern.fig');
+% saveas(fig2,'PAPattern','png')
+% saveas(fig2,'PAPattern','tif')
+saveas(fig2,'PAPattern','jpg')
+save actv_level actv_level
+
+
+% --- Executes on selection change in popupmenu5.
+function popupmenu5_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu5 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu5
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject,'String',{'Left-Shank';'Right-Shank'})
+
+
+% --- Executes on selection change in popupmenu9.
+function popupmenu9_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu9 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu9
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu9_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject,'String',{'Left-Thigh';'Right-Thigh'})
+
+% --- Executes on selection change in popupmenu10.
+function popupmenu10_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu10 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu10
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu10_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject,'String',{'Left-Thigh';'Right-Thigh'})
+
+
+% --- Executes on button press in togglebutton1.
+function togglebutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton1
+
+
+% 
+% fig=figure;
+% plot(handles.t_1, handles.acc1_RThigh_lpf_1,'r','LineWidth',1);
+% grid on;
+% hold off;
+% magnifyOnFigure;
+
+
+% --- Executes on button press in togglebutton2.
+function togglebutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton2

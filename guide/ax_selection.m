@@ -1,4 +1,4 @@
-function varargout = ax_selection(varargin)
+ function varargout = ax_selection(varargin)
 % AX_SELECTION MATLAB code for ax_selection.fig
 %      AX_SELECTION, by itself, creates a new AX_SELECTION or raises the existing
 %      singleton*.
@@ -101,12 +101,22 @@ handles.acc1_trunk_lpf_1=varargin{28};
 handles.acc2_trunk_lpf_1=varargin{29};
 handles.acc3_trunk_lpf_1=varargin{30};
 
-handles.trunk_cell={varargin{28},varargin{29},varargin{30},varargin{25},varargin{26},varargin{27}};
+
 
 handles.t_1=varargin{31};
 
+% creation of the container cell
+
+handles.trunk_cell=varargin{32};
+handles.thigh_cell=varargin{33};
+handles.shank_cell=varargin{34};
 
 
+handles.acc1_trunk40=varargin{35};
+handles.acc2_trunk40=varargin{36};
+handles.acc3_trunk40=varargin{37};
+disp(varargin);
+clearvars varargin
 % indexes for selection control
 handles.acc_t_ind=1;
 handles.gyr_t_ind=1;
@@ -114,16 +124,26 @@ handles.acc_th_ind=1;
 handles.gyr_th_ind=1;
 handles.acc_sh_ind=1;
 handles.gyr_sh_ind=1;
+
+disp(length(handles.acc3_trunk40));
+% booleans
+
+hanldes.is_trunk_modiefied=false(1);
+hanldes.is_thigh_modiefied=false(1);
+hanldes.is_shank_modiefied=false(1);
 %status state 
 handles.status_Thigh=ones(2,6,2);
+handles.status_Thigh(:,:,2)=zeros(2,6);
 handles.status_Shank=ones(2,6,2);
+handles.status_Shank(:,:,2)=zeros(2,6);
 handles.status_trunk=ones(6,2);
+handles.status_trunk(:,2)=zeros(6,1);
 % Update handles structure
 guidata(hObject, handles);
 
 
 % UIWAIT makes ax_selection wait for user response (see UIRESUME)
-% uiwait(handles.figure1);
+uiwait(handles.figure1);
 
 
 
@@ -135,9 +155,11 @@ function varargout = ax_selection_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp(1);
+
 % Get default command line output from handles structure
-varargout{1} = handles.output;
+
+varargout{1} = 1;
+
 
 
 % --- Executes on button press in pushbutton1.
@@ -145,24 +167,62 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+ disp('trunk');
+ disp(handles.status_trunk);
+  disp('shank');
+ disp(handles.status_Shank);
+  disp('Thigh');
+  disp(handles.status_Thigh);
+  
+  
  handles.status_trunk(handles.status_trunk(:,2)==1,2)=-1;
  handles.status_trunk(handles.status_trunk(:,2)==0,2)=1;
+  
+
  
-disp(handles.status_trunk);
+ handles.status_Shank(1,handles.status_Shank(1,:,2)==1,2)=-1;
+ handles.status_Shank(2,handles.status_Shank(2,:,2)==1,2)=-1;
+ handles.status_Shank(1,handles.status_Shank(1,:,2)==0,2)=1;
+ handles.status_Shank(2,handles.status_Shank(2,:,2)==0,2)=1;
+  
+ handles.status_Thigh(1,handles.status_Thigh(1,:,2)==1,2)=-1;
+ handles.status_Thigh(2,handles.status_Thigh(2,:,2)==1,2)=-1;
+ handles.status_Thigh(1,handles.status_Thigh(1,:,2)==0,2)=1;
+ handles.status_Thigh(2,handles.status_Thigh(2,:,2)==0,2)=1;
+ 
+ disp('trunk');
+ disp(handles.status_trunk);
+  disp('shank');
+ disp(handles.status_Shank);
+  disp('Thigh');
+  disp(handles.status_Thigh);
+%trunk 
 for i=1:3
     switch handles.status_trunk(i,1)
+        case 1
+            frontalAccTr=handles.trunk_cell{1}*handles.status_trunk(1,2);
+            verticalAccTr=handles.trunk_cell{2}*handles.status_trunk(2,2);
+            lateralAccTr=handles.trunk_cell{3}*handles.status_trunk(3,2);
+           
+            i=3; % forcing the exit
         case 2
             frontalAccTr=handles.trunk_cell{i}*handles.status_trunk(i,2);
         case 3
-            horizzontalAccTr=handles.trunk_cell{i}*handles.status_trunk(i,2);
+            verticalAccTr=handles.trunk_cell{i}*handles.status_trunk(i,2);
         case 4
-            veritcalAccTr=handles.trunk_cell{i}*handles.status_trunk(i,2);
+            lateralAccTr=handles.trunk_cell{i}*handles.status_trunk(i,2);
     end
 
 end
 
 for i=4:6
     switch handles.status_trunk(i,1)
+        case 1
+            PitchGyroTr=handles.trunk_cell{4}*handles.status_trunk(4,2);
+            RollGyroTr=handles.trunk_cell{5}*handles.status_trunk(5,2);
+            YawGyroTr=handles.trunk_cell{6}*handles.status_trunk(6,2);
+            i=6;
         case 2
             PitchGyroTr=handles.trunk_cell{i}*handles.status_trunk(i,2);
         case 3
@@ -173,37 +233,363 @@ for i=4:6
 
 end
 
-% for j=1:2
-%     for i=1:3
-%         switch status_
-%             case 2
-%                 frontalAccTr=handles.trunk_cell{i};
-%             case 3
-%                 horizzontalAccTr=handles.trunk_cell{i};
-%             case 4
-%                 veritcalAccTr=handles.trunk_cell{i};
-%         end
-% 
-%     end
-% 
-% 
-% 
-%         for i=4:6
-%             switch status_trunk
-%                 case 2
-%                     PitchGyroTr=handles.trunk_cell{i};
-%                 case 3
-%                     RollGyroTr=handles.trunk_cell{i};
-%                 case 4
-%                     YawGyroTr=handles.trunk_cell{i};
-%             end
-% 
-%         end
-% end
+%left thigh
+
+
+    
+for i=1:3
+    switch handles.status_Thigh(1,i,1)
+        case 1
+            frontalAccLThigh=handles.thigh_cell{1,1}*handles.status_Thigh(1,1,2);
+            verticalAccLThigh=handles.thigh_cell{1,2}*handles.status_Thigh(1,2,2);
+            lateralAccLThigh=handles.thigh_cell{1,3}*handles.status_Thigh(1,3,2);
+            i=3;
+        case 2
+            frontalAccLThigh=handles.thigh_cell{1,i}*handles.status_Thigh(1,i,2);
+        case 3
+            
+            verticalAccLThigh=handles.thigh_cell{1,i}*handles.status_Thigh(1,i,2);
+        case 4
+            lateralAccLThigh=handles.thigh_cell{1,i}*handles.status_Thigh(1,i,2);
+    end
+
+end
+
+for i=4:6
+    switch  handles.status_Thigh(1,i,1)
+        case 1
+        PitchGyroLThigh=handles.thigh_cell{1,4}*handles.status_Thigh(1,4,2);
+        RollGyroLThigh=handles.thigh_cell{1,5}*handles.status_Thigh(1,5,2);
+        YawGyroLThigh=handles.thigh_cell{1,6}*handles.status_Thigh(1,6,2);
+        i=6;
+        
+        case 2
+            PitchGyroLThigh=handles.thigh_cell{1,i}*handles.status_Thigh(1,i,2);
+        case 3
+            RollGyroLThigh=handles.thigh_cell{1,i}*handles.status_Thigh(1,i,2);
+        case 4
+            YawGyroLThigh=handles.thigh_cell{1,i}*handles.status_Thigh(1,i,2);
+    end
+
+end
+
+
+%right thigh
+
+for i=1:3
+
+    switch handles.status_Thigh(2,i,1)
+        case 1
+            frontalAccRThigh=handles.thigh_cell{2,1}*handles.status_Thigh(2,1,2);
+            verticalAccRThigh=handles.thigh_cell{2,2}*handles.status_Thigh(2,2,2);
+            lateralAccRThigh=handles.thigh_cell{2,3}*handles.status_Thigh(2,3,2);
+            i=3;
+        case 2
+            frontalAccRThigh=handles.thigh_cell{2,i}*handles.status_Thigh(2,i,2);
+        case 3
+            verticalAccRThigh=handles.thigh_cell{2,i}*handles.status_Thigh(2,i,2);
+        case 4
+            lateralAccRThigh=handles.thigh_cell{2,i}*handles.status_Thigh(2,i,2);
+    end
+
+end
+
+for i=4:6
+    switch handles.status_Thigh(2,i,1)
+        case 1
+            PitchGyroRThigh=handles.thigh_cell{2,4}*handles.status_Thigh(2,4,2);
+            RollGyroRThigh=handles.thigh_cell{2,5}*handles.status_Thigh(2,5,2);
+            YawGyroRThigh=handles.thigh_cell{2,6}*handles.status_Thigh(2,6,2);
+            i=6;
+        case 2
+            PitchGyroRThigh=handles.thigh_cell{2,i}*handles.status_Thigh(2,i,2);
+        case 3
+            RollGyroRThigh=handles.thigh_cell{2,i}*handles.status_Thigh(2,i,2);
+        case 4
+            YawGyroRThigh=handles.thigh_cell{2,i}*handles.status_Thigh(2,i,2);
+    end
+
+end
+
+%Shank
+
+%left shank
+for i=1:3
+    switch handles.status_Shank(1,i,1)
+        
+        case 1 
+            frontalAccLShank=handles.shank_cell{1,1}*handles.status_Shank(1,1,2);
+            verticalAccLShank=handles.shank_cell{1,2}*handles.status_Shank(1,2,2);
+            lateralAccLShank=handles.shank_cell{1,3}*handles.status_Shank(1,3,2); 
+            i=3;
+            
+        case 2
+            frontalAccLShank=handles.shank_cell{1,i}*handles.status_Shank(1,i,2);
+        case 3
+            verticalAccLShank=handles.shank_cell{1,i}*handles.status_Shank(1,i,2);
+            
+        case 4
+            lateralAccLShank=handles.shank_cell{1,i}*handles.status_Shank(1,i,2); 
+    end
+
+end
+
+for i=4:6
+    switch  handles.status_Shank(1,i,1)
+        
+        case 1
+             PitchGyroLShank=handles.shank_cell{1,4}*handles.status_Shank(1,4,2);
+             RollGyroLShank=handles.shank_cell{1,5}*handles.status_Shank(1,5,2);
+             YawGyroLShank=handles.shank_cell{1,6}*handles.status_Shank(1,6,2);
+             i=6;
+        case 2
+            PitchGyroLShank=handles.shank_cell{1,i}*handles.status_Shank(1,i,2);
+        case 3
+            RollGyroLShank=handles.shank_cell{1,i}*handles.status_Shank(1,i,2);
+        case 4
+            YawGyroLShank=handles.shank_cell{1,i}*handles.status_Shank(1,i,2);
+    end
+
+end
+
+
+%right shank
+
+
+for i=1:3
+  
+    switch handles.status_Shank(2,i,1)
+        case 1
+             frontalAccRShank=handles.shank_cell{2,1}*handles.status_Shank(2,1,2);
+             verticalAccRShank=handles.shank_cell{2,2}*handles.status_Shank(2,2,2);
+             lateralAccRShank=handles.shank_cell{2,3}*handles.status_Shank(2,3,2);
+             i=3;
+        case 2
+            frontalAccRShank=handles.shank_cell{2,i}*handles.status_Shank(2,i,2);
+        case 3
+            verticalAccRShank=handles.shank_cell{2,i}*handles.status_Shank(2,i,2);
+        case 4
+            lateralAccRShank=handles.shank_cell{2,i}*handles.status_Shank(2,i,2);
+    end
+
+end
+
+
+
+
+for i=4:6
+    switch handles.status_Thigh(2,i,1)
+        case 1
+            PitchGyroRShank=handles.shank_cell{2,4}*handles.status_Shank(2,4,2);
+            RollGyroRShank=handles.shank_cell{2,5}*handles.status_Shank(2,5,2);
+            YawGyroRShank=handles.shank_cell{2,6}*handles.status_Shank(2,6,2);
+            i=6;
+        case 2
+            PitchGyroRShank=handles.shank_cell{2,i}*handles.status_Shank(2,i,2);
+        case 3
+            RollGyroRShank=handles.shank_cell{2,i}*handles.status_Shank(2,i,2);
+        case 4
+            YawGyroRShank=handles.shank_cell{2,i}*handles.status_Shank(2,i,2);
+    end
+
+end
+
+
+
+
+verticalAccTr_lpf = sgolayfilt(verticalAccTr,1,1001);
+frontalAcc_RThigh_lpf = sgolayfilt(frontalAccRThigh,1,1001);
+t=(1:length(verticalAccTr_lpf))/(200*60);
+figure
+ax1=subplot(411), plot(t,verticalAccTr_lpf,'LineWidth',1); title('Trunk Vertical Acc');
+ax2=subplot(412), plot(t,frontalAcc_RThigh_lpf,'LineWidth',1);title('RThigh Frontal Acc');
+ax3=subplot(413), plot(t,PitchGyroRShank,'LineWidth',1);title('RShank Pitch Gyro');
+ax4=subplot(414), plot(t,PitchGyroLShank,'LineWidth',1);title('LShank Pitch Gyro');
+xlabel('Time(min)')
+linkaxes([ax1 ax2 ax3 ax4],'x')
+
+frontalAccThigh=frontalAccRThigh;
+[posture_ref,walk_ref]=classifyPA_2ShanksThighTrunk(verticalAccTr,frontalAccThigh,PitchGyroRShank,PitchGyroLShank,200);
+
+
+
+
+ta0=0.1; ta1=0.2; ta2=0.4; ta3=0.6;      %g
+tc1=70; tc2=100; tc3=130;        %steps/min
+td1=60; td2=120; td3=360;         %sec
+
+[n2,m2]=size(walk_ref);
+StWk_ref=[];EndWk_ref=[];steps_ref=[];
+for i=1:m2
+    StWk_ref(i)=walk_ref(i).start;
+    EndWk_ref(i)=walk_ref(i).end;
+    steps_ref(i)=walk_ref(i).steps; 
+    MeanCad_ref(i)=round((40*60*steps_ref(i))/(EndWk_ref(i)-StWk_ref(i)));   
+end
+ac=sqrt((handles.acc1_trunk40).^2+(handles.acc2_trunk40).^2+(handles.acc3_trunk40).^2); an=abs(ac-0.981);
+ns=40; nw=fix(length(ac)/ns);
+for k=0:nw-1
+    ll1=k*ns+1; ll2=(k+1)*ns;
+    ma1(k+1)=max(an(ll1:ll2)); ma2(k+1)=mean(an(ll1:ll2));
+end
+
+indwk=groupfind(posture_ref==4); stwk=ceil(indwk(:,1)/40); endwk=floor(indwk(:,2)/40);
+indst=groupfind(posture_ref==3); stst=ceil(indst(:,1)/40); endst=floor(indst(:,2)/40);
+indsi=groupfind(posture_ref==2 | posture_ref==1); stsi=ceil(indsi(:,1)/40); endsi=floor(indsi(:,2)/40);
+%%%%%%%%%%%%
+bactv3=zeros(1,nw);
+bactv4=zeros(1,nw);
+cad=MeanCad_ref;
+for j=1:length(stsi)
+    bactv3(stsi(j):endsi(j))=1;
+    bactv4(stsi(j):endsi(j))=1;
+end
+for j=1:length(stst)
+    bactv3(stst(j):endst(j))=3;
+    bactv4(stst(j):endst(j))=3;
+end
+
+for j=1:length(stwk)
+    if endwk(j)-stwk(j) <=td1 
+        bactv3(stwk(j):endwk(j))=7;
+        bactv4(stwk(j):endwk(j))=7;
+        
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=8;
+          bactv4(stwk(j):endwk(j))=8; 
+        end
+        
+        if cad(j) >tc2  && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=9;
+          bactv4(stwk(j):endwk(j))=9; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=10;
+          bactv4(stwk(j):endwk(j))=10; 
+        end
+        
+    end
+    if endwk(j)-stwk(j) >td1  && endwk(j)-stwk(j)<=td2
+        bactv3(stwk(j):endwk(j))=11;
+        bactv4(stwk(j):endwk(j))=11;
+       
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=12;
+          bactv4(stwk(j):endwk(j))=12; 
+        end
+       
+        if cad(j) >tc2 && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=13;
+          bactv4(stwk(j):endwk(j))=13; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=14;
+          bactv4(stwk(j):endwk(j))=14; 
+        end
+       
+    end
+    if endwk(j)-stwk(j) >td2  && endwk(j)-stwk(j)<=td3
+        bactv3(stwk(j):endwk(j))=15;
+        bactv4(stwk(j):endwk(j))=15;
+        
+        
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=16;
+          bactv4(stwk(j):endwk(j))=16; 
+        end
+       
+        if cad(j) >tc2 && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=17;
+          bactv4(stwk(j):endwk(j))=17; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=18;
+          bactv4(stwk(j):endwk(j))=18; 
+        end 
+    end
+    if endwk(j)-stwk(j) >=td3  
+        bactv3(stwk(j):endwk(j))=19;
+        bactv4(stwk(j):endwk(j))=19;
+        
+        
+        if cad(j) >tc1 && cad(j)<=tc2
+          bactv3(stwk(j):endwk(j))=20;
+          bactv4(stwk(j):endwk(j))=20; 
+        end
+       
+        if cad(j) >tc2 && cad(j)<=tc3
+          bactv3(stwk(j):endwk(j))=21;
+          bactv4(stwk(j):endwk(j))=21; 
+        end
+        
+        if cad(j) >tc3  
+          bactv3(stwk(j):endwk(j))=22;
+          bactv4(stwk(j):endwk(j))=22; 
+        end 
+    end
+end
+       
+for j=1:length(stsi)
+    for k=0:length(endsi(j)-stsi(j))-1
+        if ma1(stsi(j)+k)>ta1  
+            bactv3(stsi(j)+k)=2;
+        end
+        if ma2(stsi(j)+k)>ta1 
+            bactv4(stsi(j)+k)=2;
+        end
+    end 
+end
+
+for j=1:length(stst)
+    for k=0:length(endst(j)-stst(j))-1
+        if ma1(stst(j)+k)>ta1 && ma1(stst(j)+k) <=ta2
+               bactv3(stst(j)+k)=4;
+        end
+        if ma2(stst(j)+k)>ta1 && ma2(stst(j)+k) <=ta2
+            bactv4(stst(j)+k)=4;
+        end
+    
+        if ma1(stst(j)+k)>ta2 && ma1(stst(j)+k) <=ta3
+            bactv3(stst(j)+k)=5;
+        end
+        if ma2(stst(j)+k)>ta2 && ma2(stst(j)+k) <=ta3
+            bactv4(stst(j)+k)=5;
+        end
+    
+        if ma1(stst(j)+k)>ta3 
+            bactv3(stst(j)+k)=6;
+        end
+        if ma2(stst(j)+k)>ta3 
+            bactv4(stst(j)+k)=6;
+        end  
+   end
+end
+
+
+bx=[1:1:22]; barcode1=[bactv3 bx]; bar2=[bactv4 bx];
+save 
+tb=(1:length(barcode1))/60;
+fig1=figure
+ax1=subplot(211),imagesc(barcode1);colormap jet; 
+set(ax1,'visible','off');
+ax2=subplot(212),plot(tb,barcode1);
+set(ax2,'ylim',[0,max(barcode1)]);
+xlabel('Time (min)');
+ylabel('Intensity States')
+set(gca,'Fontsize',13)
+supertitle('Pattern of PA intensity','FontSize',13,'Color','k')
+savefig(fig1,'Barcode.fig');
+% saveas(fig1,'BarChartFile','png')
+% saveas(fig1,'BarChartFile','tif')
+saveas(fig1,'BarChartFile','jpg')
+
+delete(get(hObject, 'parent'));
 
             
          
-
 
 
 % --- Executes on button press in radiobutton1.
@@ -220,6 +606,8 @@ else
     
 end
 
+ 
+
 
    
 
@@ -232,6 +620,8 @@ function popupmenu1_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from popupmenu1
  
+  
+
  if (handles.acc_t_ind==1)
      handles.acc_t_ind=2;
    
@@ -243,6 +633,8 @@ function popupmenu1_Callback(hObject, eventdata, handles)
    handles.acc_t_ind=2;
         
  end
+  val=get(hObject,'Value');
+  set(handles.popupmenu4,'Value',val);
 guidata(hObject,handles)
         
  
@@ -260,7 +652,7 @@ function popupmenu1_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 
 % --- Executes on button press in radiobutton2.
@@ -282,7 +674,7 @@ function popupmenu2_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns popupmenu2 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from popupmenu2
-
+ 
 if(handles.acc_t_ind==2)
     if(get(hObject,'Value')==get(handles.popupmenu1,'Value'))
     set(hObject,'Value',1)
@@ -297,6 +689,8 @@ else
     set(handles.popupmenu3,'Value',1)
     handles.acc_t_ind=2;
 end
+val=get(hObject,'Value');
+ set(handles.popupmenu5,'Value',val);
 guidata(hObject,handles)
  
 
@@ -312,7 +706,7 @@ function popupmenu2_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 
 % --- Executes on button press in radiobutton3.
@@ -334,10 +728,14 @@ function popupmenu3_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns popupmenu3 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from popupmenu3
+
+
 if(handles.acc_t_ind~=3 || get(hObject,'Value')==get(handles.popupmenu1,'Value') || get(hObject,'Value')==get(handles.popupmenu2,'Value'))
     set(hObject,'Value',1)
    
 end
+val=get(hObject,'Value');
+set(handles.popupmenu6,'Value',val);
 guidata(hObject,handles)
 
 
@@ -352,7 +750,7 @@ function popupmenu3_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 
 % --- Executes on button press in radiobutton4.
@@ -382,7 +780,9 @@ if (handles.gyr_t_ind==1)
    set(handles.popupmenu6,'Value',1);
    handles.gyr_t_ind=2;
         
- end
+end
+ val=get(hObject,'Value');
+ set(handles.popupmenu1,'Value',val);
 guidata(hObject,handles)
 
 
@@ -397,7 +797,7 @@ function popupmenu4_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'});
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'});
 
 
 
@@ -432,6 +832,9 @@ else
     set(handles.popupmenu6,'Value',1)
     handles.gyr_t_ind=2;
 end
+
+val=get(hObject,'Value');
+ set(handles.popupmenu2,'Value',val);
 guidata(hObject,handles)
  
 
@@ -446,7 +849,7 @@ function popupmenu5_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'});
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'});
 
 % --- Executes on button press in radiobutton6.
 function radiobutton6_Callback(hObject, eventdata, handles)
@@ -469,6 +872,9 @@ if(handles.gyr_t_ind~=3 || get(hObject,'Value')==get(handles.popupmenu4,'Value')
     set(hObject,'Value',1)
    
 end
+val=get(hObject,'Value');
+ set(handles.popupmenu3,'Value',val);
+ guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
 function popupmenu6_CreateFcn(hObject, eventdata, handles)
@@ -481,7 +887,7 @@ function popupmenu6_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'});
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'});
 
 
 % --- Executes on button press in radiobutton7.
@@ -513,7 +919,9 @@ if (handles.acc_th_ind==1)
    set(handles.popupmenu9,'Value',1);
    handles.acc_th_ind=2;
         
- end
+end
+val=get(hObject,'Value');
+set(handles.popupmenu10,'Value',val);
 guidata(hObject,handles)
 
 
@@ -528,7 +936,7 @@ function popupmenu7_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 
 
@@ -563,6 +971,8 @@ else
     set(handles.popupmenu9,'Value',1)
     handles.acc_th_ind=2;
 end
+val=get(hObject,'Value');
+set(handles.popupmenu11,'Value',val);
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -576,7 +986,7 @@ function popupmenu8_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 
 % --- Executes on button press in radiobutton9.
@@ -600,6 +1010,9 @@ if(handles.acc_th_ind~=3 || get(hObject,'Value')==get(handles.popupmenu7,'Value'
     set(hObject,'Value',1)
    
 end
+val=get(hObject,'Value');
+set(handles.popupmenu12,'Value',val);
+guidata(hObject,handles)
 
 
 % --- Executes during object creation, after setting all properties.
@@ -613,7 +1026,7 @@ function popupmenu9_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 % --- Executes on button press in radiobutton10.
 function radiobutton10_Callback(hObject, eventdata, handles)
@@ -645,7 +1058,9 @@ if (handles.gyr_th_ind==1)
    set(handles.popupmenu12,'Value',1);
    handles.gyr_th_ind=2;
         
- end
+end
+val=get(hObject,'Value');
+set(handles.popupmenu7,'Value',val);
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -659,7 +1074,7 @@ function popupmenu10_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'})
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'})
 
 
 % --- Executes on button press in radiobutton11.
@@ -696,6 +1111,8 @@ else
     set(handles.popupmenu12,'Value',1)
     handles.gyr_th_ind=2;
 end
+val=get(hObject,'Value');
+set(handles.popupmenu8,'Value',val);
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -709,7 +1126,7 @@ function popupmenu11_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'})
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'})
 
 
 % --- Executes on button press in radiobutton12.
@@ -736,6 +1153,10 @@ if(handles.gyr_th_ind~=3 || get(hObject,'Value')==get(handles.popupmenu10,'Value
     set(hObject,'Value',1)
    
 end
+val=get(hObject,'Value');
+set(handles.popupmenu9,'Value',val);
+guidata(hObject,handles)
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -749,7 +1170,7 @@ function popupmenu12_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'})
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'})
 
 % --- Executes on button press in radiobutton13.
 function radiobutton13_Callback(hObject, eventdata, handles)
@@ -781,7 +1202,9 @@ if (handles.acc_sh_ind==1)
    set(handles.popupmenu15,'Value',1);
    handles.acc_sh_ind=2;
         
- end
+end
+val=get(hObject,'Value');
+set(handles.popupmenu16,'Value',val); 
 guidata(hObject,handles)
 
 % --- Executes during object creation, after setting all properties.
@@ -795,7 +1218,7 @@ function popupmenu13_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 
 % --- Executes on button press in radiobutton14.
@@ -832,6 +1255,8 @@ else
     set(handles.popupmenu15,'Value',1)
     handles.acc_sh_ind=2;
 end
+val=get(hObject,'Value');
+set(handles.popupmenu17,'Value',val);
 guidata(hObject,handles)
 
 
@@ -846,7 +1271,7 @@ function popupmenu14_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'})
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'})
 
 % --- Executes on button press in radiobutton15.
 function radiobutton15_Callback(hObject, eventdata, handles)
@@ -872,6 +1297,9 @@ if(handles.acc_sh_ind~=3 || get(hObject,'Value')==get(handles.popupmenu13,'Value
     set(hObject,'Value',1)
    
 end
+val=get(hObject,'Value');
+set(handles.popupmenu18,'Value',val);
+guidata(hObject,handles)
 
 
 % --- Executes during object creation, after setting all properties.
@@ -885,7 +1313,7 @@ function popupmenu15_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Frontal';'Horizzontal';'Vertical'});
+set(hObject,'String',{'Select';'Frontal';'Vertical';'Lateral'});
 
 % --- Executes on button press in radiobutton16.
 function radiobutton16_Callback(hObject, eventdata, handles)
@@ -917,7 +1345,9 @@ if (handles.gyr_sh_ind==1)
    set(handles.popupmenu18,'Value',1);
    handles.gyr_sh_ind=2;
         
- end
+end
+ val=get(hObject,'Value');
+set(handles.popupmenu13,'Value',val);
 guidata(hObject,handles)
 
 
@@ -932,7 +1362,7 @@ function popupmenu16_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'})
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'})
 
 % --- Executes on button press in radiobutton17.
 function radiobutton17_Callback(hObject, eventdata, handles)
@@ -968,6 +1398,8 @@ else
     set(handles.popupmenu18,'Value',1)
     handles.gyr_sh_ind=2;
 end
+val=get(hObject,'Value');
+set(handles.popupmenu14,'Value',val);
 guidata(hObject,handles)
 
 
@@ -982,7 +1414,7 @@ function popupmenu17_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'})
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'})
 
 % --- Executes on button press in radiobutton18.
 function radiobutton18_Callback(hObject, eventdata, handles)
@@ -1008,6 +1440,9 @@ if(handles.gyr_sh_ind~=3 || get(hObject,'Value')==get(handles.popupmenu16,'Value
     set(hObject,'Value',1)
    
 end
+val=get(hObject,'Value');
+set(handles.popupmenu14,'Value',val);
+guidata(hObject,handles)
 
 
 
@@ -1022,7 +1457,7 @@ function popupmenu18_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject,'String',{'Select';'Pitch';'Roll';'Yaw'})
+set(hObject,'String',{'Select';'Roll';'Yaw';'Pitch'})
 
 
 % --- Executes on button press in checkbox1.
@@ -1591,12 +2026,7 @@ figure1=figure;
  
  subplot(2,1,2)
 
- plot(t_1,handles.gyr1_trunk_lpf_1,'r','LineWidth',1)
- title('gir trunk')
- hold on
- plot(handles.t_1,handles.gyr2_trunk_lpf_1,'k','LineWidth',1)
- plot(handles.t_1,handles.gyr3_trunk_lpf_1,'b','LineWidth',1)
- legend('gyr1','gyr2','gyr3');
+  
      
  saveas(figure1,'figure.png');
 
@@ -1677,21 +2107,52 @@ function pushbutton15_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton15 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 id_thigh=get(handles.popupmenu19,'Value');
 
+r=is_valid(get(handles.popupmenu7,'Value'),get(handles.popupmenu8,'Value'),get(handles.popupmenu9,'Value'));
+if(r==1)
+   
+   set(handles.popupmenu7,'Value',1);
+   set(handles.popupmenu8,'Value',1);
+   set(handles.popupmenu9,'Value',1);
+   %error_message_handle=error_message; 
+end
+
+if(r==2)
 handles.status_Thigh(id_thigh,1,1)=get(handles.popupmenu7,'Value');
 handles.status_Thigh(id_thigh,2,1)=get(handles.popupmenu8,'Value');
 handles.status_Thigh(id_thigh,3,1)=get(handles.popupmenu9,'Value');
-handles.status_Thigh(id_thigh,4,1)=get(handles.popupmenu10,'Value');
-handles.status_Thigh(id_thigh,5,1)=get(handles.popupmenu11,'Value');
-handles.status_Thigh(id_thigh,6,1)=get(handles.popupmenu12,'Value');
+end
+
 
 handles.status_Thigh(id_thigh,1,2)=get(handles.checkbox7,'Value');
 handles.status_Thigh(id_thigh,2,2)=get(handles.checkbox8,'Value');
 handles.status_Thigh(id_thigh,3,2)=get(handles.checkbox9,'Value');
+
+r=is_valid(get(handles.popupmenu10,'Value'),get(handles.popupmenu11,'Value'),get(handles.popupmenu12,'Value'));
+
+if(r==1)
+   
+   set(handles.popupmenu10,'Value',1);
+   set(handles.popupmenu11,'Value',1);
+   set(handles.popupmenu12,'Value',1);
+   
+end
+
+if(r==2)
+handles.status_Thigh(id_thigh,4,1)=get(handles.popupmenu10,'Value');
+handles.status_Thigh(id_thigh,5,1)=get(handles.popupmenu11,'Value');
+handles.status_Thigh(id_thigh,6,1)=get(handles.popupmenu12,'Value');
+handles.is_shank_modified=true;
+end
+
+
 handles.status_Thigh(id_thigh,4,2)=get(handles.checkbox10,'Value');
 handles.status_Thigh(id_thigh,5,2)=get(handles.checkbox11,'Value');
 handles.status_Thigh(id_thigh,6,2)=get(handles.checkbox12,'Value');
+
+
 guidata(hObject,handles)
 
 
@@ -1710,19 +2171,48 @@ function pushbutton17_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 id_shank=get(handles.popupmenu20,'Value');
 
-handles.status_Thigh(id_shank,1,1)=get(handles.popupmenu13,'Value');
-handles.status_Thigh(id_shank,2,1)=get(handles.popupmenu14,'Value');
-handles.status_Thigh(id_shank,3,1)=get(handles.popupmenu15,'Value');
-handles.status_Thigh(id_shank,4,1)=get(handles.popupmenu16,'Value');
-handles.status_Thigh(id_shank,5,1)=get(handles.popupmenu17,'Value');
-handles.status_Thigh(id_shank,6,1)=get(handles.popupmenu18,'Value');
 
-handles.status_Thigh(id_shank,1,2)=get(handles.checkbox13,'Value');
-handles.status_Thigh(id_shank,2,2)=get(handles.checkbox14,'Value');
-handles.status_Thigh(id_shank,3,2)=get(handles.checkbox15,'Value');
-handles.status_Thigh(id_shank,4,2)=get(handles.checkbox16,'Value');
-handles.status_Thigh(id_shank,5,2)=get(handles.checkbox17,'Value');
-handles.status_Thigh(id_shank,6,2)=get(handles.checkbox18,'Value');
+r=is_valid(get(handles.popupmenu13,'Value'),get(handles.popupmenu14,'Value'),get(handles.popupmenu15,'Value'));
+
+if(r==1)
+   
+   set(handles.popupmenu13,'Value',1);
+   set(handles.popupmenu14,'Value',1);
+   set(handles.popupmenu15,'Value',1);
+   
+  
+end
+
+if(r==2)
+handles.status_Shank(id_shank,1,1)=get(handles.popupmenu13,'Value');
+handles.status_Shank(id_shank,2,1)=get(handles.popupmenu14,'Value');
+handles.status_Shank(id_shank,3,1)=get(handles.popupmenu15,'Value');
+end
+
+handles.status_Shank(id_shank,1,2)=get(handles.checkbox13,'Value');
+handles.status_Shank(id_shank,2,2)=get(handles.checkbox14,'Value');
+handles.status_Shank(id_shank,3,2)=get(handles.checkbox15,'Value');
+
+r=is_valid(get(handles.popupmenu16,'Value'),get(handles.popupmenu17,'Value'),get(handles.popupmenu18,'Value'));
+
+if(r==1)
+   set(handles.popupmenu16,'Value',1);
+   set(handles.popupmenu17,'Value',1);
+   set(handles.popupmenu18,'Value',1);
+
+end
+
+if(r==2)
+handles.status_Shank(id_shank,4,1)=get(handles.popupmenu16,'Value');
+handles.status_Shank(id_shank,5,1)=get(handles.popupmenu17,'Value');
+handles.status_Shank(id_shank,6,1)=get(handles.popupmenu18,'Value');
+handles.is_thigh_modified=true;
+end
+handles.status_Shank(id_shank,4,2)=get(handles.checkbox16,'Value');
+handles.status_Shank(id_shank,5,2)=get(handles.checkbox17,'Value');
+handles.status_Shank(id_shank,6,2)=get(handles.checkbox18,'Value');
+
+
 guidata(hObject,handles)
 
 
@@ -1732,19 +2222,42 @@ function pushbutton18_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-disp(get(handles.popupmenu1,'Value'));
+r=is_valid(get(handles.popupmenu1,'Value'),get(handles.popupmenu2,'Value'),get(handles.popupmenu3,'Value'));
+
+if (r==1)
+   set(handles.popupmenu1,'Value',1);
+   set(handles.popupmenu2,'Value',1);
+   set(handles.popupmenu3,'Value',1);
+    
+end
+
+if(r==2)
+    
 handles.status_trunk(1,1)=get(handles.popupmenu1,'Value');
 handles.status_trunk(2,1)=get(handles.popupmenu2,'Value');
 handles.status_trunk(3,1)=get(handles.popupmenu3,'Value');
-handles.status_trunk(4,1)=get(handles.popupmenu4,'Value');
-handles.status_trunk(5,1)=get(handles.popupmenu5,'Value');
-handles.status_trunk(6,1)=get(handles.popupmenu6,'Value');
-
+end
 handles.status_trunk(1,2)=get(handles.checkbox1,'Value');
 handles.status_trunk(2,2)=get(handles.checkbox2,'Value');
 handles.status_trunk(3,2)=get(handles.checkbox3,'Value');
+
+r=is_valid(get(handles.popupmenu4,'Value'),get(handles.popupmenu5,'Value'),get(handles.popupmenu6,'Value'));
+
+if (r==1)
+   set(handles.popupmenu4,'Value',1);
+   set(handles.popupmenu5,'Value',1);
+   set(handles.popupmenu6,'Value',1);
+end
+
+if(r==2)
+handles.status_trunk(4,1)=get(handles.popupmenu4,'Value');
+handles.status_trunk(5,1)=get(handles.popupmenu5,'Value');
+handles.status_trunk(6,1)=get(handles.popupmenu6,'Value');
+end
+
 handles.status_trunk(4,2)=get(handles.checkbox4,'Value');
 handles.status_trunk(5,2)=get(handles.checkbox5,'Value');
 handles.status_trunk(6,2)=get(handles.checkbox6,'Value');
-guidata(hObject,handles)
 
+handles.is_trunk_modified=true;
+guidata(hObject,handles)

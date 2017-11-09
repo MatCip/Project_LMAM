@@ -56,8 +56,16 @@ function guide_version_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 
 
-axes(handles.axes1)
-imshow('./pic/Logo_EPFL.png')
+
+I=imread('./pic/Logo_EPFL.png');
+imshow(I,'Parent',handles.axes1)
+
+I1=imread('./pic/physi.png');
+imshow(I1,'Parent',handles.axes4)
+
+I2=imread('./pic/MotionGaitRender.jpg');
+imshow(I2,'Parent',handles.axes5)
+
 % Update handles structure
 guidata(hObject, handles);
 
