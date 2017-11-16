@@ -125,7 +125,7 @@ handles.gyr_th_ind=1;
 handles.acc_sh_ind=1;
 handles.gyr_sh_ind=1;
 
-disp(length(handles.acc3_trunk40));
+
 % booleans
 
 hanldes.is_trunk_modiefied=false(1);
@@ -2025,7 +2025,15 @@ figure1=figure;
  
  
  subplot(2,1,2)
-
+ plot(handles.axes2,t_1,handles.gyr1_trunk_lpf_1,'r','LineWidth',1)
+ title('gir trunk')
+ hold on
+ plot(handles.t_1,handles.gyr2_trunk_lpf_1,'k','LineWidth',1)
+ plot(handles.t_1,handles.gyr3_trunk_lpf_1,'b','LineWidth',1)
+ legend('gyr1','gyr2','gyr3');
+ xlabel('Time(min)')
+  ylabel('°/sec')
+ legend('gyr1','gyr2','gyr3');
   
      
  saveas(figure1,'figure.png');

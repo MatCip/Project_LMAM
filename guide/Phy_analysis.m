@@ -65,6 +65,7 @@ handles.FileName_trunk='0';
     handles.FileName_RS='0';
    handles.PathName_RS='0';
    handles.list_of_part=cell(7,1);
+    handles.config_all=0;
 % Update handles structure
 guidata(hObject, handles);
 axes(handles.axes1)
@@ -114,9 +115,9 @@ function pushbutton1_Callback(hObject, eventdata, handles)
     FileName_RS= handles.FileName_RS;
     PathName_RS= handles.PathName_RS;
     save('function_interaction/parts_struct','FileName_trunk','PathName_trunk','FileName_LT','PathName_LT','FileName_RT','PathName_RT','FileName_LS','PathName_LS','FileName_RS','PathName_RS');
-    
-    
-    
+    input={handles.cell,handles.config_all};
+    function_visualizer(input);
+   
 
 
 
@@ -219,6 +220,7 @@ if (get(handles.checkbox2,'Value') == 1)
  [handles.FileName_LH,handles.PathName_LH] = uigetfile('*.mat','Select the file .mat corresponding to "Left Harm" ');
  if(handles.PathName_LH~=0)
     set(handles.text5,'String','Loaded') ;
+     handles.cell{2}='Left-Harm';
  end
 end
  guidata(hObject, handles);
@@ -233,6 +235,7 @@ if (get(handles.checkbox3,'Value') == 1)
  [handles.FileName_RH,handles.PathName_RH] = uigetfile('*.mat','Select the file .mat corresponding to "Right Harm"');
 if(handles.PathName_RH~=0)
     set(handles.text6,'String','Loaded') ;
+    handles.cell{3}='Right-Harm';
  end
 end
  guidata(hObject, handles);
@@ -247,6 +250,7 @@ if (get(handles.checkbox4,'Value') == 1)
  [handles.FileName_LT,handles.PathName_LT] = uigetfile('*.mat','Select the file .mat corresponding to "Left Thigh"');
  if(handles.PathName_LT~=0)
     set(handles.text7,'String','Loaded') ;
+    handles.cell{4}='Left-Thigh';
  end
 end
  guidata(hObject, handles);
@@ -261,6 +265,7 @@ if (get(handles.checkbox5,'Value') == 1)
  [handles.FileName_RT,handles.PathName_RT] = uigetfile('*.mat','Select the file .mat corresponding to "Right Thigh"');
 if(handles.PathName_RT~=0)
     set(handles.text8,'String','Loaded') ;
+    handles.cell{5}='Right-Thigh';
 end
 end
 guidata(hObject, handles);
@@ -279,6 +284,7 @@ if (get(handles.checkbox6,'Value') == 1)
  [handles.FileName_LS,handles.PathName_LS] = uigetfile('*.mat','Select the file .mat corresponding to "Left Shank"');
 if(handles.PathName_LS~=0)
     set(handles.text9,'String','Loaded') ;
+    handles.cell{6}='Left-Shank';
     
 end
 end
@@ -295,6 +301,7 @@ if (get(handles.checkbox7,'Value') == 1)
  [handles.FileName_RS,handles.PathName_RS] = uigetfile('*.mat','Select the file .mat corresponding to "Right Shank"');
 if(handles.PathName_RS~=0)
     set(handles.text10,'String','Loaded') ;
+    handles.cell{7}='Right-Shank';
 end 
 
 end
@@ -308,7 +315,14 @@ function pushbutton9_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if (get(handles.checkbox8,'Value') == 1)
     full_config_hanlde=full_config;
+    set(handles.text11,'String','Loaded');
+    handles.config_all=1;
+    handles.cell{1}='Trunk';
+    handles.cell{4}='Left-Thigh';
+    handles.cell{5}='Right-Thigh';
+    handles.cell{6}='Left-Shank';
+    handles.cell{7}='Right-Shank';
 end
-
+guidata(hObject, handles);
 
 

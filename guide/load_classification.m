@@ -1,6 +1,12 @@
-function load_classification() 
-
-full_config_struct=load('function_interaction/parts_struct.mat');
+function load_classification(config_all) 
+if(config_all==1)
+    
+full_config_struct=load('function_interaction/full_config_struct.mat');
+disp('quiiiiiiii');
+else
+    full_config_struct=load('function_interaction/parts_struct.mat');
+    disp('quaaaa');
+end
 thigh_configuration=0;
 
 %load trunk
@@ -70,7 +76,7 @@ thigh_configuration=3; %both
 
  end
 
-disp(thigh_configuration);
+
 
 
 

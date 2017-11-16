@@ -174,35 +174,35 @@ try
     
 h1 = findobj('Tag','pushbutton1');
 data1 = h1.UserData;
-FileName_1=data1.name;
-Path_1=data1.path;
+FileName_trunk=data1.name;
+PathName_trunk=data1.path;
 
 
 h2 = findobj('Tag','pushbutton2');
 data2 = h2.UserData;
-FileName_2=data2.name;
-Path_2=data2.path;
+FileName_LS=data2.name;
+PathName_LS=data2.path;
 
 
 h3 = findobj('Tag','pushbutton3');
 data3 = h3.UserData;
-FileName_3=data3.name;
-Path_3=data3.path;
+FileName_RS=data3.name;
+PathName_RS=data3.path;
 
 
 h4 = findobj('Tag','pushbutton5');
 data4 = h4.UserData;
-FileName_4=data4.name;
-Path_4=data4.path;
+FileName_LT=data4.name;
+PathName_LT=data4.path;
 
 
 h5 = findobj('Tag','pushbutton6');
 data5 = h5.UserData;
-FileName_5=data5.name;
-Path_5=data5.path;
-disp(FileName_5);
+FileName_RT=data5.name;
+PathName_RT=data5.path;
 
-save('function_interaction/full_config_struct','FileName_1','Path_1','FileName_2','Path_2','FileName_3','Path_3','FileName_4','Path_4','FileName_5','Path_5');
+
+save('function_interaction/full_config_struct','FileName_trunk','PathName_trunk','FileName_LS','PathName_LS','FileName_RS','PathName_RS','FileName_LT','PathName_LT','FileName_RT','PathName_RT');
 delete(get(hObject, 'parent'));
 catch
     

@@ -345,6 +345,9 @@ function pushbutton1_Callback(hObject, eventdata, handles)
  plot(t_1,acc2_trunk_lpf_1,'k','LineWidth',1)
  plot(t_1,acc3_trunk_lpf_1,'b','LineWidth',1)
  legend('acc1','acc2','acc3');
+ xlabel('Time(min)')
+
+  ylabel('acc/g')
  hold off
  
  axes(handles.axes2)
@@ -354,6 +357,8 @@ function pushbutton1_Callback(hObject, eventdata, handles)
  plot(handles.t_1,handles.gyr2_trunk_lpf_1,'k','LineWidth',1)
  plot(handles.t_1,handles.gyr3_trunk_lpf_1,'b','LineWidth',1)
  legend('gyr1','gyr2','gyr3');
+ xlabel('Time(min)')
+ ylabel('°/sec')
  hold off 
  guidata(hObject,handles)
 
@@ -385,6 +390,9 @@ else
  plot(handles.t_1, handles.acc2_LThigh_lpf_1,'k','LineWidth',1)
  plot(handles.t_1, handles.acc3_LThigh_lpf_1,'b','LineWidth',1)
  legend('acc1','acc2','acc2');     
+ xlabel('Time(min)')
+
+        ylabel('acc/g')
  hold off 
 
  axes(handles.axes2)
@@ -394,6 +402,8 @@ else
  plot(handles.t_1, handles.gyr2_LThigh_lpf_1,'k','LineWidth',1)
  plot(handles.t_1, handles.gyr3_LThigh_lpf_1,'b','LineWidth',1)
  legend('gyr1','gyr2','gyr3');
+ xlabel('Time(min)')
+  ylabel('°/sec')
  hold off 
  end
     
@@ -410,6 +420,9 @@ else
  plot(handles.t_1, handles.acc2_RThigh_lpf_1,'k','LineWidth',1)
  plot(handles.t_1, handles.acc3_RThigh_lpf_1,'b','LineWidth',1)
  legend('acc1','acc2','acc2');     
+ xlabel('Time(min)')
+  
+        ylabel('acc/g')
  hold off 
 
  axes(handles.axes2)
@@ -419,6 +432,8 @@ else
  plot(handles.t_1, handles.gyr2_RThigh_lpf_1,'k','LineWidth',1)
  plot(handles.t_1, handles.gyr3_RThigh_lpf_1,'b','LineWidth',1)
  legend('gyr1','gyr2','gyr3');
+ xlabel('Time(min)')
+  ylabel('°/sec')
  hold off 
  end
 end
@@ -450,6 +465,9 @@ if(get(handles.popupmenu5,'Value')==1)
  plot(handles.t_1,handles.acc2_LShank40_1,'k','LineWidth',1)
  plot(handles.t_1, handles.acc3_LShank40_1,'b','LineWidth',1)
  legend('acc1','acc2','acc2'); 
+  xlabel('Time(min)')
+        ylabel('acc/g')
+       
  hold off 
 
  axes(handles.axes2)
@@ -459,6 +477,8 @@ if(get(handles.popupmenu5,'Value')==1)
  plot(handles.t_1, handles.gyr2_LShank40_1,'k','LineWidth',1)
  plot(handles.t_1, handles.gyr3_LShank40_1,'b','LineWidth',1)
  legend('gyr1','gyr2','gyr3');
+ xlabel('Time(min)')
+ ylabel('°/sec')
  hold off 
 else
  handles.id_plotted=5;
@@ -469,15 +489,21 @@ else
  plot(handles.t_1, handles.acc2_RShank40_1,'k','LineWidth',1)
  plot(handles.t_1, handles.acc3_RShank40_1,'b','LineWidth',1)
  legend('acc1','acc2','acc2');  
+ xlabel('Time(min)')
+  
+        ylabel('acc/g')
  hold off 
 
  axes(handles.axes2)
  plot(handles.t_1,handles.gyr1_RShank40_1,'r','LineWidth',1)
- title('acc Right-Shank')
+ title('gyr Right-Shank')
  hold on
  plot(handles.t_1, handles.gyr2_RShank40_1,'k','LineWidth',1)
  plot(handles.t_1, handles.gyr3_RShank40_1,'b','LineWidth',1)
  legend('gyr1','gyr2','gyr3');
+  xlabel('Time(min)')
+ 
+  ylabel('°/sec')
  hold off 
 end
 guidata(hObject,handles)
@@ -1126,7 +1152,7 @@ path=strcat(PathName_1,'/PiePostures');
 savefig(fig1,[path,'.fig']);
 saveas(fig1,path,'png')
 saveas(fig1,path,'tif')
-classification_results
+classification_results(PathName_1);
 
  
  
@@ -1224,12 +1250,13 @@ switch handles.id_plotted
          acc3_trunk_lpf_1=handles.acc3_trunk_lpf_1;
          t_1=handles.t_1;
         ax1=subplot(311), plot(t_1,acc1_trunk_lpf_1,'r','LineWidth',1); title('Trunk- acc1');
-        ylim([-1,1])
+        
         ax2=subplot(312), plot(t_1,acc2_trunk_lpf_1,'k','LineWidth',1);title('Trunk- acc2');
-        ylim([-1,1])
+        
         ax3=subplot(313), plot(t_1,acc3_trunk_lpf_1,'b','LineWidth',1);title('Trunk- acc3');
         xlabel('Time(min)')
-        ylim([-1,1])
+        ylabel('acc/g')
+       
         linkaxes([ax1 ax2 ax3],'x')
         
         
@@ -1238,47 +1265,52 @@ switch handles.id_plotted
         fig_new=figure
         title('Acceleration Left-Thigh')
         ax1=subplot(311), plot(handles.t_1, handles.acc1_LThigh_lpf_1,'r','LineWidth',1); title('Left-Thigh-acc1');
-        ylim([-1,1])
+        
         ax2=subplot(312), plot(handles.t_1, handles.acc2_LThigh_lpf_1,'k','LineWidth',1);title('Left-Thigh-acc2');
-        ylim([-1,1])
+       
         ax3=subplot(313), plot(handles.t_1, handles.acc3_LThigh_lpf_1,'b','LineWidth',1);title('Left-Thigh-acc3');
-        ylim([-1,1])
+        
         xlabel('Time(min)')
+        ylabel('acc/g')
         linkaxes([ax1 ax2 ax3],'x')
     case 3
         fig_new=figure
         title('Acceleration Right-Thigh')
         ax1=subplot(311), plot(handles.t_1, handles.acc1_RThigh_lpf_1,'r','LineWidth',1); title('Right-Thigh-acc1');
-        ylim([-1,1])
+       
         ax2=subplot(312), plot(handles.t_1, handles.acc2_RThigh4_lpf_1,'k','LineWidth',1);title('Right-Thigh-acc2');
-        ylim([-1,1])
+       
         ax3=subplot(313), plot(handles.t_1, handles.acc3_RThigh4_lpf_1,'b','LineWidth',1);title('Right-Thigh-acc3');
-        ylim([-1,1])
+        
         xlabel('Time(min)')
+        ylabel('acc/g')
         linkaxes([ax1 ax2 ax3 ],'x')
         
     case 4
          fig_new=figure
         title('Acceleration Left-Shank')
         ax1=subplot(311), plot(handles.t_1, handles.acc1_LShank40_1,'r','LineWidth',1); title('Left-Shank-acc1');
-        ylim([-1,1])
+        
         ax2=subplot(312), plot(handles.t_1, handles.acc2_LShank40_1,'k','LineWidth',1);title('Left-Shank-acc2');
-        ylim([-1,1])
+       
         ax3=subplot(313), plot(handles.t_1, handles.acc3_LShank40_1,'b','LineWidth',1);title('Left-Shank-acc3');
-        ylim([-1,1])
+     
+        
         xlabel('Time(min)')
+        ylabel('acc/g')
         linkaxes([ax1 ax2 ax3 ],'x')
         
     case 5
         fig_new=figure
         title('Acceleration Right-Shank')
         ax1=subplot(311), plot(handles.t_1, handles.acc1_RShank40_1,'r','LineWidth',1); title('Right-Shank-acc1');
-        ylim([-1,1])
+        
         ax2=subplot(312), plot(handles.t_1, handles.acc2_RShank40_1,'k','LineWidth',1);title('Right-Shank-acc2');
-        ylim([-1,1])
+        
         ax3=subplot(313), plot(handles.t_1, handles.acc3_RShank40_1,'b','LineWidth',1);title('Right-Shank-acc3');
-        ylim([-1,1])
+       
         xlabel('Time(min)')
+        ylabel('acc/g')
         linkaxes([ax1 ax2 ax3 ],'x')
 end
 
@@ -1298,6 +1330,77 @@ function togglebutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton2
+disp(handles.id_plotted);
+switch handles.id_plotted
+    case 1
+        fig_new=figure
+        title('Angular velocity Gyroscope trunk')
+        
+         t_1=handles.t_1;
+        ax1=subplot(311), plot(t_1,gyr1_trunk_lpf_1,'r','LineWidth',1); title('Trunk- gyr1');
+         ylim([-700,700])
+        ax2=subplot(312), plot(t_1,gyr2_trunk_lpf_1,'k','LineWidth',1);title('Trunk- gyr2');
+    ylim([-700,700])
+        ax3=subplot(313), plot(t_1,gyr3_trunk_lpf_1,'b','LineWidth',1);title('Trunk- gyr3');
+        ylim([-700,700])
+        xlabel('Time(min)')
+        ylabel('°/sec')
+        
+        linkaxes([ax1 ax2 ax3],'x')
+        
+        
+    
+    case 2
+        fig_new=figure
+        title('Angular velocity Gyroscope Left-Thigh')
+        ax1=subplot(311), plot(handles.t_1, handles.gyr1_LThigh_lpf_1,'r','LineWidth',1); title('Left-Thigh-gyr1');
+        ylim([-700,700])
+        ax2=subplot(312), plot(handles.t_1, handles.gyr2_LThigh_lpf_1,'k','LineWidth',1);title('Left-Thigh-gyr2');
+        ylim([-700,700])
+        ax3=subplot(313), plot(handles.t_1, handles.gyr3_LThigh_lpf_1,'b','LineWidth',1);title('Left-Thigh-gyr3');
+        ylim([-700,700])
+        xlabel('Time(min)')
+        ylabel('°/sec')
+        linkaxes([ax1 ax2 ax3],'x')
+    case 3
+        fig_new=figure
+        title('Angular velocity Gyroscope Right-Thigh')
+        ax1=subplot(311), plot(handles.t_1, handles.gyr1_RThigh_lpf_1,'r','LineWidth',1); title('Right-Thigh-gyr1');
+        ylim([-700,700])
+        ax2=subplot(312), plot(handles.t_1, handles.gyr2_RThigh_lpf_1,'k','LineWidth',1);title('Right-Thigh-gyr2');
+        ylim([-700,700])
+        ax3=subplot(313), plot(handles.t_1, handles.gyr3_RThigh_lpf_1,'b','LineWidth',1);title('Right-Thigh-gyr3');
+        ylim([-700,700])
+        xlabel('Time(min)')
+        ylabel('°/sec')
+        linkaxes([ax1 ax2 ax3 ],'x')
+        
+    case 4
+         fig_new=figure
+        title('Angular velocity Gyroscope Left-Shank')
+        ax1=subplot(311), plot(handles.t_1, handles.gyr1_LShank40_1,'r','LineWidth',1); title('Left-Shank-gyr1');
+        ylim([-700,700])
+        ax2=subplot(312), plot(handles.t_1, handles.gyr2_LShank40_1,'k','LineWidth',1);title('Left-Shank-gyr2');
+        ylim([-700,700])
+        ax3=subplot(313), plot(handles.t_1, handles.gyr3_LShank40_1,'b','LineWidth',1);title('Left-Shank-gyr3');
+        ylim([-700,700])
+        xlabel('Time(min)')
+        ylabel('°/sec')
+        linkaxes([ax1 ax2 ax3 ],'x')
+        
+    case 5
+        fig_new=figure
+        title('Angular velocity Gyroscope Right-Shank')
+        ax1=subplot(311), plot(handles.t_1, handles.gyr1_RShank40_1,'r','LineWidth',1); title('Right-Shank-gyr1');
+        ylim([-700,700])
+        ax2=subplot(312), plot(handles.t_1, handles.gyr2_RShank40_1,'k','LineWidth',1);title('Right-Shank-gyr2');
+        ylim([-700,700])
+        ax3=subplot(313), plot(handles.t_1, handles.gyr3_RShank40_1,'b','LineWidth',1);title('Right-Shank-gyr3');
+        ylim([-700,700])
+        xlabel('Time(min)')
+        ylabel('°/sec')
+        linkaxes([ax1 ax2 ax3 ],'x')
+end
 
 
 % --- Executes on button press in pushbutton11.

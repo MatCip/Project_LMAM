@@ -53,32 +53,40 @@ function function_visualizer_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for function_visualizer
 handles.output = 'Yes';
+input=varargin{1};
 
-handles.list_of_parts={'Trunk';'Left-Thigh';'Left-Shank';'Right-Shank';'Right-Thigh'};
+handles.list_of_parts=input{1};
+
+
+handles.config_all=input{2};
 my_struct=load('function_interaction/func_list');
 string_struct={};
 nfield = fieldnames(my_struct);
 i=1;
 
+
 for j1 = 1:numel(nfield)
   cont=0;
   sub_struct=my_struct.(nfield{j1});
-  disp(sub_struct);
+
   parts_cell=sub_struct{2};
   
   size_1=size(handles.list_of_parts);
  
-  size_2=size(parts_cell);
  
-  for i_1=1:size_1(1)
+  size_2=size(parts_cell);
+  disp(parts_cell);
+  for i_1=1:size_1(2)
        for i_2=1:size_2(2)
-           disp(handles.list_of_parts{i_1});
-           disp(parts_cell{i_2});
-           
+          
            if(iscell(parts_cell{i_2})==0)
            if(strcmp(handles.list_of_parts{i_1},parts_cell{i_2})==1)
-              cont=cont+1;
-              disp(cont);              
+               disp('input');
+               disp(handles.list_of_parts{i_1});
+               
+               disp(parts_cell{i_2});
+               cont=cont+1;
+                     
            end
        
            else
@@ -88,8 +96,7 @@ for j1 = 1:numel(nfield)
                size_3=size(parts_cell{i_2});
           
                   for i_3=1:size_3(2)
-                      disp(handles.list_of_parts{i_1});
-                       disp(sub_parts{i_3});
+                      
                      if(strcmp(handles.list_of_parts{i_1},sub_parts{i_3})==1)
                          
                          cont=cont+1;
@@ -200,18 +207,19 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 handles.output = get(hObject,'String');
-list=get(handles.popupmenu1,'String');
 
-size_list=size(list);
-for i=1:size_list
-     func=list{i};
-    switch func
-        case 'Axis Configuration'
-            load_all();
-        case 'Physical Activity Classification'
-             load_classification();
-    end
-end
+ func=get(handles.popupmenu1,'String');
+ index=get(handles.popupmenu1,'Value');
+ 
+ 
+        
+      if( strcmp('Axis Configuration',func{index})==1)
+            load_all(handles.config_all);
+      end
+       if( strcmp( 'Physical Activity Classification',func{index})==1)
+             load_classification(handles.config_all);
+       end
+
 % Update handles structure
 guidata(hObject, handles);
 

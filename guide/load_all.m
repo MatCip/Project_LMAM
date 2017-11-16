@@ -1,18 +1,25 @@
-function load_all() 
+function load_all(config_all) 
 
+if(config_all==1)
+    
 full_config_struct=load('function_interaction/full_config_struct.mat');
+disp('quiiiiiiii');
+else
+    full_config_struct=load('function_interaction/parts_struct.mat');
+    disp('quaaaa');
+end
+FileName_1=full_config_struct.FileName_trunk;
+Path_1=full_config_struct.PathName_trunk;
+FileName_2=full_config_struct.FileName_LS;
+Path_2=full_config_struct.PathName_LS;
+FileName_3=full_config_struct.FileName_RS;
+Path_3=full_config_struct.PathName_RS;
+FileName_4=full_config_struct.FileName_LT;
+Path_4=full_config_struct.PathName_LT;
+FileName_5=full_config_struct.FileName_RT;
+Path_5=full_config_struct.PathName_RT;
 
-FileName_1=full_config_struct.FileName_1;
-Path_1=full_config_struct.Path_1;
-FileName_2=full_config_struct.FileName_2;
-Path_2=full_config_struct.Path_2;
-FileName_3=full_config_struct.FileName_3;
-Path_3=full_config_struct.Path_3;
-FileName_4=full_config_struct.FileName_4;
-Path_4=full_config_struct.Path_4;
-FileName_5=full_config_struct.FileName_5;
-Path_5=full_config_struct.Path_5;
-
+try
 s=strcat(Path_1,FileName_1);
 mat_1=load(s);
 trunk=mat_1.trunk;
@@ -39,7 +46,10 @@ s=strcat(Path_5,FileName_5);
 mat_1=load(s);
 RThigh=mat_1.RThigh;
 disp([FileName_5,'    loaded']);
-
+catch
+   input_not_correct
+   return
+end
 %% load the dimensions%%%%%%%%%%
 [m1,n1]=size(LThigh.acc); [m2,n2]=size(RThigh.acc); [m3,n3]=size(LShank.acc);
 [m4,n4]=size(RShank.acc);[m5,n5]=size(trunk.acc);
@@ -195,7 +205,7 @@ thigh_cell={acc1_RThigh,acc2_RThigh,acc3_RThigh;acc1_LThigh,acc2_LThigh,acc3_LTh
 shank_cell={gyr1_LShank,gyr2_LShank,gyr3_LShank;gyr1_RShank,gyr2_RShank,gyr3_RShank};
 
 
-f=classification(gyr1_LShank40,gyr2_LShank40,gyr3_LShank40,  acc1_LShank40,acc2_LShank40,acc3_LShank40,  gyr1_RShank40,gyr2_RShank40,gyr3_RShank40, acc1_RShank40,acc2_RShank40,acc3_RShank40,    gyr1_LThigh40,gyr2_LThigh40,gyr3_LThigh40, acc1_LThigh_lpf,acc2_LThigh_lpf,acc3_LThigh_lpf,  gyr1_RThigh40,gyr2_RThigh40,gyr3_RThigh40,  acc1_RThigh_lpf,acc2_RThigh_lpf,acc3_RThigh_lpf,   gyr1_trunk40,gyr2_trunk40,gyr3_trunk40,  acc1_trunk_lpf,acc2_trunk_lpf,acc3_trunk_lpf,t,trunk_cell,thigh_cell,shank_cell,acc1_trunk40,acc2_trunk40,acc3_trunk40,average_alt);
+f=ax_selection(gyr1_LShank40,gyr2_LShank40,gyr3_LShank40,  acc1_LShank40,acc2_LShank40,acc3_LShank40,  gyr1_RShank40,gyr2_RShank40,gyr3_RShank40, acc1_RShank40,acc2_RShank40,acc3_RShank40,    gyr1_LThigh40,gyr2_LThigh40,gyr3_LThigh40, acc1_LThigh_lpf,acc2_LThigh_lpf,acc3_LThigh_lpf,  gyr1_RThigh40,gyr2_RThigh40,gyr3_RThigh40,  acc1_RThigh_lpf,acc2_RThigh_lpf,acc3_RThigh_lpf,   gyr1_trunk40,gyr2_trunk40,gyr3_trunk40,  acc1_trunk_lpf,acc2_trunk_lpf,acc3_trunk_lpf,t,trunk_cell,thigh_cell,shank_cell,acc1_trunk40,acc2_trunk40,acc3_trunk40);
 
 disp('quiiiiiii');
 disp(f);
