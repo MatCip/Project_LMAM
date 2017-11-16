@@ -22,7 +22,7 @@ function varargout = classification_results(varargin)
 
 % Edit the above text to modify the response to help classification_results
 
-% Last Modified by GUIDE v2.5 09-Nov-2017 13:05:07
+% Last Modified by GUIDE v2.5 11-Nov-2017 13:21:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -56,12 +56,9 @@ function classification_results_OpeningFcn(hObject, eventdata, handles, varargin
 
 
 
+handles.path='/Users/matteociprian/Desktop/nuova/id';
 
-
-I1=imread('body.png');
-
-
-
+I1=imread('guide/pic/white.png');
 imshow(I1,'Parent',handles.axes2)
 
 
@@ -93,6 +90,23 @@ function togglebutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton2
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton7,'Value',0);
+try
+    
+I1=imread([handles.path,'/Barcode.jpg']);
+imshow(I1,'Parent',handles.axes2)
+catch
+    file_not_found
+end
+
+
+
+
+
 
 
 % --- Executes on button press in togglebutton3.
@@ -102,7 +116,19 @@ function togglebutton3_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton3
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton7,'Value',0);
 
+try
+    
+I1=imread([handles.path,'/posture_allocation_per_hour.jpg']);
+imshow(I1,'Parent',handles.axes2)
+catch
+    file_not_found
+end
 
 % --- Executes on button press in togglebutton4.
 function togglebutton4_Callback(hObject, eventdata, handles)
@@ -111,7 +137,18 @@ function togglebutton4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton4
-
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton7,'Value',0);
+try
+    
+I1=imread([handles.path,'/BarplotPostures.png']);
+imshow(I1,'Parent',handles.axes2)
+catch
+    file_not_found
+end
 
 % --- Executes on button press in togglebutton5.
 function togglebutton5_Callback(hObject, eventdata, handles)
@@ -120,7 +157,18 @@ function togglebutton5_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton5
-
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton7,'Value',0);
+try
+    
+I1=imread([handles.path,'/BoxPlotDurationPosturePeriods.tif']);
+imshow(I1,'Parent',handles.axes2)
+catch
+    file_not_found
+end
 
 % --- Executes on button press in togglebutton6.
 function togglebutton6_Callback(hObject, eventdata, handles)
@@ -129,10 +177,86 @@ function togglebutton6_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton6
-
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton7,'Value',0);
+try
+    
+I1=imread([handles.path,'/PiePostures.tif']);
+imshow(I1,'Parent',handles.axes2)
+catch
+    file_not_found
+end
 
 % --------------------------------------------------------------------
 function Untitled_1_Callback(hObject, eventdata, handles)
 % hObject    handle to Untitled_1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in togglebutton7.
+function togglebutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton7
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton6,'Value',0);
+try
+    
+I1=imread([handles.path,'/PAPattern.jpg']);
+imshow(I1,'Parent',handles.axes2)
+catch
+    file_not_found
+end
+
+
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+if(get(handles.togglebutton2,'Value')==1)
+    fig2=figure;
+    I2=imread([handles.path,'/Barcode.jpg']);
+    imshow(I2)
+end
+
+if(get(handles.togglebutton3,'Value')==1)
+    fig3=figure;
+    I3=imread([handles.path,'/posture_allocation_per_hour.jpg']);
+    imshow(I3)
+end
+
+if(get(handles.togglebutton5,'Value')==1)
+    fig4=figure;
+    I4=imread([handles.path,'/BoxPlotDurationPosturePeriods.tif']);
+    imshow(I4)
+end
+
+if(get(handles.togglebutton4,'Value')==1)
+    fig4=figure;
+    I4=imread([handles.path,'/BarplotPostures.png']);
+    imshow(I4)
+end
+
+if(get(handles.togglebutton6,'Value')==1)
+    fig6=figure;
+    I6=imread([handles.path,'/PiePostures.tif']);
+    imshow(I6)
+end
+if(get(handles.togglebutton7,'Value')==1)
+    fig7=figure;
+    I7=imread([handles.path,'/PAPattern.jpg']);
+    imshow(I7)
+end
+
+

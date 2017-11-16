@@ -1,4 +1,18 @@
-function load_all(FileName_1,Path_1,FileName_2,Path_2,FileName_3,Path_3,FileName_4,Path_4,FileName_5,Path_5) 
+function load_all() 
+
+full_config_struct=load('function_interaction/full_config_struct.mat');
+
+FileName_1=full_config_struct.FileName_1;
+Path_1=full_config_struct.Path_1;
+FileName_2=full_config_struct.FileName_2;
+Path_2=full_config_struct.Path_2;
+FileName_3=full_config_struct.FileName_3;
+Path_3=full_config_struct.Path_3;
+FileName_4=full_config_struct.FileName_4;
+Path_4=full_config_struct.Path_4;
+FileName_5=full_config_struct.FileName_5;
+Path_5=full_config_struct.Path_5;
+
 s=strcat(Path_1,FileName_1);
 mat_1=load(s);
 trunk=mat_1.trunk;
@@ -116,7 +130,7 @@ bar_RThigh40=resample(bar_RThigh,40,200);
 bar_trunk40=resample(bar_trunk,40,200);
 
 %% TRY TO EXTRACT  THE ALTR FROM PRESSURE
-
+addpath(genpath('physical_activity_functions'))
 alt_RThigh=pressure2elevation(bar_RThigh40);
 alt_RThigh_filt=detrend(sgolayfilt(alt_RThigh,1,1001));
  
@@ -148,6 +162,7 @@ acc2_trunk_lpf = sgolayfilt(acc2_trunk40,1,1001);
 acc3_trunk_lpf = sgolayfilt(acc3_trunk40,1,1001);
 
 %---filter trunk vertical acc
+addpath(genpath('physical_activity_functions'))
 load FIR-2-3Hz-40;
 
 
@@ -180,7 +195,7 @@ thigh_cell={acc1_RThigh,acc2_RThigh,acc3_RThigh;acc1_LThigh,acc2_LThigh,acc3_LTh
 shank_cell={gyr1_LShank,gyr2_LShank,gyr3_LShank;gyr1_RShank,gyr2_RShank,gyr3_RShank};
 
 
-f=classification(gyr1_LShank40,gyr2_LShank40,gyr3_LShank40,  acc1_LShank40,acc2_LShank40,acc3_LShank40,  gyr1_RShank40,gyr2_RShank40,gyr3_RShank40, acc1_RShank40,acc2_RShank40,acc3_RShank40,    gyr1_LThigh40,gyr2_LThigh40,gyr3_LThigh40, acc1_LThigh_lpf,acc2_LThigh_lpf,acc3_LThigh_lpf,  gyr1_RThigh40,gyr2_RThigh40,gyr3_RThigh40,  acc1_RThigh_lpf,acc2_RThigh_lpf,acc3_RThigh_lpf,   gyr1_trunk40,gyr2_trunk40,gyr3_trunk40,  acc1_trunk_lpf,acc2_trunk_lpf,acc3_trunk_lpf,t,trunk_cell,thigh_cell,shank_cell,acc1_trunk40,acc2_trunk40,acc3_trunk40);
+f=classification(gyr1_LShank40,gyr2_LShank40,gyr3_LShank40,  acc1_LShank40,acc2_LShank40,acc3_LShank40,  gyr1_RShank40,gyr2_RShank40,gyr3_RShank40, acc1_RShank40,acc2_RShank40,acc3_RShank40,    gyr1_LThigh40,gyr2_LThigh40,gyr3_LThigh40, acc1_LThigh_lpf,acc2_LThigh_lpf,acc3_LThigh_lpf,  gyr1_RThigh40,gyr2_RThigh40,gyr3_RThigh40,  acc1_RThigh_lpf,acc2_RThigh_lpf,acc3_RThigh_lpf,   gyr1_trunk40,gyr2_trunk40,gyr3_trunk40,  acc1_trunk_lpf,acc2_trunk_lpf,acc3_trunk_lpf,t,trunk_cell,thigh_cell,shank_cell,acc1_trunk40,acc2_trunk40,acc3_trunk40,average_alt);
 
 disp('quiiiiiii');
 disp(f);

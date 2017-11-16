@@ -54,11 +54,22 @@ function Phy_analysis_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for Phy_analysis
 handles.output = hObject;
-
+handles.FileName_trunk='0';
+   handles.PathName_trunk='0';
+  handles.FileName_LT='0';
+     handles.PathName_LT='0';
+   handles.FileName_RT='0';
+   handles.PathName_RT='0';
+    handles.FileName_LS='0';
+    handles.PathName_LS='0';
+    handles.FileName_RS='0';
+   handles.PathName_RS='0';
+   handles.list_of_part=cell(7,1);
 % Update handles structure
 guidata(hObject, handles);
 axes(handles.axes1)
 imshow('./pic/body.png');
+
 
 % for the "back" button 
 % [a,map]=imread('./pic/wm-back.png');
@@ -90,11 +101,23 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-if (get(handles.checkbox8,'Value') == 1)
+    
      % run AnalysePA_FullConfigs
-     disp('ciiiiaaaoo');
-     delete(get(hObject, 'parent'));
-end
+    FileName_trunk= handles.FileName_trunk;
+    PathName_trunk= handles.PathName_trunk;
+    FileName_LT= handles.FileName_LT;
+    PathName_LT= handles.PathName_LT;
+    FileName_RT= handles.FileName_RT;
+    PathName_RT= handles.PathName_RT;
+    FileName_LS= handles.FileName_LS;
+    PathName_LS= handles.PathName_LS;
+    FileName_RS= handles.FileName_RS;
+    PathName_RS= handles.PathName_RS;
+    save('function_interaction/parts_struct','FileName_trunk','PathName_trunk','FileName_LT','PathName_LT','FileName_RT','PathName_RT','FileName_LS','PathName_LS','FileName_RS','PathName_RS');
+    
+    
+    
+
 
 
 % --- Executes on button press in checkbox1.
@@ -177,13 +200,15 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
  if (get(handles.checkbox1,'Value') == 1)
- [FileName_trunk,PathName_trunk] = uigetfile('*.mat','Select the file .mat corresponding to trunk');
- if(PathName_trunk~=0)
-    set(handles.text4,'String','Loaded') ;
+ [handles.FileName_trunk,handles.PathName_trunk] = uigetfile('*.mat','Select the file .mat corresponding to trunk');
+ if(handles.PathName_trunk~=0)
+    set(handles.text4,'String','Loaded');
+    handles.cell{1}='Trunk';
  end
  
  
  end
+ guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton3.
 function pushbutton3_Callback(hObject, eventdata, handles)
@@ -191,11 +216,12 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if (get(handles.checkbox2,'Value') == 1)
- [FileName_LH,PathName_LH] = uigetfile('*.mat','Select the file .mat corresponding to "Left Harm" ');
- if(PathName_LH~=0)
+ [handles.FileName_LH,handles.PathName_LH] = uigetfile('*.mat','Select the file .mat corresponding to "Left Harm" ');
+ if(handles.PathName_LH~=0)
     set(handles.text5,'String','Loaded') ;
  end
- end
+end
+ guidata(hObject, handles);
 
 
 % --- Executes on button press in pushbutton4.
@@ -204,11 +230,12 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if (get(handles.checkbox3,'Value') == 1)
- [FileName_RH,PathName_RH] = uigetfile('*.mat','Select the file .mat corresponding to "Right Harm"');
-if(PathName_RH~=0)
+ [handles.FileName_RH,handles.PathName_RH] = uigetfile('*.mat','Select the file .mat corresponding to "Right Harm"');
+if(handles.PathName_RH~=0)
     set(handles.text6,'String','Loaded') ;
  end
- end
+end
+ guidata(hObject, handles);
 
 
 % --- Executes on button press in pushbutton5.
@@ -217,11 +244,12 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if (get(handles.checkbox4,'Value') == 1)
- [FileName_LT,PathName_LT] = uigetfile('*.mat','Select the file .mat corresponding to "Left Thigh"');
- if(PathName_LT~=0)
+ [handles.FileName_LT,handles.PathName_LT] = uigetfile('*.mat','Select the file .mat corresponding to "Left Thigh"');
+ if(handles.PathName_LT~=0)
     set(handles.text7,'String','Loaded') ;
  end
- end
+end
+ guidata(hObject, handles);
 
 
 % --- Executes on button press in pushbutton6.
@@ -230,11 +258,12 @@ function pushbutton6_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if (get(handles.checkbox5,'Value') == 1)
- [FileName_RT,PathName_RT] = uigetfile('*.mat','Select the file .mat corresponding to "Right Thigh"');
-if(PathName_RT~=0)
-    set(handles.text7,'String','Loaded') ;
+ [handles.FileName_RT,handles.PathName_RT] = uigetfile('*.mat','Select the file .mat corresponding to "Right Thigh"');
+if(handles.PathName_RT~=0)
+    set(handles.text8,'String','Loaded') ;
 end
 end
+guidata(hObject, handles);
 
  
 
@@ -247,11 +276,13 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 if (get(handles.checkbox6,'Value') == 1)
- [FileName_LS,PathName_LS] = uigetfile('*.mat','Select the file .mat corresponding to "Left Shank"');
-if(PathName_LS~=0)
-    set(handles.text7,'String','Loaded') ;
+ [handles.FileName_LS,handles.PathName_LS] = uigetfile('*.mat','Select the file .mat corresponding to "Left Shank"');
+if(handles.PathName_LS~=0)
+    set(handles.text9,'String','Loaded') ;
+    
 end
 end
+guidata(hObject, handles);
  
 
 
@@ -261,12 +292,13 @@ function pushbutton8_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if (get(handles.checkbox7,'Value') == 1)
- [FileName_RS,PathName_RS] = uigetfile('*.mat','Select the file .mat corresponding to "Right Shank"');
-if(PathName_RS~=0)
-    set(handles.text7,'String','Loaded') ;
+ [handles.FileName_RS,handles.PathName_RS] = uigetfile('*.mat','Select the file .mat corresponding to "Right Shank"');
+if(handles.PathName_RS~=0)
+    set(handles.text10,'String','Loaded') ;
 end 
 
 end
+guidata(hObject, handles);
 
 
 % --- Executes on button press in pushbutton9.

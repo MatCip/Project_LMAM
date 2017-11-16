@@ -170,6 +170,8 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+try
+    
 h1 = findobj('Tag','pushbutton1');
 data1 = h1.UserData;
 FileName_1=data1.name;
@@ -198,9 +200,14 @@ h5 = findobj('Tag','pushbutton6');
 data5 = h5.UserData;
 FileName_5=data5.name;
 Path_5=data5.path;
-load_all(FileName_1,Path_1,FileName_2,Path_2,FileName_3,Path_3,FileName_4,Path_4,FileName_5,Path_5);
+disp(FileName_5);
+
+save('function_interaction/full_config_struct','FileName_1','Path_1','FileName_2','Path_2','FileName_3','Path_3','FileName_4','Path_4','FileName_5','Path_5');
+delete(get(hObject, 'parent'));
+catch
+    
+     addpath(genpath('error_functions'))
+                error_selection
 
 
-
-
-
+end

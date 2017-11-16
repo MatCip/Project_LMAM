@@ -22,7 +22,7 @@ function varargout = classification(varargin)
 
 % Edit the above text to modify the response to help classification
 
-% Last Modified by GUIDE v2.5 09-Nov-2017 12:05:50
+% Last Modified by GUIDE v2.5 10-Nov-2017 15:56:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,6 +54,16 @@ function classification_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for classification
 % 
+
+
+I1=imread('./pic/folder-icon.png');
+imshow(I1,'Parent',handles.axes4);
+I2=imread('./pic/img-thing.jpeg');
+imshow(I2,'Parent',handles.axes1)
+I2=imread('./pic/img-thing.jpeg');
+imshow(I2,'Parent',handles.axes2)
+
+
 handles.gyr1_LShank40_1=varargin{1};
 handles.gyr2_LShank40_1=varargin{2};
 handles.gyr3_LShank40_1=varargin{3};
@@ -73,14 +83,14 @@ handles.acc1_RShank40_1=varargin{10};
 handles.acc2_RShank40_1=varargin{11};
 handles.acc3_RShank40_1=varargin{12};
 
-handles.gyr1_LThigh40_1=varargin{13};
-handles.gyr2_LThigh40_1=varargin{14};
-handles.gyr3_LThigh40_1=varargin{15};
+handles.gyr1_LThigh_lpf_1=varargin{13};
+handles.gyr2_LThigh_lpf_1=varargin{14};
+handles.gyr3_LThigh_lpf_1=varargin{15};
 
 
-handles.acc1_LThigh40_1=varargin{16};
-handles.acc2_LThigh40_1=varargin{17};
-handles.acc3_LThigh40_1=varargin{18};
+handles.acc1_LThigh_lpf_1=varargin{16};
+handles.acc2_LThigh_lpf_1=varargin{17};
+handles.acc3_LThigh_lpf_1=varargin{18};
 
 handles.gyr1_RThigh_lpf_1=varargin{19};
 handles.gyr2_RThigh_lpf_1=varargin{20};
@@ -105,13 +115,18 @@ handles.thigh_cell=varargin{33};
 handles.shank_cell=varargin{34};
 
 
+
 handles.t_1=varargin{31};
 
 handles.acc1_trunk40=varargin{35};
 handles.acc2_trunk40=varargin{36};
 handles.acc3_trunk40=varargin{37};
+handles.average_alt=varargin{38};
+handles.thigh_configuration=varargin{39};
 
+handles.id_plotted=0;
 
+addpath(genpath('../errors_functions/'));
 clearvars varargin
 handles.output = hObject;
 
@@ -317,6 +332,8 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+ 
+ handles.id_plotted=1;
  acc1_trunk_lpf_1=handles.acc1_trunk_lpf_1;
  acc2_trunk_lpf_1=handles.acc2_trunk_lpf_1;
  acc3_trunk_lpf_1=handles.acc3_trunk_lpf_1;
@@ -338,6 +355,8 @@ function pushbutton1_Callback(hObject, eventdata, handles)
  plot(handles.t_1,handles.gyr3_trunk_lpf_1,'b','LineWidth',1)
  legend('gyr1','gyr2','gyr3');
  hold off 
+ guidata(hObject,handles)
+
 
 
 % --- Executes on button press in pushbutton2.
@@ -353,7 +372,37 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+if(get(handles.popupmenu10,'Value')==1)
+if(handles.acc1_LThigh_lpf_1==false)
+    not_loaded_c    
+    
+else
+ handles.id_plotted=2;
+ axes(handles.axes1)
+ plot(handles.t_1, handles.acc1_LThigh_lpf_1,'r','LineWidth',1)
+ title('acc Left-Thigh')
+ hold on
+ plot(handles.t_1, handles.acc2_LThigh_lpf_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.acc3_LThigh_lpf_1,'b','LineWidth',1)
+ legend('acc1','acc2','acc2');     
+ hold off 
 
+ axes(handles.axes2)
+ plot(handles.t_1, handles.gyr1_LThigh_lpf_1,'r','LineWidth',1)
+ title('gir Left-Thigh')
+ hold on
+ plot(handles.t_1, handles.gyr2_LThigh_lpf_1,'k','LineWidth',1)
+ plot(handles.t_1, handles.gyr3_LThigh_lpf_1,'b','LineWidth',1)
+ legend('gyr1','gyr2','gyr3');
+ hold off 
+ end
+    
+else
+ if(handles.acc1_RThigh_lpf_1==false)
+    not_loaded_c    
+    
+else   
+ handles.id_plotted=3;
  axes(handles.axes1)
  plot(handles.t_1, handles.acc1_RThigh_lpf_1,'r','LineWidth',1)
  title('acc Right-Thigh')
@@ -371,6 +420,9 @@ function pushbutton3_Callback(hObject, eventdata, handles)
  plot(handles.t_1, handles.gyr3_RThigh_lpf_1,'b','LineWidth',1)
  legend('gyr1','gyr2','gyr3');
  hold off 
+ end
+end
+guidata(hObject,handles)
 
 
 
@@ -390,8 +442,8 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if(get(handles.popupmenu5,'Value')==1)
-    
-axes(handles.axes1)     
+ handles.id_plotted=4;   
+ axes(handles.axes1)     
  plot(handles.t_1, handles.acc1_LShank40_1,'r','LineWidth',1)
  title('acc Left-Shank')
  hold on
@@ -409,7 +461,7 @@ axes(handles.axes1)
  legend('gyr1','gyr2','gyr3');
  hold off 
 else
- 
+ handles.id_plotted=5;
  axes(handles.axes1) 
  plot(handles.t_1, handles.acc1_RShank40_1,'r','LineWidth',1)
  title('acc Right-Shank')
@@ -428,6 +480,8 @@ else
  legend('gyr1','gyr2','gyr3');
  hold off 
 end
+guidata(hObject,handles)
+
  
  
 
@@ -444,9 +498,30 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+try
+    
+PathName=handles.PathName;
+mkdir ([PathName, '/id'])
+catch
+    not_output_folder
+    return
+end
+PathName_1=strcat(PathName, '/id');
 
-disp(handles);
-clear_values();
+disp(get(handles.popupmenu10,'Value'));
+addpath(genpath('physical_activity_functions'))
+
+if(handles.thigh_configuration==1 && get(handles.popupmenu9,'Value')==2)
+    not_loaded_c
+    return
+end
+
+if(handles.thigh_configuration==2 && get(handles.popupmenu9,'Value')==1)
+    not_loaded_c
+    return
+end
+
+
 %TRUNK 
 
 val_trunk=get(handles.popupmenu1,'Value');
@@ -459,7 +534,9 @@ end
 
 switch val_trunk
     case 1 
-        error_selection
+        addpath(genpath('error_functions'))
+                error_selection
+                return
     case 2
          
          verticalAccTr=handles.trunk_cell{1}*inverse_trunk;
@@ -487,8 +564,9 @@ if (get(handles.popupmenu9,'Value')==1)
 
         switch val_thigh
             case 1 
+              addpath(genpath('error_functions'))
                 error_selection
-                 uiresume(handles.popupmenu2);
+                return
             case 2
 
                  frontalAccThigh=handles.thigh_cell{1,1}*inverse_thigh;
@@ -513,8 +591,9 @@ else
 
         switch val_thigh
             case 1 
+               addpath(genpath('error_functions'))
                 error_selection
-                 uiresume(handles.popupmenu2);
+                 return
             case 2
 
                  frontalAccThigh=handles.thigh_cell{2,1}*inverse_thigh;
@@ -540,7 +619,9 @@ end
 
 switch val_Lshank
     case 1 
+        addpath(genpath('error_functions'))
         error_selection
+        return
     case 2
          
           PitchGyroLShank=handles.shank_cell{1,1}*inverse_Lshank;
@@ -561,9 +642,12 @@ else
     inverse_Rshank=-1;
 end
 
-switch val_Lshank
+switch val_Rshank
     case 1 
+        addpath(genpath('error_functions'))
         error_selection
+        return
+        
     case 2
          
           PitchGyroRShank=handles.shank_cell{2,1}*inverse_Rshank;
@@ -587,6 +671,7 @@ ax3=subplot(413), plot(t,PitchGyroRShank,'LineWidth',1);title('RShank Pitch Gyro
 ax4=subplot(414), plot(t,PitchGyroLShank,'LineWidth',1);title('LShank Pitch Gyro');
 xlabel('Time(min)')
 linkaxes([ax1 ax2 ax3 ax4],'x')
+
 
 
 [posture_ref,walk_ref]=classifyPA_2ShanksThighTrunk(verticalAccTr,frontalAccThigh,PitchGyroRShank,PitchGyroLShank,200);
@@ -614,6 +699,7 @@ indwk=groupfind(posture_ref==4); stwk=ceil(indwk(:,1)/40); endwk=floor(indwk(:,2
 indst=groupfind(posture_ref==3); stst=ceil(indst(:,1)/40); endst=floor(indst(:,2)/40);
 indsi=groupfind(posture_ref==2 | posture_ref==1); stsi=ceil(indsi(:,1)/40); endsi=floor(indsi(:,2)/40);
 %%%%%%%%%%%%
+disp('Barcode');
 bactv3=zeros(1,nw);
 bactv4=zeros(1,nw);
 cad=MeanCad_ref;
@@ -747,7 +833,6 @@ end
 
 
 bx=[1:1:22]; barcode1=[bactv3 bx]; bar2=[bactv4 bx];
-save 
 tb=(1:length(barcode1))/60;
 fig1=figure
 ax1=subplot(211),imagesc(barcode1);colormap jet; 
@@ -757,16 +842,20 @@ set(ax2,'ylim',[0,max(barcode1)]);
 xlabel('Time (min)');
 ylabel('Intensity States')
 set(gca,'Fontsize',13)
+
 supertitle('Pattern of PA intensity','FontSize',13,'Color','k')
-savefig(fig1,'Barcode.fig');
+path=strcat(PathName_1,'/Barcode');
+savefig(fig1,[path,'.fig']);
 % saveas(fig1,'BarChartFile','png')
 % saveas(fig1,'BarChartFile','tif')
-saveas(fig1,'BarChartFile','jpg')
+
+disp(path)
+saveas(fig1,path,'jpg')
 
 % Find Activity Level (up/down sairs, hill)
 
-
-ip=findchangepts(average_alt,'Statistic','linear','MaxNumChanges',25);
+disp('Activity Level');
+ip=findchangepts(handles.average_alt,'Statistic','linear','MaxNumChanges',25);
 
 actv_level=zeros(1,length(posture_ref));
 kl1=5;kl2=6; kl3=7; kl4=8;
@@ -775,7 +864,7 @@ posture_DL=posture_ref;
 for j=1:length(ip)-1
     if j==1
         dur=ip(j)-1;
-        level=average_alt(ip(j))-average_alt(1);
+        level=handles.average_alt(ip(j))-handles.average_alt(1);
         %determine if Up/Down stairs, Elevator
         if abs(level)>=th1 & abs(level)<=th2 & sign(level)==-1 %down, alt decreases
            if  posture_DL(1:ip(j))==3 & (ip(j)-1)<=2*60*40   % possibly down elevator
@@ -826,7 +915,7 @@ for j=1:length(ip)-1
               
     else
         dur=ip(j+1)-ip(j);
-        level=average_alt(ip(j+1))-average_alt(ip(j));
+        level=handles.average_alt(ip(j+1))-handles.average_alt(ip(j));
            %determine if Up/Down stairs, Elevator
         if abs(level)>=th1 & abs(level)<=th2 & sign(level)==-1 %down, alt decreases
            if  posture_DL(ip(j):ip(j+1))==3 & (ip(j+1)-ip(j))<=2*60*40   % possibly down elevator
@@ -891,13 +980,160 @@ set(ax1,'YTick',[-8 -7 -6 -5 -4 -3 -2 -1 0 1 2 3 4 5 6 7 8]);
 set(ax1,'YTicklabels',{'DownHillActiv','DownHillPasiv','DownStairsWalk','DownStairsElevator', ' ',' ',' ',' ',' ','lying','sitting','standing','walking', 'UpStairsElevator','UpStairsWalk','UpHillPasiv','UpHillActiv'});
 ax1.YGrid = 'on'
 set(gca,'Fontsize',13)
-savefig(fig2,'PAPattern.fig');
+path=strcat(PathName_1,'/PAPattern');
+savefig(fig2,[path,'.fig']);
 % saveas(fig2,'PAPattern','png')
 % saveas(fig2,'PAPattern','tif')
-saveas(fig2,'PAPattern','jpg')
-save actv_level actv_level
+saveas(fig2,path,'jpg')
 
 
+
+%%%%%Plot posture Results%%%%%%%%%%
+%cd E:\CP\RefValuesControlsDL\posture
+
+addpath(genpath('classification/posture'))
+load duration_SiLy_controls 
+load duration_St_controls 
+load duration_Wk_controls 
+
+load percent_SiLy_controls 
+load percent_St_controls 
+load percent_Wk_controls 
+
+load MeanPercentPosturesControls 
+load SDPercentPosturesControls 
+
+%%%%%%%%%%%%%%%%%%
+ns=40*3600;
+nw=fix(length(posture_ref)/ns);
+for k=0:nw-1
+    l1=k*ns+1;
+    l2=(k+1)*ns;
+    ph=posture_ref(l1:l2);
+    LySi(k+1)=length(find(ph==1 | ph==2))/(40*60);
+    St(k+1)=length(find(ph==3))/(40*60);
+    Wk(k+1)=length(find(ph==4))/(40*60);
+end
+
+act=[LySi; St; Wk];
+act=act';
+fig1=figure;
+bar(act,'stacked')
+legend('lying/sitting','standing','walking')
+xlabel('hours','FontSize',14)
+ylabel('duration(min)','FontSize',14)
+supertitle('posture allocation per hour')
+path=strcat(PathName_1,'/posture_allocation_per_hour');
+savefig(fig1,[path,'.fig']);
+
+saveas(fig1,path,'jpg')
+
+%%%%%%%%%%%%%%%%%
+l=round(length(posture_ref)/40);
+indx1=groupfind(posture_ref==1 | posture_ref==2); 
+indx2=groupfind(posture_ref==3); 
+indx3=groupfind(posture_ref==4); 
+DSitLy_CP=round((indx1(:,2)-indx1(:,1))/40);
+DSt_CP=round((indx2(:,2)-indx2(:,1))/40);
+DWk_CP=round((indx3(:,2)-indx3(:,1))/40);
+addpath(genpath('classification'))
+PSitLy_CP=(sum(DSitLy_CP)/l)*100;
+PSt_CP=(sum(DSt_CP)/l)*100;
+PWk_CP=(sum(DWk_CP)/l)*100;
+
+MeanPostures=[MeanPercentPosturesControls; PSitLy_CP  PSt_CP PWk_CP];
+SDPostures=[SDPercentPosturesControls; 0  0 0];
+errorbar_groups_postures_ani(MeanPostures,SDPostures,'bar_names',{'lying/sitting','standing','walking'});
+legend('TD Group', 'CP patient')
+ylabel('% of monitoring time','FontSize',14)
+path=strcat(PathName_1,'/BarplotPostures');
+supertitle('daily posture allocation');
+savefig(gcf,[path,'.fig'])
+saveas(gcf,path,'png')
+saveas(gcf,path,'tif')
+saveas(gcf,path,'jpg')
+
+duration_St_controls=duration_St_controls';
+[m2,n2]=size(duration_St_controls)
+[m22,n22]=size(DSt_CP)
+
+duration_SiLy_controls=duration_SiLy_controls';
+[m1,n1]=size(duration_SiLy_controls)
+[m11,n11]=size(DSitLy_CP)
+
+duration_Wk_controls=duration_Wk_controls';
+[m3,n3]=size(duration_Wk_controls)
+[m33,n33]=size(DWk_CP)
+
+f2=figure
+subplot(131)
+ group = [repmat({'TD group'}, m1, n1); repmat({'CP patient'}, m11, n11); ];
+ boxplot([duration_SiLy_controls; DSitLy_CP;], group);
+ ylabel('lying/sitting (sec) ')
+ xtickangle(45);
+ 
+ subplot(132)
+ group = [repmat({'TD group'}, m2, n2); repmat({'CP patient'}, m22, n22); ];
+ boxplot([duration_St_controls; DSt_CP;], group);
+ ylabel('standing (sec)')
+ xtickangle(45);
+ 
+ subplot(133)
+ group = [repmat({'TD group'}, m3, n3); repmat({'CP patient'}, m33, n33); ];
+ boxplot([duration_Wk_controls; DWk_CP;], group);
+ ylabel('walking (sec)');
+ xtickangle(45);
+ path=strcat(PathName_1,'/BoxPlotDurationPosturePeriods');
+ 
+ 
+ supertitle('duration of periods')
+ 
+ savefig(f2,[path,'.fig'])
+ saveas(f2,path,'png')
+ saveas(f2,path,'tif')
+ saveas(f2,path,'jpg')
+ 
+ [n2,m2]=size(walk_ref);
+StWk_ref=[];EndWk_ref=[];steps_ref=[];
+for i=1:m2
+    StWk_ref(i)=walk_ref(i).start;
+    EndWk_ref(i)=walk_ref(i).end;
+    steps_ref(i)=walk_ref(i).steps; 
+    MeanCad_ref(i)=round((40*60*steps_ref(i))/(EndWk_ref(i)-StWk_ref(i)));   
+end
+
+indwk=groupfind(posture_ref==4); 
+indst=groupfind(posture_ref==3); 
+indsi=groupfind(posture_ref==2 | posture_ref==1);
+
+% wkperc=(length(posture_ref==4)/length(posture_ref))*100;
+% stperc=(length(posture_ref==3)/length(posture_ref))*100;
+% sedperc=(length(posture_ref==2 | posture_ref==1)/length(posture_ref))*100;
+wkperc=(length(find(posture_ref==4)))/length(posture_ref);
+stperc=(length(find(posture_ref==3)))/length(posture_ref);
+sedperc=(length(find(posture_ref==2 | posture_ref==1)))/length(posture_ref);
+actv=(length(find(posture_ref==3 | posture_ref==4)))/length(posture_ref)*100;
+
+X=[sedperc stperc wkperc];
+fig1=figure
+h=pie(X);
+set(h(2:2:6),'FontSize',20);
+legend(h(1:2:end),'sitting/lying','standing','walking','Orientation','horizontal','location','bestoutside');
+colormap jet
+set(gca,'Fontsize',14)
+path=strcat(PathName_1,'/PiePostures');
+
+savefig(fig1,[path,'.fig']);
+saveas(fig1,path,'png')
+saveas(fig1,path,'tif')
+classification_results
+
+ 
+ 
+ 
+ 
+ 
+ 
 % --- Executes on selection change in popupmenu5.
 function popupmenu5_Callback(hObject, eventdata, handles)
 % hObject    handle to popupmenu5 (see GCBO)
@@ -943,7 +1179,9 @@ function popupmenu9_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
 set(hObject,'String',{'Left-Thigh';'Right-Thigh'})
+
 
 % --- Executes on selection change in popupmenu10.
 function popupmenu10_Callback(hObject, eventdata, handles)
@@ -976,6 +1214,73 @@ function togglebutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton1
+disp(handles.id_plotted);
+switch handles.id_plotted
+    case 1
+        fig_new=figure
+        title('Acceleration trunk')
+        acc1_trunk_lpf_1=handles.acc1_trunk_lpf_1;
+         acc2_trunk_lpf_1=handles.acc2_trunk_lpf_1;
+         acc3_trunk_lpf_1=handles.acc3_trunk_lpf_1;
+         t_1=handles.t_1;
+        ax1=subplot(311), plot(t_1,acc1_trunk_lpf_1,'r','LineWidth',1); title('Trunk- acc1');
+        ylim([-1,1])
+        ax2=subplot(312), plot(t_1,acc2_trunk_lpf_1,'k','LineWidth',1);title('Trunk- acc2');
+        ylim([-1,1])
+        ax3=subplot(313), plot(t_1,acc3_trunk_lpf_1,'b','LineWidth',1);title('Trunk- acc3');
+        xlabel('Time(min)')
+        ylim([-1,1])
+        linkaxes([ax1 ax2 ax3],'x')
+        
+        
+    
+    case 2
+        fig_new=figure
+        title('Acceleration Left-Thigh')
+        ax1=subplot(311), plot(handles.t_1, handles.acc1_LThigh_lpf_1,'r','LineWidth',1); title('Left-Thigh-acc1');
+        ylim([-1,1])
+        ax2=subplot(312), plot(handles.t_1, handles.acc2_LThigh_lpf_1,'k','LineWidth',1);title('Left-Thigh-acc2');
+        ylim([-1,1])
+        ax3=subplot(313), plot(handles.t_1, handles.acc3_LThigh_lpf_1,'b','LineWidth',1);title('Left-Thigh-acc3');
+        ylim([-1,1])
+        xlabel('Time(min)')
+        linkaxes([ax1 ax2 ax3],'x')
+    case 3
+        fig_new=figure
+        title('Acceleration Right-Thigh')
+        ax1=subplot(311), plot(handles.t_1, handles.acc1_RThigh_lpf_1,'r','LineWidth',1); title('Right-Thigh-acc1');
+        ylim([-1,1])
+        ax2=subplot(312), plot(handles.t_1, handles.acc2_RThigh4_lpf_1,'k','LineWidth',1);title('Right-Thigh-acc2');
+        ylim([-1,1])
+        ax3=subplot(313), plot(handles.t_1, handles.acc3_RThigh4_lpf_1,'b','LineWidth',1);title('Right-Thigh-acc3');
+        ylim([-1,1])
+        xlabel('Time(min)')
+        linkaxes([ax1 ax2 ax3 ],'x')
+        
+    case 4
+         fig_new=figure
+        title('Acceleration Left-Shank')
+        ax1=subplot(311), plot(handles.t_1, handles.acc1_LShank40_1,'r','LineWidth',1); title('Left-Shank-acc1');
+        ylim([-1,1])
+        ax2=subplot(312), plot(handles.t_1, handles.acc2_LShank40_1,'k','LineWidth',1);title('Left-Shank-acc2');
+        ylim([-1,1])
+        ax3=subplot(313), plot(handles.t_1, handles.acc3_LShank40_1,'b','LineWidth',1);title('Left-Shank-acc3');
+        ylim([-1,1])
+        xlabel('Time(min)')
+        linkaxes([ax1 ax2 ax3 ],'x')
+        
+    case 5
+        fig_new=figure
+        title('Acceleration Right-Shank')
+        ax1=subplot(311), plot(handles.t_1, handles.acc1_RShank40_1,'r','LineWidth',1); title('Right-Shank-acc1');
+        ylim([-1,1])
+        ax2=subplot(312), plot(handles.t_1, handles.acc2_RShank40_1,'k','LineWidth',1);title('Right-Shank-acc2');
+        ylim([-1,1])
+        ax3=subplot(313), plot(handles.t_1, handles.acc3_RShank40_1,'b','LineWidth',1);title('Right-Shank-acc3');
+        ylim([-1,1])
+        xlabel('Time(min)')
+        linkaxes([ax1 ax2 ax3 ],'x')
+end
 
 
 % 
@@ -993,3 +1298,169 @@ function togglebutton2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton2
+
+
+% --- Executes on button press in pushbutton11.
+function pushbutton11_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+val_trunk=get(handles.popupmenu1,'Value');
+inverse_trunk=get(handles.checkbox1,'Value');
+if(inverse_trunk==0)
+    inverse_trunk=1;
+else
+    inverse_trunk=-1;
+end
+
+switch val_trunk
+    case 1 
+        addpath(genpath('error_functions'))
+                error_selection
+                return
+    case 2
+         
+         verticalAccTr=handles.trunk_cell{1}*inverse_trunk;
+         verticalAccTr40=handles.acc1_trunk40*inverse_trunk;
+         
+     case 3
+          
+          verticalAccTr=handles.trunk_cell{2}*inverse_trunk;
+          verticalAccTr40=handles.acc2_trunk40*inverse_trunk;
+    case 4
+        
+          verticalAccTr=handles.trunk_cell{3}*inverse_trunk;
+          verticalAccTr40=handles.acc3_trunk40*inverse_trunk;
+end
+
+if (get(handles.popupmenu9,'Value')==1)
+    
+        val_thigh=get(handles.popupmenu2,'Value');
+        inverse_thigh=get(handles.checkbox2,'Value');
+        if(inverse_thigh==0)
+            inverse_thigh=1;
+        else
+            inverse_thigh=-1;
+        end
+
+        switch val_thigh
+            case 1 
+              addpath(genpath('error_functions'))
+                error_selection
+                return
+            case 2
+
+                 frontalAccThigh=handles.thigh_cell{1,1}*inverse_thigh;
+
+
+             case 3
+
+                  frontalAccThigh=handles.thigh_cell{1,2}*inverse_thigh;
+            case 4
+
+                  frontalAccThigh=handles.thigh_cell{1,3}*inverse_thigh;
+        end
+
+else
+        val_thigh=get(handles.popupmenu2,'Value');
+        inverse_thigh=get(handles.checkbox2,'Value');
+        if(inverse_thigh==0)
+            inverse_thigh=1;
+        else
+            inverse_thigh=-1;
+        end
+
+        switch val_thigh
+            case 1 
+               addpath(genpath('error_functions'))
+                error_selection
+                 return
+            case 2
+
+                 frontalAccThigh=handles.thigh_cell{2,1}*inverse_thigh;
+
+
+             case 3
+
+                  frontalAccThigh=handles.thigh_cell{2,2}*inverse_thigh;
+            case 4
+
+                  frontalAccThigh=handles.thigh_cell{2,3}*inverse_thigh;
+        end
+end
+
+
+val_Lshank=get(handles.popupmenu3,'Value');
+inverse_Lshank=get(handles.checkbox3,'Value');
+if(inverse_Lshank==0)
+    inverse_Lshank=1;
+else
+    inverse_Lshank=-1;
+end
+
+switch val_Lshank
+    case 1 
+        addpath(genpath('error_functions'))
+        error_selection
+        return
+    case 2
+         
+          PitchGyroLShank=handles.shank_cell{1,1}*inverse_Lshank;
+         
+     case 3
+          
+          PitchGyroLShank=handles.shank_cell{1,2}*inverse_Lshank;
+    case 4
+        
+          PitchGyroLShank=handles.shank_cell{1,3}*inverse_Lshank;
+end
+
+val_Rshank=get(handles.popupmenu4,'Value');
+inverse_Rshank=get(handles.checkbox5,'Value');
+if(inverse_Rshank==0)
+    inverse_Rshank=1;
+else
+    inverse_Rshank=-1;
+end
+
+switch val_Rshank
+    case 1 
+        addpath(genpath('error_functions'))
+        error_selection
+        return
+        
+    case 2
+         
+          PitchGyroRShank=handles.shank_cell{2,1}*inverse_Rshank;
+         
+     case 3
+          
+          PitchGyroRShank=handles.shank_cell{2,2}*inverse_Rshank;
+    case 4
+        
+          PitchGyroRShank=handles.shank_cell{2,3}*inverse_Rshank;
+end
+
+
+verticalAccTr_lpf = sgolayfilt(verticalAccTr,1,1001);
+frontalAcc_Thigh_lpf = sgolayfilt(frontalAccThigh,1,1001);
+t=(1:length(verticalAccTr_lpf))/(200*60);
+figure
+ax1=subplot(411), plot(t,verticalAccTr_lpf,'LineWidth',1); title('Trunk Vertical Acc');
+ax2=subplot(412), plot(t,frontalAcc_Thigh_lpf,'LineWidth',1);title('Thigh Frontal Acc');
+ax3=subplot(413), plot(t,PitchGyroRShank,'LineWidth',1);title('RShank Pitch Gyro');
+ax4=subplot(414), plot(t,PitchGyroLShank,'LineWidth',1);title('LShank Pitch Gyro');
+xlabel('Time(min)')
+linkaxes([ax1 ax2 ax3 ax4],'x')
+
+
+% --- Executes on button press in pushbutton12.
+function pushbutton12_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+PathName = uigetdir;
+
+handles.PathName=PathName;
+set(handles.text12,'String',PathName);
+guidata(hObject,handles)
