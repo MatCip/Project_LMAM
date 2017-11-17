@@ -2025,7 +2025,7 @@ figure1=figure;
  
  
  subplot(2,1,2)
- plot(handles.axes2,t_1,handles.gyr1_trunk_lpf_1,'r','LineWidth',1)
+ plot(t_1,handles.gyr1_trunk_lpf_1,'r','LineWidth',1)
  title('gir trunk')
  hold on
  plot(handles.t_1,handles.gyr2_trunk_lpf_1,'k','LineWidth',1)

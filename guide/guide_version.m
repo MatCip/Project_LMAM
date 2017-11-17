@@ -135,7 +135,7 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  resclerved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-gait_analysi_hanlde=gait_analysi;
+
 
 
 % --- Executes on button press in pushbutton3.
@@ -143,8 +143,7 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-gait_analysi_hanlde=gait_analysi;
-
+gait_analysi_hanlde=gait_analysis;
 
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)

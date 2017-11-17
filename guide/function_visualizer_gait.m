@@ -1,4 +1,4 @@
-function varargout = function_visualizer(varargin)
+function varargout = function_visualizer_gait(varargin)
 % FUNCTION_VISUALIZER MATLAB code for function_visualizer.fig
 %      FUNCTION_VISUALIZER by itself, creates a new FUNCTION_VISUALIZER or raises the
 %      existing singleton*.
@@ -58,9 +58,9 @@ input=varargin{1};
 
 handles.list_of_parts=input{1};
 
-
+disp('ciiiiiaaaaooo');
 handles.config_all=input{2};
-my_struct=load('function_interaction/func_list');
+my_struct=load('function_interaction/func_list_gait');
 string_struct={};
 nfield = fieldnames(my_struct);
 i=1;
@@ -203,6 +203,9 @@ function boole=is_necessary(part,memory_part)
            boole=false;
        end
    end
+   
+   
+   
 % --- Outputs from this function are returned to the command line.
 function varargout = function_visualizer_OutputFcn(hObject, eventdata, handles)
 % varargout  cell array for returning output args (see VARARGOUT);

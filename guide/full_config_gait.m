@@ -1,35 +1,35 @@
-function varargout = gait_analysi(varargin)
-% GAIT_ANALYSI MATLAB code for gait_analysi.fig
-%      GAIT_ANALYSI, by itself, creates a new GAIT_ANALYSI or raises the existing
+function varargout = full_config_gait(varargin)
+% FULL_CONFIG MATLAB code for full_config.fig
+%      FULL_CONFIG, by itself, creates a new FULL_CONFIG or raises the existing
 %      singleton*.
 %
-%      H = GAIT_ANALYSI returns the handle to a new GAIT_ANALYSI or the handle to
+%      H = FULL_CONFIG returns the handle to a new FULL_CONFIG or the handle to
 %      the existing singleton*.
 %
-%      GAIT_ANALYSI('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in GAIT_ANALYSI.M with the given input arguments.
+%      FULL_CONFIG('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in FULL_CONFIG.M with the given input arguments.
 %
-%      GAIT_ANALYSI('Property','Value',...) creates a new GAIT_ANALYSI or raises the
+%      FULL_CONFIG('Property','Value',...) creates a new FULL_CONFIG or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before gait_analysi_OpeningFcn gets called.  An
+%      applied to the GUI before full_config_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to gait_analysi_OpeningFcn via varargin.
+%      stop.  All inputs are passed to full_config_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help gait_analysi
+% Edit the above text to modify the response to help full_config
 
-% Last Modified by GUIDE v2.5 17-Nov-2017 13:54:58
+% Last Modified by GUIDE v2.5 18-Oct-2017 18:50:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @gait_analysi_OpeningFcn, ...
-                   'gui_OutputFcn',  @gait_analysi_OutputFcn, ...
+                   'gui_OpeningFcn', @full_config_OpeningFcn, ...
+                   'gui_OutputFcn',  @full_config_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,28 +44,26 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before gait_analysi is made visible.
-function gait_analysi_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before full_config is made visible.
+function full_config_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to gait_analysi (see VARARGIN)
+% varargin   command line arguments to full_config (see VARARGIN)
 
-% Choose default command line output for gait_analysi
+% Choose default command line output for full_config
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
-axes(handles.axes1)
-imshow('./pic/body.png')
 
-% UIWAIT makes gait_analysi wait for user response (see UIRESUME)
+% UIWAIT makes full_config wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = gait_analysi_OutputFcn(hObject, eventdata, handles) 
+function varargout = full_config_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -73,20 +71,6 @@ function varargout = gait_analysi_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
-
-
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-disp(get(handles.checkbox4,'Value'));
-if (get(handles.checkbox4,'Value') == 1)
-     
-     disp('ciaooo');
-     error_message_hanlde=error_message;
-end
-
 
 
 % --- Executes on button press in checkbox1.
@@ -116,6 +100,34 @@ function checkbox3_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of checkbox3
 
 
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[FileName_1,PathName_1] = uigetfile('*.mat','Select the file .mat corresponding to trunk');
+data = struct('name', FileName_1,'path',PathName_1);
+hObject.UserData = data;
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+ [FileName_2,PathName_2] = uigetfile('*.mat','Select the file .mat corresponding to "Left Shank"');
+ data = struct('name', FileName_2,'path',PathName_2);
+ hObject.UserData = data;
+
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+ [FileName_3,PathName_3] = uigetfile('*.mat','Select the file .mat corresponding to "Right Shank"');
+data = struct('name', FileName_3,'path',PathName_3);
+hObject.UserData = data;
+
+
 % --- Executes on button press in checkbox4.
 function checkbox4_Callback(hObject, eventdata, handles)
 % hObject    handle to checkbox4 (see GCBO)
@@ -125,61 +137,23 @@ function checkbox4_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of checkbox4
 
 
-% --- Executes on button press in checkbox4.
-function checkbox5_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of checkbox4
-
-
-
-
-% --- Executes on button press in checkbox4.
-function checkbox6_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of checkbox4
-
-
-% --- Executes on button press in checkbox7.
-function checkbox7_Callback(hObject, eventdata, handles)
-% hObject    handle to checkbox7 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of checkbox7
-
-
-% --- Executes on button press in pushbutton2.
-function pushbutton2_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton3.
-function pushbutton3_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton3 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
 
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[FileName_4,PathName_4] = uigetfile('*.mat','Select the file .mat corresponding to "Right Thigh"');
+data = struct('name', FileName_4,'path',PathName_4);
+hObject.UserData = data;
+
+% --- Executes on button press in checkbox5.
+function checkbox5_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox5
 
 
 % --- Executes on button press in pushbutton6.
@@ -187,17 +161,53 @@ function pushbutton6_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+[FileName_5,PathName_5] = uigetfile('*.mat','Select the file .mat corresponding to "Right Thigh"');
+data = struct('name', FileName_5,'path',PathName_5);
+hObject.UserData = data;
 
 % --- Executes on button press in pushbutton7.
 function pushbutton7_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+try
+    
+h1 = findobj('Tag','pushbutton1');
+data1 = h1.UserData;
+FileName_trunk=data1.name;
+PathName_trunk=data1.path;
 
 
-% --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton8 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+h2 = findobj('Tag','pushbutton2');
+data2 = h2.UserData;
+FileName_LS=data2.name;
+PathName_LS=data2.path;
+
+
+h3 = findobj('Tag','pushbutton3');
+data3 = h3.UserData;
+FileName_RS=data3.name;
+PathName_RS=data3.path;
+
+
+h4 = findobj('Tag','pushbutton5');
+data4 = h4.UserData;
+FileName_LT=data4.name;
+PathName_LT=data4.path;
+
+
+h5 = findobj('Tag','pushbutton6');
+data5 = h5.UserData;
+FileName_RT=data5.name;
+PathName_RT=data5.path;
+
+
+save('function_interaction/full_config_struct_gait','FileName_trunk','PathName_trunk','FileName_LS','PathName_LS','FileName_RS','PathName_RS','FileName_LT','PathName_LT','FileName_RT','PathName_RT');
+delete(get(hObject, 'parent'));
+catch
+    
+     addpath(genpath('error_functions'))
+                error_selection
+
+
+end
