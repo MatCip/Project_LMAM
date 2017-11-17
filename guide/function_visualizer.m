@@ -75,16 +75,13 @@ for j1 = 1:numel(nfield)
  
  
   size_2=size(parts_cell);
-  disp(parts_cell);
+
   for i_1=1:size_1(2)
        for i_2=1:size_2(2)
           
            if(iscell(parts_cell{i_2})==0)
            if(strcmp(handles.list_of_parts{i_1},parts_cell{i_2})==1)
-               disp('input');
-               disp(handles.list_of_parts{i_1});
                
-               disp(parts_cell{i_2});
                cont=cont+1;
                      
            end

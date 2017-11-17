@@ -3,10 +3,10 @@ function load_all(config_all)
 if(config_all==1)
     
 full_config_struct=load('function_interaction/full_config_struct.mat');
-disp('quiiiiiiii');
+
 else
     full_config_struct=load('function_interaction/parts_struct.mat');
-    disp('quaaaa');
+
 end
 FileName_1=full_config_struct.FileName_trunk;
 Path_1=full_config_struct.PathName_trunk;
