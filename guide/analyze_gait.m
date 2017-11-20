@@ -501,7 +501,15 @@ save ([path_mat,'/ShankAngleL_maxWalk'],'ShankAngleL_maxWalk');
 save ([path_mat,'/ThighAngleL_maxWalk'], 'ThighAngleL_maxWalk');
 save ([path_mat,'/KneeAngleL_maxWalk'], 'KneeAngleL_maxWalk');
 
-disp('fineeee');
+filename = [PathName_1,'/','GaitAnalysisReport.xls'];
+sheet = 1;
+xlRange = 'B4:X400';
+
+walking_params_new = xlsread(filename,sheet,xlRange);
+save walking_params_new walking_params_new
+
+
+
 
 
 

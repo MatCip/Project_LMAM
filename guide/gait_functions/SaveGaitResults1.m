@@ -1,9 +1,7 @@
-function SaveGaitResults1(fname, res, marker)
+function SaveGaitResults1(fname, res, marker,path_out)
 
-[filename,pathname]=uiputfile(fname,'Save 2D gait specific Excel file');
-if ~isequal(filename,0) && ~isequal(pathname,0)
-    fname = [pathname,filename];
-end
+try
+    fname = [path_out,'/',fname];
 
 
 e = actxserver('excel.application');
@@ -107,6 +105,12 @@ eWorkbook.Saved = 1;
 eWorkbook.Close;
 e.Quit;
 e.delete;
+catch
+    addpath(genpath('guide/error_functions'))
+    disp('errore');
+    
+end
+
 
 % --------------------------------------------------------------------
 function MakeExcelTitleLine(sheet, titles1, titles2, titles3)

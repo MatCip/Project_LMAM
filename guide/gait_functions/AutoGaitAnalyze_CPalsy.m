@@ -64,4 +64,4 @@ for i=f
     end
 end
 fname = 'GaitAnalysisReport.xls';
-SaveGaitResults1(fname, r);
+SaveGaitResults1(fname, r,path_out);
