@@ -534,7 +534,7 @@ catch
 end
 PathName_1=strcat(PathName, '/id');
 
-disp(get(handles.popupmenu10,'Value'));
+
 addpath(genpath('physical_activity_functions'))
 
 if(handles.thigh_configuration==1 && get(handles.popupmenu9,'Value')==2)
@@ -875,7 +875,7 @@ savefig(fig1,[path,'.fig']);
 % saveas(fig1,'BarChartFile','png')
 % saveas(fig1,'BarChartFile','tif')
 
-disp(path)
+
 saveas(fig1,path,'jpg')
 
 % Find Activity Level (up/down sairs, hill)
@@ -1240,7 +1240,7 @@ function togglebutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton1
-disp(handles.id_plotted);
+
 switch handles.id_plotted
     case 1
         fig_new=figure

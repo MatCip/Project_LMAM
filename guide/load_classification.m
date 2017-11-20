@@ -373,8 +373,7 @@ shank_cell={gyr1_LShank,gyr2_LShank,gyr3_LShank;gyr1_RShank,gyr2_RShank,gyr3_RSh
 
 f=classification(gyr1_LShank40,gyr2_LShank40,gyr3_LShank40,  acc1_LShank40,acc2_LShank40,acc3_LShank40,  gyr1_RShank40,gyr2_RShank40,gyr3_RShank40, acc1_RShank40,acc2_RShank40,acc3_RShank40,    gyr1_LThigh40,gyr2_LThigh40,gyr3_LThigh40, acc1_LThigh_lpf,acc2_LThigh_lpf,acc3_LThigh_lpf,  gyr1_RThigh40,gyr2_RThigh40,gyr3_RThigh40,  acc1_RThigh_lpf,acc2_RThigh_lpf,acc3_RThigh_lpf,   gyr1_trunk40,gyr2_trunk40,gyr3_trunk40,  acc1_trunk_lpf,acc2_trunk_lpf,acc3_trunk_lpf,t,trunk_cell,thigh_cell,shank_cell,acc1_trunk40,acc2_trunk40,acc3_trunk40,average_alt,thigh_configuration);
 
-disp('quiiiiiii');
-disp(f);
+
 
 
 

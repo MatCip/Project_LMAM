@@ -1,4 +1,4 @@
-function varargout = Phy_analysis(varargin)
+function varargout = gait_analysis(varargin)
 % PHY_ANALYSIS MATLAB code for Phy_analysis.fig
 %      PHY_ANALYSIS, by itself, creates a new PHY_ANALYSIS or raises the existing
 %      singleton*.
@@ -22,7 +22,7 @@ function varargout = Phy_analysis(varargin)
 
 % Edit the above text to modify the response to help Phy_analysis
 
-% Last Modified by GUIDE v2.5 17-Nov-2017 14:04:01
+% Last Modified by GUIDE v2.5 17-Nov-2017 17:03:48
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -69,7 +69,7 @@ handles.FileName_trunk='0';
 % Update handles structure
 guidata(hObject, handles);
 axes(handles.axes1)
-imshow('./pic/body.png');
+% imshow('./pic/body.png');
 
 
 % for the "back" button 
@@ -92,7 +92,6 @@ function varargout = Phy_analysis_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
@@ -114,10 +113,11 @@ function pushbutton1_Callback(hObject, eventdata, handles)
     PathName_LS= handles.PathName_LS;
     FileName_RS= handles.FileName_RS;
     PathName_RS= handles.PathName_RS;
-    save('function_interaction/parts_struct','FileName_trunk','PathName_trunk','FileName_LT','PathName_LT','FileName_RT','PathName_RT','FileName_LS','PathName_LS','FileName_RS','PathName_RS');
-    try
+    asdasdas
+    save('function_interaction/parts_struct_gait','FileName_trunk','PathName_trunk','FileName_LT','PathName_LT','FileName_RT','PathName_RT','FileName_LS','PathName_LS','FileName_RS','PathName_RS');
+    try 
     input={handles.cell,handles.config_all};
-    function_visualizer(input);
+    function_visualizer_gait_1(input);
     catch
     end
 
@@ -330,6 +330,7 @@ guidata(hObject, handles);
 
 
 
+
 % --- Executes when user attempts to close figure1.
 function figure1_CloseRequestFcn(hObject, eventdata, handles)
 % hObject    handle to figure1 (see GCBO)
@@ -338,10 +339,19 @@ function figure1_CloseRequestFcn(hObject, eventdata, handles)
 s = warning('error', 'MATLAB:DELETE:Permission');
 warning('error', 'MATLAB:DELETE:FileNotFound');
 try
-    delete('function_interaction/parts_struct.mat');
-    delete('function_interaction/full_config_struct.mat');
+    delete('function_interaction/parts_struct_gait.mat');
+    delete('function_interaction/full_config_struct_gait.mat');
 catch
-    
+
 end
 % Hint: delete(hObject) closes the figure
 delete(hObject);
+
+
+% --- Executes on button press in checkbox10.
+function checkbox10_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox10
