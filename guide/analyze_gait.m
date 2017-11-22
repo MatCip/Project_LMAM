@@ -504,10 +504,15 @@ save ([path_mat,'/KneeAngleL_maxWalk'], 'KneeAngleL_maxWalk');
 filename = [PathName_1,'/','GaitAnalysisReport.xls'];
 sheet = 1;
 xlRange = 'B4:X400';
+walking_params_new = xlsread(filename,sheet,xlRange);
 
-%walking_params_new = xlsread(filename,sheet,xlRange);
-walking_params_new=res_gait;
-save ([PathName_1,'walking_params_new'], 'walking_params_new');
+% %walking_params_new = xlsread(filename,sheet,xlRange);
+% walking_params_new=res_gait;
+ save ([PathName_1,'/walking_params_new'], 'walking_params_new');
+
+disp('qui');
+PlotGaitResults(76,78,PathName_1)
+
 
 
 

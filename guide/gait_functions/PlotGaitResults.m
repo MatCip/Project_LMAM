@@ -1,5 +1,5 @@
 
-function PlotGaitResults(RightLegLength,LeftLegLength)
+function PlotGaitResults(RightLegLength,LeftLegLength,PathName_1)
 Rll=RightLegLength/100;
 Lll=LeftLegLength/100;
 % Rll=(Rfemur_length+Rtibia_length)/100;
@@ -7,6 +7,7 @@ Lll=LeftLegLength/100;
 ll=(Rll+Lll)/2;
 %ll=0.78; %leg length in meters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+addpath(genpath('gait_functions'))
 %load ref data: gait parameters control group
 load RefValuesGaitParams_TD 
 load cad_TD 
@@ -30,13 +31,13 @@ load KnAngR_TD
 load KnAngL_TD 
 [mc,nc]=size(cad_TD)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-load walking_params_new
+load([PathName_1,'/walking_params_new']);
 
 [nb_trials,nb_params]=size(walking_params_new)
 MeanParamsGait=[]; SDParamsGait=[];
 for j=2:nb_trials+1
-  MeanParamsGait(j-1,:)=xlsread('GaitAnalysisReport.xls',j,'B3:AE3') ;
-  SDParamsGait(j-1,:)=xlsread('GaitAnalysisReport.xls',j,'B4:AE4') ;
+  MeanParamsGait(j-1,:)=xlsread([PathName_1,'/','GaitAnalysisReport.xls'],j,'B3:AE3') ;
+  SDParamsGait(j-1,:)=xlsread([PathName_1,'/','GaitAnalysisReport.xls'],j,'B4:AE4') ;
 end
 save MeanParamsGait MeanParamsGait
 save SDParamsGait SDParamsGait
@@ -693,173 +694,173 @@ load SD_ShankAngleL_maxWalk_TD
 load SD_ThighAngleL_maxWalk_TD 
 load SD_KneeAngleL_maxWalk_TD 
 
-load ShankAngleR_maxWalk 
-load ThighAngleR_maxWalk 
-load KneeAngleR_maxWalk        
-load ShankAngleL_maxWalk 
-load ThighAngleL_maxWalk 
-load KneeAngleL_maxWalk 
-
-[n,m]=size(ShankAngleR_maxWalk);
-%%%%%%%%%%%%%%%%%%
-Time=[0:0.5:99.5];  
-%
-fig25=figure
-subplot(231)
-hold on
-for j=1:m
-    plot(Time,ShankAngleR_maxWalk(:,j)','g','linewidth',1)
-end
-plot(Time,Mean_ShankAngleR_maxWalk_TD ,'r','LineWidth',4)
-plot(Time,nanmean(ShankAngleR_maxWalk,2),'k','linewidth',4)
-ylabel('Right (degrees)')
-ylim(gca,[-100,100]);
-hold off
-
-subplot(232)
-hold on
-for j=1:m
-    plot(Time,ThighAngleR_maxWalk(:,j)','g','linewidth',1)
-end
-plot(Time,Mean_ThighAngleR_maxWalk_TD ,'r','LineWidth',4)
-plot(Time,nanmean(ThighAngleR_maxWalk,2),'k','linewidth',4)
-ylim(gca,[-100,100]);
-hold off
-
-subplot(233)
-hold on
-for j=1:m
-    plot(Time,KneeAngleR_maxWalk(:,j)','g','linewidth',1)
-end
-plot(Time,Mean_KneeAngleR_maxWalk_TD ,'r','LineWidth',4)
-plot(Time,nanmean(KneeAngleR_maxWalk,2),'k','linewidth',4)
-ylim(gca,[-100,100]);
-hold off
-
-subplot(234)
-hold on
-for j=1:m
-    plot(Time,ShankAngleL_maxWalk(:,j)','g','linewidth',1)
-end
-plot(Time,Mean_ShankAngleL_maxWalk_TD ,'r','LineWidth',4)
-plot(Time,nanmean(ShankAngleL_maxWalk,2),'k','linewidth',4)
-ylabel('Left (degrees)')
-ylim(gca,[-100,100]);
-hold off
-
-subplot(235)
-hold on
-for j=1:m
-    plot(Time,ThighAngleL_maxWalk(:,j)','g','linewidth',1)
-end
-plot(Time,Mean_ThighAngleL_maxWalk_TD ,'r','LineWidth',4)
-plot(Time,nanmean(ThighAngleL_maxWalk,2),'k','linewidth',4)
-xlabel('% gait cycle')
-ylim(gca,[-100,100]);
-hold off
-
-subplot(236)
-hold on
-for j=1:m
-    plot(Time,KneeAngleL_maxWalk(:,j)','g','linewidth',1)
-end
-plot(Time,Mean_KneeAngleL_maxWalk_TD ,'r','LineWidth',4)
-plot(Time,nanmean(KneeAngleL_maxWalk,2),'k','linewidth',4)
-ylim(gca,[-100,100]);
-hold off
-supertitle('Angles: Shank; Thigh; Knee','FontSize',14,'Color','k')
-savefig(fig25,'KinematicalCurves_MaxWalk.fig');
-%saveas(fig25,'KinematicalCurves_MaxWalk','png')
-%saveas(fig25,'KinematicalCurves_MaxWalk','tif')
-saveas(fig25,'KinematicalCurves_MaxWalk','jpg')
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%calcul statistical distances
-[h,p,ks2stat_cad] = kstest2(cad_TD,m_cad);
-[h,p,ks2stat_Nspeed] = kstest2(Nspeed_TD,m_Nspeed);
-[h,p,ks2stat_NslR] = kstest2(NslR_TD,m_Nsl_R);
-[h,p,ks2stat_NslL] = kstest2(NslL_TD,m_Nsl_L);
-[h,p,ks2stat_swingR] = kstest2(swingR_TD,m_swing_R);
-[h,p,ks2stat_swingL] = kstest2(swingL_TD,m_swing_L);
-[h,p,ks2stat_stanceR] = kstest2(stanceR_TD,m_stance_R);
-[h,p,ks2stat_stanceL] = kstest2(stanceL_TD,m_stance_L);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Write PA parameters to Word Table
-
-WordFileName='TableGaitMetrics.doc';
-CurDir=pwd;
-FileSpec = fullfile(CurDir,WordFileName);
-[ActXWord,WordHandle]=StartWord(FileSpec);
-fprintf('Gait metrics will be save in %s\n',FileSpec);
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-
-    %Section 3
-    style='Heading 1';
-    text='Gait Metrics';
-    WordText(ActXWord,text,style,[1,1]);%enter before and after text 
-   
-    %the obvious data
-     DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP FollowUp 3';
-              'Mean Cadence (steps/min)', num2str(mean(cad_TD)) ,num2str(mean(m_cad)),'','','';
-              'Median Cadence (steps/min)', num2str(median(cad_TD)),num2str(median(m_cad)),'','','';
-              'Maximum Cadence (steps/min)', num2str(max(cad_TD)) ,num2str(max(m_cad)),'','','';
-              'Mean Normalized Speed (m/s)', num2str(mean(Nspeed_TD)) ,num2str(mean(m_Nspeed)),'','','';
-              'Median Normalized Speed (m/s)', num2str(median(Nspeed_TD)),num2str(median(m_Nspeed)),'','','';
-              'Maximum Normalized Speed (m/s)', num2str(max(Nspeed_TD)) ,num2str(max(m_Nspeed)),'','','';
-              'Mean Normalized Stride Length RL (m)', num2str(mean(NslR_TD)) ,num2str(mean(m_Nsl_R)),'','','';
-              'Median Normalized Stride Length RL (m)', num2str(median(NslR_TD)),num2str(median(m_Nsl_R)),'','','';
-              %'Maximum Normalized Stride Length RL (m)', num2str(max(NslR_TD)) ,num2str(max(m_Nsl_R)),'','','';
-              'Mean Normalized Stride Length LL (m)', num2str(mean(NslL_TD)) ,num2str(mean(m_Nsl_L)),'','','';
-              'Median Normalized Stride Length LL (m)', num2str(median(NslL_TD)),num2str(median(m_Nsl_L)),'','','';
-             % 'Maximum Normalized Stride Length LL (m)', num2str(max(NslL_TD)) ,num2str(max(m_Nsl_L)),'','','';
-              'Mean Swing RL(%gct)', num2str(mean(swingR_TD)) ,num2str(mean(m_swing_R)),'','','';
-              'Median Swing RL(%gct)', num2str(median(swingR_TD)),num2str(median(m_swing_R)),'','','';
-              %'Maximum Swing RL(%gct)', num2str(max(swingR_TD)) ,num2str(max(m_swing_R)),'','','';
-              'Mean Swing LL(%gct)', num2str(mean(swingL_TD)) ,num2str(mean(m_swing_L)),'','','';
-              'Median Swing LL(%gct)', num2str(median(swingL_TD)),num2str(median(m_swing_L)),'','','';
-              %'Maximum Swing LL(%gct)', num2str(max(swingL_TD)) ,num2str(max(m_swing_L)),'','','';
-              'Mean Stance RL(%gct)', num2str(mean(stanceR_TD)) ,num2str(mean(m_stance_R)),'','','';
-              'Median Stance RL(%gct)', num2str(median(stanceR_TD)),num2str(median(m_stance_R)),'','','';
-             % 'Maximum Stance RL(%gct)', num2str(max(stanceR_TD)) ,num2str(max(m_stance_R)),'','','';
-              'Mean Stance LL(%gct)', num2str(mean(stanceL_TD)) ,num2str(mean(m_stance_L)),'','','';
-              'Median Stance LL(%gct)', num2str(median(stanceL_TD)),num2str(median(m_stance_L)),'','','';
-              %'Maximum Stance LL(%gct)', num2str(max(stanceL_TD)) ,num2str(max(m_stance_L)),'','','';
-              'Statistical Distance Cadence','',num2str(ks2stat_cad),'','','';
-              'Statistical Distance Normalized Speed','',num2str(ks2stat_Nspeed),'','','';
-              'Statistical Distance Normalized Stride Length RL','',num2str(ks2stat_NslR),'','','';
-              'Statistical Distance Normalized Stride Length LL','',num2str(ks2stat_NslL),'','','';
-              'Statistical Distance Swing RL','',num2str(ks2stat_swingR),'','','';
-              'Statistical Distance Swing LL','',num2str(ks2stat_swingL),'','','';
-              'Statistical Distance Stance RL','',num2str(ks2stat_stanceR),'','','';
-              'Statistical Distance Stance LL','',num2str(ks2stat_stanceL),'','','';}
-    [NoRows,NoCols]=size(DataCell);          
-    %create table with data from DataCell
-    WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
-    %CloseWord(ActXWord,WordHandle,FileSpec);    
-    %close all;
-
-    %Section 3
+% load ShankAngleR_maxWalk 
+% load ThighAngleR_maxWalk 
+% load KneeAngleR_maxWalk        
+% load ShankAngleL_maxWalk 
+% load ThighAngleL_maxWalk 
+% load KneeAngleL_maxWalk 
+% 
+% [n,m]=size(ShankAngleR_maxWalk);
+% %%%%%%%%%%%%%%%%%%
+% Time=[0:0.5:99.5];  
+% %
+% fig25=figure
+% subplot(231)
+% hold on
+% for j=1:m
+%     plot(Time,ShankAngleR_maxWalk(:,j)','g','linewidth',1)
+% end
+% plot(Time,Mean_ShankAngleR_maxWalk_TD ,'r','LineWidth',4)
+% plot(Time,nanmean(ShankAngleR_maxWalk,2),'k','linewidth',4)
+% ylabel('Right (degrees)')
+% ylim(gca,[-100,100]);
+% hold off
+% 
+% subplot(232)
+% hold on
+% for j=1:m
+%     plot(Time,ThighAngleR_maxWalk(:,j)','g','linewidth',1)
+% end
+% plot(Time,Mean_ThighAngleR_maxWalk_TD ,'r','LineWidth',4)
+% plot(Time,nanmean(ThighAngleR_maxWalk,2),'k','linewidth',4)
+% ylim(gca,[-100,100]);
+% hold off
+% 
+% subplot(233)
+% hold on
+% for j=1:m
+%     plot(Time,KneeAngleR_maxWalk(:,j)','g','linewidth',1)
+% end
+% plot(Time,Mean_KneeAngleR_maxWalk_TD ,'r','LineWidth',4)
+% plot(Time,nanmean(KneeAngleR_maxWalk,2),'k','linewidth',4)
+% ylim(gca,[-100,100]);
+% hold off
+% 
+% subplot(234)
+% hold on
+% for j=1:m
+%     plot(Time,ShankAngleL_maxWalk(:,j)','g','linewidth',1)
+% end
+% plot(Time,Mean_ShankAngleL_maxWalk_TD ,'r','LineWidth',4)
+% plot(Time,nanmean(ShankAngleL_maxWalk,2),'k','linewidth',4)
+% ylabel('Left (degrees)')
+% ylim(gca,[-100,100]);
+% hold off
+% 
+% subplot(235)
+% hold on
+% for j=1:m
+%     plot(Time,ThighAngleL_maxWalk(:,j)','g','linewidth',1)
+% end
+% plot(Time,Mean_ThighAngleL_maxWalk_TD ,'r','LineWidth',4)
+% plot(Time,nanmean(ThighAngleL_maxWalk,2),'k','linewidth',4)
+% xlabel('% gait cycle')
+% ylim(gca,[-100,100]);
+% hold off
+% 
+% subplot(236)
+% hold on
+% for j=1:m
+%     plot(Time,KneeAngleL_maxWalk(:,j)','g','linewidth',1)
+% end
+% plot(Time,Mean_KneeAngleL_maxWalk_TD ,'r','LineWidth',4)
+% plot(Time,nanmean(KneeAngleL_maxWalk,2),'k','linewidth',4)
+% ylim(gca,[-100,100]);
+% hold off
+% supertitle('Angles: Shank; Thigh; Knee','FontSize',14,'Color','k')
+% savefig(fig25,'KinematicalCurves_MaxWalk.fig');
+% %saveas(fig25,'KinematicalCurves_MaxWalk','png')
+% %saveas(fig25,'KinematicalCurves_MaxWalk','tif')
+% saveas(fig25,'KinematicalCurves_MaxWalk','jpg')
+% 
+% 
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %calcul statistical distances
+% [h,p,ks2stat_cad] = kstest2(cad_TD,m_cad);
+% [h,p,ks2stat_Nspeed] = kstest2(Nspeed_TD,m_Nspeed);
+% [h,p,ks2stat_NslR] = kstest2(NslR_TD,m_Nsl_R);
+% [h,p,ks2stat_NslL] = kstest2(NslL_TD,m_Nsl_L);
+% [h,p,ks2stat_swingR] = kstest2(swingR_TD,m_swing_R);
+% [h,p,ks2stat_swingL] = kstest2(swingL_TD,m_swing_L);
+% [h,p,ks2stat_stanceR] = kstest2(stanceR_TD,m_stance_R);
+% [h,p,ks2stat_stanceL] = kstest2(stanceL_TD,m_stance_L);
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %Write PA parameters to Word Table
+% 
+% WordFileName='TableGaitMetrics.doc';
+% CurDir=pwd;
+% FileSpec = fullfile(CurDir,WordFileName);
+% [ActXWord,WordHandle]=StartWord(FileSpec);
+% fprintf('Gait metrics will be save in %s\n',FileSpec);
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+% 
+%     %Section 3
 %     style='Heading 1';
-%     text='Performance metrics';
+%     text='Gait Metrics';
 %     WordText(ActXWord,text,style,[1,1]);%enter before and after text 
 %    
 %     %the obvious data
-%     DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP FollowUp 3';
-%               'Total nb. steps', num2str(mean_ref(1)) ,num2str(params_CP(1)),'','','';
-%               'Maximal walking period (steps)', num2str(mean_ref(2)),num2str(params_CP(2)),'','','';
-%               'Maximal speed (m/s)', num2str(mean_ref(3)) ,num2str(params_CP(3)),'','','';
-%               'Time spent on feet /active (%)', num2str(mean_ref(4)) ,num2str(params_CP(4)),'','','';}
-%     [NoRows,NoCols]=size(DataCell)          
+%      DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP FollowUp 3';
+%               'Mean Cadence (steps/min)', num2str(mean(cad_TD)) ,num2str(mean(m_cad)),'','','';
+%               'Median Cadence (steps/min)', num2str(median(cad_TD)),num2str(median(m_cad)),'','','';
+%               'Maximum Cadence (steps/min)', num2str(max(cad_TD)) ,num2str(max(m_cad)),'','','';
+%               'Mean Normalized Speed (m/s)', num2str(mean(Nspeed_TD)) ,num2str(mean(m_Nspeed)),'','','';
+%               'Median Normalized Speed (m/s)', num2str(median(Nspeed_TD)),num2str(median(m_Nspeed)),'','','';
+%               'Maximum Normalized Speed (m/s)', num2str(max(Nspeed_TD)) ,num2str(max(m_Nspeed)),'','','';
+%               'Mean Normalized Stride Length RL (m)', num2str(mean(NslR_TD)) ,num2str(mean(m_Nsl_R)),'','','';
+%               'Median Normalized Stride Length RL (m)', num2str(median(NslR_TD)),num2str(median(m_Nsl_R)),'','','';
+%               %'Maximum Normalized Stride Length RL (m)', num2str(max(NslR_TD)) ,num2str(max(m_Nsl_R)),'','','';
+%               'Mean Normalized Stride Length LL (m)', num2str(mean(NslL_TD)) ,num2str(mean(m_Nsl_L)),'','','';
+%               'Median Normalized Stride Length LL (m)', num2str(median(NslL_TD)),num2str(median(m_Nsl_L)),'','','';
+%              % 'Maximum Normalized Stride Length LL (m)', num2str(max(NslL_TD)) ,num2str(max(m_Nsl_L)),'','','';
+%               'Mean Swing RL(%gct)', num2str(mean(swingR_TD)) ,num2str(mean(m_swing_R)),'','','';
+%               'Median Swing RL(%gct)', num2str(median(swingR_TD)),num2str(median(m_swing_R)),'','','';
+%               %'Maximum Swing RL(%gct)', num2str(max(swingR_TD)) ,num2str(max(m_swing_R)),'','','';
+%               'Mean Swing LL(%gct)', num2str(mean(swingL_TD)) ,num2str(mean(m_swing_L)),'','','';
+%               'Median Swing LL(%gct)', num2str(median(swingL_TD)),num2str(median(m_swing_L)),'','','';
+%               %'Maximum Swing LL(%gct)', num2str(max(swingL_TD)) ,num2str(max(m_swing_L)),'','','';
+%               'Mean Stance RL(%gct)', num2str(mean(stanceR_TD)) ,num2str(mean(m_stance_R)),'','','';
+%               'Median Stance RL(%gct)', num2str(median(stanceR_TD)),num2str(median(m_stance_R)),'','','';
+%              % 'Maximum Stance RL(%gct)', num2str(max(stanceR_TD)) ,num2str(max(m_stance_R)),'','','';
+%               'Mean Stance LL(%gct)', num2str(mean(stanceL_TD)) ,num2str(mean(m_stance_L)),'','','';
+%               'Median Stance LL(%gct)', num2str(median(stanceL_TD)),num2str(median(m_stance_L)),'','','';
+%               %'Maximum Stance LL(%gct)', num2str(max(stanceL_TD)) ,num2str(max(m_stance_L)),'','','';
+%               'Statistical Distance Cadence','',num2str(ks2stat_cad),'','','';
+%               'Statistical Distance Normalized Speed','',num2str(ks2stat_Nspeed),'','','';
+%               'Statistical Distance Normalized Stride Length RL','',num2str(ks2stat_NslR),'','','';
+%               'Statistical Distance Normalized Stride Length LL','',num2str(ks2stat_NslL),'','','';
+%               'Statistical Distance Swing RL','',num2str(ks2stat_swingR),'','','';
+%               'Statistical Distance Swing LL','',num2str(ks2stat_swingL),'','','';
+%               'Statistical Distance Stance RL','',num2str(ks2stat_stanceR),'','','';
+%               'Statistical Distance Stance LL','',num2str(ks2stat_stanceL),'','','';}
+%     [NoRows,NoCols]=size(DataCell);          
 %     %create table with data from DataCell
 %     WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
-    CloseWord(ActXWord,WordHandle,FileSpec);    
-    %close all;
+%     %CloseWord(ActXWord,WordHandle,FileSpec);    
+%     %close all;
+% 
+%     %Section 3
+% %     style='Heading 1';
+% %     text='Performance metrics';
+% %     WordText(ActXWord,text,style,[1,1]);%enter before and after text 
+% %    
+% %     %the obvious data
+% %     DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP FollowUp 3';
+% %               'Total nb. steps', num2str(mean_ref(1)) ,num2str(params_CP(1)),'','','';
+% %               'Maximal walking period (steps)', num2str(mean_ref(2)),num2str(params_CP(2)),'','','';
+% %               'Maximal speed (m/s)', num2str(mean_ref(3)) ,num2str(params_CP(3)),'','','';
+% %               'Time spent on feet /active (%)', num2str(mean_ref(4)) ,num2str(params_CP(4)),'','','';}
+% %     [NoRows,NoCols]=size(DataCell)          
+% %     %create table with data from DataCell
+% %     WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
+%     CloseWord(ActXWord,WordHandle,FileSpec);    
+%     %close all;
 
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
