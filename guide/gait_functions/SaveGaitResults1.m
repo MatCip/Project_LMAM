@@ -1,6 +1,5 @@
-function SaveGaitResults1(fname, res, marker,path_out)
+function SaveGaitResults1(fname, res,path_out,marker)
 
-try
     fname = [path_out,'/',fname];
 
 
@@ -105,11 +104,11 @@ eWorkbook.Saved = 1;
 eWorkbook.Close;
 e.Quit;
 e.delete;
-catch
+
     addpath(genpath('guide/error_functions'))
     disp('errore');
     
-end
+
 
 
 % --------------------------------------------------------------------

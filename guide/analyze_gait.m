@@ -284,7 +284,7 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 femur_length_str=get(handles.edit1,'String');
-   
+  addpath(genpath('error_functions'))
     
    
    femur_length=str2double(femur_length_str);
@@ -505,8 +505,9 @@ filename = [PathName_1,'/','GaitAnalysisReport.xls'];
 sheet = 1;
 xlRange = 'B4:X400';
 
-walking_params_new = xlsread(filename,sheet,xlRange);
-save walking_params_new walking_params_new
+%walking_params_new = xlsread(filename,sheet,xlRange);
+walking_params_new=res_gait;
+save ([PathName_1,'walking_params_new'], 'walking_params_new');
 
 
 
