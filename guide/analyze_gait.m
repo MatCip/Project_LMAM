@@ -210,7 +210,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 PathName = uigetdir;
 
 handles.PathName=PathName;
-set(handles.text12,'String',PathName);
+set(handles.text2,'String',PathName);
 guidata(hObject,handles)
 
 
@@ -428,10 +428,10 @@ switch val_Lshank
          
      case 3
           
-          Pitch_LShank=handles.gyr3_LShank_1*inverse_Lshank;
+          Pitch_LShank=handles.gyr2_LShank_1*inverse_Lshank;
     case 4
         
-          Pitch_LShank=handles.gyr2_LShank_1*inverse_Lshank;
+          Pitch_LShank=handles.gyr3_LShank_1*inverse_Lshank;
 end
 
 
@@ -455,10 +455,10 @@ switch val_Rshank
          
      case 3
           
-          Pitch_RShank=handles.gyr3_RShank_1*inverse_Rshank;
+          Pitch_RShank=handles.gyr2_RShank_1*inverse_Rshank;
     case 4
         
-          Pitch_RShank=handles.gyr2_RShank_1*inverse_Rshank;
+          Pitch_RShank=handles.gyr3_RShank_1*inverse_Rshank;
 end
 
 Shanks=[Pitch_RShank';Pitch_LShank']';
@@ -556,8 +556,9 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-   
+    
    val_thigh=get(handles.popupmenu7,'Value');
+   
     inverse_thigh=get(handles.checkbox4,'Value');
     if(inverse_thigh==0)
         inverse_thigh=1;
@@ -630,10 +631,10 @@ switch val_Lshank
          
      case 3
           
-          Pitch_LShank=handles.gyr3_LShank_1*inverse_Lshank;
+          Pitch_LShank=handles.gyr2_LShank_1*inverse_Lshank;
     case 4
         
-          Pitch_LShank=handles.gyr2_LShank_1*inverse_Lshank;
+          Pitch_LShank=handles.gyr3_LShank_1*inverse_Lshank;
 end
 
 
@@ -657,13 +658,18 @@ switch val_Rshank
          
      case 3
           
-          Pitch_RShank=handles.gyr3_RShank_1*inverse_Rshank;
+          Pitch_RShank=handles.gyr2_RShank_1*inverse_Rshank;
     case 4
         
-          Pitch_RShank=handles.gyr2_RShank_1*inverse_Rshank;
+          Pitch_RShank=handles.gyr3_RShank_1*inverse_Rshank;
           
           
 end
+
+  disp('gyr pitch right shank');
+ disp(max(Pitch_RShank));
+ disp(min(Pitch_RShank));
+ 
 figure
 ax1=subplot(211), plot(handles.t_1,Pitch_RShank,'LineWidth',1)
 hold on
@@ -761,8 +767,15 @@ axes(handles.axes1)
  xlabel('Time(min)')
   ylabel('°/sec')
  hold off 
- 
-
+ disp('gyr 1 R shank');
+ disp(max(handles.gyr1_RShank_1));
+ disp(min(handles.gyr1_RShank_1));
+  disp('gyr 2 R shank');
+ disp(max(handles.gyr2_RShank_1));
+ disp(min(handles.gyr2_RShank_1));
+  disp('gyr 3 R  shank');
+ disp(max(handles.gyr3_RShank_1));
+ disp(min(handles.gyr3_RShank_1));
  axes(handles.axes2)
  plot(handles.t_1, handles.gyr1_RShank_1,'r','LineWidth',1)
  title('gir Right Shank')
@@ -773,6 +786,8 @@ axes(handles.axes1)
  xlabel('Time(min)')
   ylabel('°/sec')
  hold off 
+ guidata(hObject,handles)
+ 
 
 % --- Executes on selection change in popupmenu6.
 function popupmenu6_Callback(hObject, eventdata, handles)

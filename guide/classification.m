@@ -360,6 +360,8 @@ function pushbutton1_Callback(hObject, eventdata, handles)
  xlabel('Time(min)')
  ylabel('°/sec')
  hold off 
+ 
+
  guidata(hObject,handles)
 
 
@@ -1262,6 +1264,7 @@ switch handles.id_plotted
         ylabel('acc/g')
         ylim([-1,1])
         linkaxes([ax1 ax2 ax3],'x')
+
         
         
     
@@ -1605,6 +1608,30 @@ end
 verticalAccTr_lpf = sgolayfilt(verticalAccTr,1,1001);
 frontalAcc_Thigh_lpf = sgolayfilt(frontalAccThigh,1,1001);
 t=(1:length(verticalAccTr_lpf))/(200*60);
+
+ disp('1 left th')
+disp(max(handles.thigh_cell{1,1}));
+disp(min(handles.thigh_cell{1,1}));
+disp('2 left th')
+disp(max(handles.thigh_cell{1,2}));
+disp(min(handles.thigh_cell{1,2}));
+disp('3 left th')
+disp(max(handles.thigh_cell{1,2}));
+disp(min(handles.thigh_cell{1,2}));
+
+disp('trunk')
+disp(max(verticalAccTr));
+disp(min(verticalAccTr));
+disp('frontal thigh')
+disp(max(frontalAccThigh));
+disp(min(frontalAccThigh));
+disp('Pithc R Shank')
+disp(max(PitchGyroRShank));
+disp(min(PitchGyroRShank));
+disp('Pithc L Shank')
+disp(max(PitchGyroRShank));
+disp(min(PitchGyroRShank));
+
 figure
 ax1=subplot(411), plot(t,verticalAccTr_lpf,'LineWidth',1); title('Trunk Vertical Acc');
 ax2=subplot(412), plot(t,frontalAcc_Thigh_lpf,'LineWidth',1);title('Thigh Frontal Acc');
