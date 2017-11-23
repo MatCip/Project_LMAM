@@ -325,10 +325,10 @@ femur_length_str=get(handles.edit1,'String');
      
      
        right_leg_length_str=get(handles.edit4,'String');
-  addpath(genpath('error_functions'))
+       addpath(genpath('error_functions'))
     
    
-   RightLegLength=str2double(right_leg_length_st);
+   RightLegLength=str2double(right_leg_length_str);
    
      if(isnan(femur_length)==1)
    
@@ -542,7 +542,7 @@ walking_params_new = xlsread(filename,sheet,xlRange);
  save ([PathName_1,'/walking_params_new'], 'walking_params_new');
 
 disp('qui');
-PlotGaitResults(RightLegLength,LeftLegLength,PathName_1)
+PlotGaitResults3(RightLegLength,LeftLegLength,PathName_1)
 
 
 

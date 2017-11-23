@@ -1,6 +1,7 @@
 function SaveGaitResults1(fname, res,path_out,marker)
 
     fname = [path_out,'/',fname];
+    disp(fname);
 
 
 e = actxserver('excel.application');
@@ -95,10 +96,9 @@ end
 
 eSheets.Item(1).Activate;
 
-try
-    eWorkbook.SaveAs([fname], -4143);
-catch    
-end
+
+eWorkbook.SaveAs([fname], -4143);
+
 
 eWorkbook.Saved = 1;
 eWorkbook.Close;
@@ -106,7 +106,7 @@ e.Quit;
 e.delete;
 
     addpath(genpath('guide/error_functions'))
-    disp('errore');
+   
     
 
 
