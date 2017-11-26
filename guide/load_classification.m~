@@ -335,7 +335,18 @@ t=(1:length(acc1_trunk_lpf))/(40*60);
 % setappdata(axis_selection,'acc2_trunk_lpf',acc2_trunk_lpf);
 % setappdata(axis_selection,'acc3_trunk_lpf',acc3_trunk_lpf);
 % setappdata(axis_selection,'t',t);
-
+disp('R1');
+disp(min(acc1_LThigh));
+disp('R2');
+disp(min(acc2_LThigh));
+disp('R3');
+disp(min(gyr3_RShank));
+disp('L1');
+disp(min(gyr1_LShank));
+disp('L2');
+disp(min(gyr2_LShank));
+disp('L3');
+disp(min(gyr3_LShank));
 
 
 if(thigh_configuration==3)
@@ -370,11 +381,11 @@ else
         acc3_LThigh_lpf=false;
         thigh_cell={acc1_LThigh,acc2_LThigh,acc3_LThigh;acc1_RThigh,acc2_RThigh,acc3_RThigh}; 
         disp('R1');
-        disp(min(acc1_RThigh));
+        disp(min(acc1_LThigh));
         disp('R2');
-        disp(min(acc2_RThigh));
+        disp(min(acc2_LThigh));
         disp('R3');
-        disp(min(acc3_RThigh));
+        disp(min(acc2_LThigh));
     end
 end
 

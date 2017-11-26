@@ -382,7 +382,7 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 if(get(handles.popupmenu10,'Value')==1)
 if(handles.acc1_LThigh_lpf_1==false)
     not_loaded_c    
-    return
+    
 else
  handles.id_plotted=2;
  axes(handles.axes1)
@@ -412,8 +412,7 @@ else
 else
  if(handles.acc1_RThigh_lpf_1==false)
     addpath(genpath('error_functions'))
-    not_loaded_c  
-    return
+    not_loaded_c    
     
 else   
  handles.id_plotted=3;
@@ -612,7 +611,7 @@ if (get(handles.popupmenu9,'Value')==1)
         end
 
 else
-    
+     if()
         val_thigh=get(handles.popupmenu2,'Value');
         inverse_thigh=get(handles.checkbox2,'Value');
         if(inverse_thigh==0)
@@ -704,11 +703,8 @@ ax4=subplot(414), plot(t,PitchGyroLShank,'LineWidth',1);title('LShank Pitch Gyro
 xlabel('Time(min)')
 linkaxes([ax1 ax2 ax3 ax4],'x')
 
-disp('minimi')
-disp(min(verticalAccTr));
-disp(min(frontalAccThigh));
-disp(min(PitchGyroRShank));
-disp(min(PitchGyroLShank));
+
+
 [posture_ref,walk_ref]=classifyPA_2ShanksThighTrunk(verticalAccTr,frontalAccThigh,PitchGyroRShank,PitchGyroLShank,200);
 
 ta0=0.1; ta1=0.2; ta2=0.4; ta3=0.6;      %g
@@ -1508,7 +1504,6 @@ if (get(handles.popupmenu9,'Value')==1)
      if(handles.acc1_LThigh_lpf_1==false)
         addpath(genpath('error_functions'))
         not_loaded_c  
-        return
      else
         val_thigh=get(handles.popupmenu2,'Value');
         inverse_thigh=get(handles.checkbox2,'Value');
@@ -1537,11 +1532,10 @@ if (get(handles.popupmenu9,'Value')==1)
         end
      end
 
-else  %chosen the right
+else
      if(handles.acc1_RThigh_lpf_1==false)
         addpath(genpath('error_functions'))
         not_loaded_c  
-        return
      else
         val_thigh=get(handles.popupmenu2,'Value');
         inverse_thigh=get(handles.checkbox2,'Value');
@@ -1568,8 +1562,8 @@ else  %chosen the right
 
                   frontalAccThigh=handles.thigh_cell{2,3}*inverse_thigh;
         end
-     end
-end 
+end
+end
 
 val_Lshank=get(handles.popupmenu3,'Value');
 inverse_Lshank=get(handles.checkbox3,'Value');

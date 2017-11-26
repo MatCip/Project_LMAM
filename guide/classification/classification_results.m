@@ -58,7 +58,7 @@ function classification_results_OpeningFcn(hObject, eventdata, handles, varargin
 
 handles.path=varargin{1};
 
-I1=imread('guide/pic/white.png');
+I1=imread('../guide/pic/white.png');
 imshow(I1,'Parent',handles.axes2)
 
 
