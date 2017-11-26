@@ -68,8 +68,9 @@ handles.FileName_trunk='0';
     handles.config_all=0;
 % Update handles structure
 guidata(hObject, handles);
-axes(handles.axes1)
-imshow('./pic/body.png');
+I=imread('./pic/body.png');
+
+imshow(I,'Parent',handles.axes1);
 
 
 % for the "back" button 

@@ -234,10 +234,11 @@ handles.output = get(hObject,'String');
 
  func=get(handles.popupmenu1,'String');
  index=get(handles.popupmenu1,'Value');
- disp('casdasdsadasd');
+
  
         
       if( strcmp('Axis Configuration',func{index})==1)
+           close
             load_all(handles.config_all);
       end
        if( strcmp( 'Extracting Gate Parameter',func{index})==1)

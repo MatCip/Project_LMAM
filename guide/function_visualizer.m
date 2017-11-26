@@ -230,18 +230,21 @@ handles.output = get(hObject,'String');
  
         
       if( strcmp('Axis Configuration',func{index})==1)
+          close
             load_all(handles.config_all);
       end
        if( strcmp( 'Physical Activity Classification',func{index})==1)
+           close
              load_classification(handles.config_all);
        end
 
 % Update handles structure
-guidata(hObject, handles);
+
+
 
 % Use UIRESUME instead of delete because the OutputFcn needs
 % to get the updated handles structure.
-uiresume(handles.figure1);
+
 
 % --- Executes on button press in pushbutton2.
 function pushbutton2_Callback(hObject, eventdata, handles)
@@ -259,19 +262,13 @@ guidata(hObject, handles);
 uiresume(handles.figure1);
 
 
-% --- Executes when user attempts to close figure1.
 function figure1_CloseRequestFcn(hObject, eventdata, handles)
 % hObject    handle to figure1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-if isequal(get(hObject, 'waitstatus'), 'waiting')
-    % The GUI is still in UIWAIT, us UIRESUME
-    uiresume(hObject);
-else
     % The GUI is no longer waiting, just close it
     delete(hObject);
-end
 
 
 % --- Executes on key press over figure1 with no controls selected.
