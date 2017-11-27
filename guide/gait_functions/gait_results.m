@@ -54,9 +54,9 @@ function gait_results_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for gait_results
 handles.path=varargin{1};
-addpath(genpath('../guide/pic'))
+addpath(genpath('guide/pic'))
 
-I2=imread('white.png');
+I2=imread('../guide/pic/white.png');
 imshow(I2,'Parent',handles.axes1)
 
 handles.output = hObject;
@@ -103,7 +103,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/KneeAngle.png']);
+I1=imread([handles.path,'/KneeAngle.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -133,7 +133,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Simmetry_index.png']);
+I1=imread([handles.path,'/Simmetry_index.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -163,7 +163,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Normal_Stride_length.png']);
+I1=imread([handles.path,'/Normal_Stride_length.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -193,7 +193,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Swing.png']);
+I1=imread([handles.path,'/Swing.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -223,7 +223,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Stance.png']);
+I1=imread([handles.path,'/Stance.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -253,7 +253,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Limp.png']);
+I1=imread([handles.path,'/Limp.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -283,7 +283,7 @@ set(handles.togglebutton7,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/StepsPerWalkingPeriods.png']);
+I1=imread([handles.path,'/StepsPerWalkingPeriods.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -313,7 +313,7 @@ set(handles.togglebutton7,'Value',0);
 set(handles.togglebutton15,'Value',0);
 
 try
-I1=imread([handles.path,'/KinematicalCurves_MaxWalk.png']);
+I1=imread([handles.path,'/KinematicalCurves_MaxWalk.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -344,7 +344,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Cadence.png']);
+I1=imread([handles.path,'/Cadence.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -375,7 +375,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Gait_cycle_time.png']);
+I1=imread([handles.path,'/Gait_cycle_time.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -406,7 +406,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Normalized_Speed.png']);
+I1=imread([handles.path,'/Normalized_Speed.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -437,7 +437,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/DoubleSupport.png']);
+I1=imread([handles.path,'/DoubleSupport.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -468,7 +468,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/StrideLength.png']);
+I1=imread([handles.path,'/StrideLength.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -499,7 +499,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/Speed.png']);
+I1=imread([handles.path,'/Speed.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -531,7 +531,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/ShankAngle.png']);
+I1=imread([handles.path,'/ShankAngle.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
@@ -562,7 +562,7 @@ set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
 
 try
-I1=imread([handles.path,'/ThighAngle.png']);
+I1=imread([handles.path,'/ThighAngle.tif']);
 imshow(I1,'Parent',handles.axes1)
 catch
     file_not_found
