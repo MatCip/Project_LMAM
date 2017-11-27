@@ -77,6 +77,8 @@ for j=1:nb_trials
   SDParamsGait_all(k-1,:)=xlsread([path_out,'/GaitAnalysisReport.xls'],k,'B4:AE4') ;
   k=k+1;
 end
+PATH_GAIT=[path_out,'/gait_results']
+mkdir (PATH_GAIT);
 
 %select to compare with TD group only walking episodes (speed<=1.25m/s))
 th_sp=1.25;
@@ -195,6 +197,7 @@ xt=1:m;
 
 
 fig1=figure   %cadence
+set(fig1,'visible','off');
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(3,1);
 a(1:m)=RefValuesGaitParams_TD(3,1)+RefValuesGaitParams_TD(3,2);
@@ -214,14 +217,19 @@ subplot(122),boxplot([cad_TD; m_cad],group); set(gca,'Fontsize',12)
 ylim(gca,[40,180]); 
 %xticklabel_rotate([],45,[],'Fontsize',12)
 supertitle('Cadence','FontSize',14,'Color','k')
-savefig(fig1,'Cadence.fig');
+path=strcat(PATH_GAIT,'/Cadence');
+savefig(fig1,[path,'.fig']);
+saveas(fig1,path,'png')
+
+
 % saveas(fig1,'Cadence','png')
 % saveas(fig1,'Cadence','tif')
-saveas(fig1,'Cadence','jpg')
+
 % 
-pause
+
 % 
 fig2=figure %speed
+set(fig2,'visible','off');
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(1,1);
 a(1:m)=RefValuesGaitParams_TD(1,1)+RefValuesGaitParams_TD(1,2);
@@ -241,12 +249,12 @@ group = [repmat({'TD group'}, mc, nc); repmat({'CP patient'}, mp, np); ];
 subplot(122),boxplot([speed_TD; m_speed],group); set(gca,'Fontsize',12);
 %xticklabel_rotate([],45,[],'Fontsize',12)
 supertitle('Speed','FontSize',14,'Color','k')
-savefig(fig2,'Speed.fig');
-% saveas(fig2,'Speed','png')
-% saveas(fig2,'Speed','tif')
-saveas(fig2,'Speed','jpg')
+path=strcat(PATH_GAIT,'/Speed');
+savefig(fig1,[path,'.fig']);
+saveas(fig1,path,'png')
 % 
 fig22=figure %normalized speed
+set(fig22,'visible','off');
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(2,1);
 a(1:m)=RefValuesGaitParams_TD(2,1)+RefValuesGaitParams_TD(2,2);
@@ -266,14 +274,14 @@ group = [repmat({'TD group'}, mc, nc); repmat({'CP patient'}, mp, np); ];
 subplot(122),boxplot([Nspeed_TD; m_Nspeed],group); set(gca,'Fontsize',12);
 %xticklabel_rotate([],45,[],'Fontsize',12)
 supertitle('Normalized Speed','FontSize',14,'Color','k')
-savefig(fig22,'NormalizedSpeed.fig');
-% saveas(fig22,'NormalizedSpeed','png')
-% saveas(fig22,'NormalizedSpeed','tif')
-saveas(fig22,'NormalizedSpeed','jpg')
+path=strcat(PATH_GAIT,'/Normalized_Speed');
+savefig(fig22,[path,'.fig']);
+saveas(fig22,path,'png')
 
 % 
 % 
 fig3=figure  %double support
+set(fig3,'visible','off');
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(5,1);
 a(1:m)=RefValuesGaitParams_TD(5,1)+RefValuesGaitParams_TD(5,2);
@@ -293,13 +301,13 @@ group = [repmat({'TD group'}, mc, nc); repmat({'CP patient'}, mp, np); ];
 subplot(122),boxplot([ds_TD; m_DS],group); set(gca,'Fontsize',12);
 %xticklabel_rotate([],45,[],'Fontsize',12)
 supertitle('Double Support','FontSize',14,'Color','k')
-savefig(fig3,'DoubleSupport.fig');
-% saveas(fig3,'DoubleSupport','png')
-% saveas(fig3,'DoubleSupport','tif')
-saveas(fig3,'DoubleSupport','jpg')
+path=strcat(PATH_GAIT,'/Double_Support');
+savefig(fig3,[path,'.fig']);
+saveas(fig3,path,'png')
 % 
 % 
 fig3b=figure  %gct
+set(fig3b,'visible','off');
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(4,1);
 a(1:m)=RefValuesGaitParams_TD(4,1)+RefValuesGaitParams_TD(4,2);
@@ -318,14 +326,14 @@ group = [repmat({'TD group'}, mc, nc); repmat({'CP patient'}, mp, np); ];
 subplot(122),boxplot([gct_TD; m_gct],group); set(gca,'Fontsize',12);
 %xticklabel_rotate([],45,[],'Fontsize',12)
 supertitle('Gait cycle time','FontSize',14,'Color','k')
-savefig(fig3b,'GaitCycleTime.fig');
-% saveas(fig3b,'GaitCycleTime','png')
-% saveas(fig3b,'GaitCycleTime','tif')
-saveas(fig3b,'GaitCycleTime','jpg')
+path=strcat(PATH_GAIT,'/Gait_cycle_time');
+savefig(fig3b,[path,'.fig']);
+saveas(fig3b,path,'png')
 % 
 % %%%%%%%%%%%%%%%%%%
 % 
 fig4=figure  %shank angle
+set(fig4,'visible','off');
 limy=max([RefValuesGaitParams_TD(14,1)+RefValuesGaitParams_TD(14,2),RefValuesGaitParams_TD(15,1)+RefValuesGaitParams_TD(15,2),max(m_ShAng_R)+max(sd_ShAng_R),max(m_ShAng_L)+max(sd_ShAng_L)]);
 subplot(221)
 title('right')
@@ -370,14 +378,14 @@ subplot(223),boxplot([ShAngR_TD; m_ShAng_R],group); set(gca,'Fontsize',12),ylim(
 subplot(224),boxplot([ShAngL_TD; m_ShAng_L],group); ylim(gca,[min([m_ShAng_R' m_ShAng_L' ShAngR_TD' ShAngL_TD']),max([m_ShAng_R' m_ShAng_L' ShAngR_TD' ShAngL_TD'])]);set(gca,'Fontsize',12)
 %xticklabel_rotate([],10,[],'Fontsize',12)
 supertitle('Sagital Shank Angle:Right,Left','FontSize',14,'Color','k')
-savefig(fig4,'ShankAngle.fig');
-% saveas(fig4,'ShankAngle','png')
-% saveas(fig4,'ShankAngle','tif')
-saveas(fig4,'ShankAngle','jpg')
+path=strcat(PATH_GAIT,'/ShankAngle');
+savefig(fig4,[path,'.fig']);
+saveas(fig4,path,'png')
 
 % %%%%%%%%%%%%%%%%%%
 limy=max([RefValuesGaitParams_TD(16,1)+RefValuesGaitParams_TD(16,2),RefValuesGaitParams_TD(17,1)+RefValuesGaitParams_TD(17,2),max(m_ThAng_R)+max(sd_ThAng_R),max(m_ThAng_L)+max(sd_ThAng_L)]);
 fig4x=figure  %Thigh angle
+set(fig4x,'visible','off');
 subplot(221)
 title('right')
 x(1:m)=RefValuesGaitParams_TD(16,1);
@@ -420,13 +428,13 @@ subplot(223),boxplot([ThAngR_TD; m_ThAng_R],group); set(gca,'Fontsize',12),ylim(
 subplot(224),boxplot([ThAngL_TD; m_ThAng_L],group); ylim(gca,[min([m_ThAng_R' m_ThAng_L' ThAngR_TD' ThAngL_TD']),max([m_ThAng_R' m_ThAng_L' ThAngR_TD' ThAngL_TD'])]);set(gca,'Fontsize',12)
 %xticklabel_rotate([],10,[],'Fontsize',12)
 supertitle('Sagital Thigh Angle:Right,Left','FontSize',14,'Color','k')
-savefig(fig4x,'ThighAngle.fig');
-% saveas(fig4x,'ThighAngle','png')
-% saveas(fig4x,'ThighAngle','tif')
-saveas(fig4x,'ThighAngle','jpg')
+path=strcat(PATH_GAIT,'/ThighAngle');
+savefig(fig4x,[path,'.fig']);
+saveas(fig4x,path,'png')
 % 
 %
 fig4y=figure  %Knee angle
+set(fig4y,'visible','off');
 limy=max([RefValuesGaitParams_TD(18,1)+RefValuesGaitParams_TD(18,2),RefValuesGaitParams_TD(19,1)+RefValuesGaitParams_TD(19,2),max(m_KnAng_R)+max(sd_KnAng_R),max(m_KnAng_L)+max(sd_KnAng_L)]);
 subplot(221)
 title('right')
@@ -471,14 +479,14 @@ subplot(223),boxplot([KnAngR_TD; m_KnAng_R],group);  set(gca,'Fontsize',12),ylim
 subplot(224),boxplot([KnAngL_TD; m_KnAng_L],group);  ylim(gca,[min([m_KnAng_R' m_KnAng_L' KnAngR_TD' KnAngL_TD']),max([m_KnAng_R' m_KnAng_L' KnAngR_TD' KnAngL_TD'])]);set(gca,'Fontsize',12)
 %xticklabel_rotate([],10,[],'Fontsize',12)
 supertitle('Sagital Knee Angle:Right,Left','FontSize',14,'Color','k')
-savefig(fig4y,'KneeAngle.fig');
-% saveas(fig4y,'KneeAngle','png')
-% saveas(fig4y,'KneeAngle','tif')
-saveas(fig4y,'KneeAngle','jpg')
+path=strcat(PATH_GAIT,'/KneeAngle');
+savefig(fig4y,[path,'.fig']);
+saveas(fig4y,path,'png')
 % 
 % %%%%%%%%%%%%%%%%%%
 % 
 fig5=figure  %stride length
+set(fig5,'visible','off');
 limy=max([RefValuesGaitParams_TD(6,1)+RefValuesGaitParams_TD(6,2),RefValuesGaitParams_TD(7,1)+RefValuesGaitParams_TD(7,2),max(m_sl_R)+max(sd_sl_R),max(m_sl_L)+max(sd_sl_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(6,1);
@@ -529,13 +537,13 @@ subplot(224),boxplot([slL_TD; m_sl_L],group); ylim(gca,[min([m_sl_R' m_sl_L' slR
 ylim(gca,[0,2]); 
 %xticklabel_rotate([],10,[],'Fontsize',12)
 supertitle('Stride Length:Right,Left','FontSize',14,'Color','k')
-savefig(fig5,'StrideLength.fig');
-% saveas(fig5,'StrideLength','png')
-% saveas(fig5,'StrideLength','tif')
-saveas(fig5,'StrideLength','jpg')
+path=strcat(PATH_GAIT,'/StrideLength');
+savefig(fig5,[path,'.fig']);
+saveas(fig5,path,'png')
 % %%%%%%%%%%%%%%
 % 
 fig5y=figure  %stride length
+set(fig5y,'visible','off');
 limy=max([RefValuesGaitParams_TD(8,1)+RefValuesGaitParams_TD(8,2),RefValuesGaitParams_TD(9,1)+RefValuesGaitParams_TD(9,2),max(m_Nsl_R)+max(sd_Nsl_R),max(m_Nsl_L)+max(sd_Nsl_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(8,1);
@@ -586,14 +594,14 @@ subplot(224),boxplot([NslL_TD; m_Nsl_L],group); ylim(gca,[min([m_Nsl_R' m_Nsl_L'
 %xticklabel_rotate([],10,[],'Fontsize',12)
 ylim(gca,[0,2]); 
 supertitle('Normalized Stride Length:Right,Left','FontSize',14,'Color','k')
-savefig(fig5y,'NormalizedStideLength.fig');
-% saveas(fig5y,'NormalizedStideLength','png')
-% saveas(fig5y,'NormalizedStideLength','tif')
-saveas(fig5y,'NormalizedStideLength','jpg')
+path=strcat(PATH_GAIT,'/Normal_Stride_length');
+savefig(fig5y,[path,'.fig']);
+saveas(fig5y,path,'png')
 % %%%%%%%%%%%%%%
 % 
 % 
 fig6=figure  %swing 
+set(fig6,'visible','off');
 limy=max([RefValuesGaitParams_TD(12,1)+RefValuesGaitParams_TD(12,2),RefValuesGaitParams_TD(13,1)+RefValuesGaitParams_TD(13,2),max(m_swing_R)+max(sd_swing_R),max(m_swing_L)+max(sd_swing_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(12,1);
@@ -637,13 +645,13 @@ subplot(223),boxplot([swingR_TD; m_swing_R],group); set(gca,'Fontsize',12),ylim(
 subplot(224),boxplot([swingL_TD; m_swing_L],group); ylim(gca,[min([m_swing_R' m_swing_L' swingR_TD' swingL_TD']),max([m_swing_R' m_swing_L' swingR_TD' swingL_TD'])]);set(gca,'Fontsize',12)
 %xticklabel_rotate([],10,[],'Fontsize',12)
 supertitle('Swing:Right,Left','FontSize',14,'Color','k')
-savefig(fig6,'Swing.fig');
-% saveas(fig6,'Swing','png')
-% saveas(fig6,'Swing','tif')
-saveas(fig6,'Swing','jpg')
+path=strcat(PATH_GAIT,'/Swing');
+savefig(fig6,[path,'.fig']);
+saveas(fig6,path,'png')
 % %%%%%%%%%%%%%%
 % 
 fig7=figure  %stance
+set(fig7,'visible','off');
 limy=max([RefValuesGaitParams_TD(10,1)+RefValuesGaitParams_TD(10,2),RefValuesGaitParams_TD(11,1)+RefValuesGaitParams_TD(11,2),max(m_stance_R)+max(sd_stance_R),max(m_stance_L)+max(sd_stance_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(10,1);
@@ -688,10 +696,9 @@ subplot(223),boxplot([stanceR_TD; m_stance_R],group); set(gca,'Fontsize',12),yli
 subplot(224),boxplot([stanceL_TD; m_stance_L],group); ylim(gca,[min([m_stance_R' m_stance_L' stanceR_TD' stanceL_TD']),max([m_stance_R' m_stance_L' stanceR_TD' stanceL_TD'])]);set(gca,'Fontsize',12)
 %xticklabel_rotate([],10,[],'Fontsize',12)
 supertitle('Stance:Right,Left','FontSize',14,'Color','k')
-savefig(fig7,'Stance.fig');
-% saveas(fig7,'Stance','png')
-% saveas(fig7,'Stance','tif')
-saveas(fig7,'Stance','jpg')
+path=strcat(PATH_GAIT,'/Stance');
+savefig(fig7,[path,'.fig']);
+saveas(fig7,path,'png')
 %%%%%%%%%%%%%%
 
 % 
@@ -744,6 +751,7 @@ saveas(fig7,'Stance','jpg')
 
 %%%%%%%%%%%%%%
 fig20=figure %symmetry
+set(fig20,'visible','off');
 subplot(221);
 title('SrideLength')
 mas=[RefValuesGaitParams_TD(20,1); m_SR_sl];
@@ -785,11 +793,10 @@ ylim(gca,[0,maxy]);
 title('KneeAngle')
 %xticklabel_rotate([],45,[],'Fontsize',12)
 
-%supertitle('Symmetry Index','FontSize',14,'Color','k')
-savefig(fig20,'SymmetryIndex.fig');
-% saveas(fig20,'SymmetryIndex','png')
-% saveas(fig20,'SymmetryIndex','tif')
-saveas(fig20,'SymmetryIndex','jpg')
+supertitle('Symmetry Index','FontSize',14,'Color','k')
+path=strcat(PATH_GAIT,'/Symmetry_index');
+savefig(fig20,[path,'.fig']);
+saveas(fig20,path,'png')
 
 
 
@@ -801,6 +808,7 @@ saveas(fig20,'SymmetryIndex','jpg')
 
 
 fig21=figure   %Limp
+set(fig21,'visible','off');
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(24,1);
 a(1:m)=RefValuesGaitParams_TD(24,1)+RefValuesGaitParams_TD(24,2);
@@ -821,11 +829,13 @@ subplot(122),boxplot([limp_TD; m_limp],group); set(gca,'Fontsize',12)
 %ylim(gca,[40,180]); 
 %xticklabel_rotate([],45,[],'Fontsize',12)
 supertitle('Limp','FontSize',14,'Color','k')
-savefig(fig21,'Limp.fig');
-saveas(fig21,'Limp','jpg')
+path=strcat(PATH_GAIT,'/Limp');
+savefig(fig21,[path,'.fig']);
+saveas(fig21,path,'png')
 % 
 
 fig22=figure   %steps 
+set(fig22,'visible','off');
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(25,1);
 a(1:m)=RefValuesGaitParams_TD(25,1)+RefValuesGaitParams_TD(25,2);
@@ -845,8 +855,9 @@ subplot(122),boxplot([steps_TD'; m_steps],group); set(gca,'Fontsize',12)
 %ylim(gca,[40,180]); 
 %xticklabel_rotate([],45,[],'Fontsize',12)
 supertitle('Steps Per Walking Periods','FontSize',14,'Color','k')
-savefig(fig22,'StepsPerWalkingPeriods.fig');
-saveas(fig22,'StepsPerWalkingPeriods','jpg')
+path=strcat(PATH_GAIT,'/StepsPerWalkingPeriods');
+savefig(fig22,[path,'.fig']);
+saveas(fig22,path,'tif')
 
 
 
@@ -880,6 +891,7 @@ load ([path_out,'/mat_folder/KneeAngleL_maxWalk'])
 Time=[0:0.5:99.5];  
 %
 fig25=figure
+set(fig25,'visible','off');
 subplot(231)
 hold on
 for j=1:m
@@ -943,10 +955,10 @@ plot(Time,nanmean(KneeAngleL_maxWalk,2),'k','linewidth',4)
 ylim(gca,[-100,100]);
 hold off
 supertitle('Angles: Shank; Thigh; Knee','FontSize',14,'Color','k')
-savefig(fig25,'KinematicalCurves_MaxWalk.fig');
-%saveas(fig25,'KinematicalCurves_MaxWalk','png')
-%saveas(fig25,'KinematicalCurves_MaxWalk','tif')
-saveas(fig25,'KinematicalCurves_MaxWalk','jpg')
+
+path=strcat(PATH_GAIT,'/KinematicalCurves_MaxWalk');
+savefig(fig25,[path,'.fig']);
+saveas(fig25,path,'tif')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcul KS statistical distances
@@ -963,8 +975,8 @@ saveas(fig25,'KinematicalCurves_MaxWalk','jpg')
 %Write PA parameters to Word Table
 
 WordFileName='TableGaitMetrics.doc';
-CurDir=pwd;
-FileSpec = fullfile(CurDir,WordFileName);
+
+FileSpec = fullfile(PATH_GAIT,WordFileName);
 [ActXWord,WordHandle]=StartWord(FileSpec);
 fprintf('Gait metrics will be save in %s\n',FileSpec);   
 text='Gait Metrics';
@@ -1009,4 +1021,6 @@ DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP Follo
     %create table with data from DataCell
  WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
  CloseWord(ActXWord,WordHandle,FileSpec);    
+ 
+ 
 end

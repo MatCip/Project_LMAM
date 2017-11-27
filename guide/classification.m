@@ -879,12 +879,12 @@ ylabel('Intensity States')
 set(gca,'Fontsize',13)
 
 supertitle('Pattern of PA intensity','FontSize',13,'Color','k')
-path=strcat(PathName_1,'/Barcode');
-savefig(fig1,[path,'.fig']);
+
 % saveas(fig1,'BarChartFile','png')
 % saveas(fig1,'BarChartFile','tif')
 
-
+path=strcat(PathName_1,'/Barcode');
+savefig(fig1,[path,'.fig']);
 saveas(fig1,path,'jpg')
 
 % Find Activity Level (up/down sairs, hill)
