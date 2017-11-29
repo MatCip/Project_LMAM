@@ -56,6 +56,7 @@ function visualiye_list_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 addpath(genpath('../User_database'))
 % patient=load('Patient_3.mat');
+set(handles.text10,'String','Name');
 % 
 % % Update handles structure
 % struct2table(patient)
@@ -102,16 +103,22 @@ cd('User_database')
 list_file = ls('*.mat');
 try     
 IDs=cell(size(list_file(:,1)));
+patien_cell=cell(size(list_file(:,1)));
 catch
 IDs={}; 
 end
+
 for i=1:size(list_file)
     struct=load(list_file(i,:));
     IDs{i}=struct.ID;
+    patient_cell{i}=struct;
 end
+set(hObject,'String',IDs)
+Name=patient_cell{1}.Name;
 
-set(handles.text10,'String',str)
+set(handles.text10,'String',Name);
 set(hObject,'String',IDs)
 set(hObject,'String',IDs)
 set(hObject,'String',IDs)
 set(hObject,'String',IDs)
+guidata(hObject, handles);

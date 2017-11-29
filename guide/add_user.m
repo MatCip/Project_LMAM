@@ -200,15 +200,16 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 
 addpath(genpath('../User_database'))
 ID=get(handles.edit1,'String');
-name=get(handles.edit2,'String');
-surname=get(handles.edit3,'String');
-date=get(handles.edit4,'String');
-pathologies=get(handles.edit5,'String');
+Name=get(handles.edit2,'String');
+Surname=get(handles.edit3,'String');
+Date=get(handles.edit4,'String');
+
+Pathologies=get(handles.edit5,'String');
 Analysis={};
 mkdir([handles.global_path,'/',ID]);
-disp(handles.global_path);
-save(['User_database/','Patient_',ID],'ID','name','surname','date','pathologies','Analysis');
-save([[handles.global_path,'/',ID],'/','Patient_',ID],'ID','name','surname','date','pathologies','Analysis');
+
+save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis');
+save([[handles.global_path,'/',ID],'/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis');
 
 
 
