@@ -51,9 +51,12 @@ function add_user_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to add_user (see VARARGIN)
+handles.global_path=varargin{1};
+
 
 % Choose default command line output for add_user
 handles.output = hObject;
+
 
 % Update handles structure
 guidata(hObject, handles);
@@ -194,14 +197,18 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-addpath(genpath('../guide/User_database'))
+
+addpath(genpath('../User_database'))
 ID=get(handles.edit1,'String');
 name=get(handles.edit2,'String');
 surname=get(handles.edit3,'String');
 date=get(handles.edit4,'String');
 pathologies=get(handles.edit5,'String');
 Analysis={};
-save(['User_database/','Patient_',ID],'name','surname','date','pathologies','Analysis');
+mkdir([handles.global_path,'/',ID]);
+disp(handles.global_path);
+save(['User_database/','Patient_',ID],'ID','name','surname','date','pathologies','Analysis');
+save([[handles.global_path,'/',ID],'/','Patient_',ID],'ID','name','surname','date','pathologies','Analysis');
 
 
 

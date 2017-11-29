@@ -22,7 +22,7 @@ function varargout = visualiye_list(varargin)
 
 % Edit the above text to modify the response to help visualiye_list
 
-% Last Modified by GUIDE v2.5 29-Nov-2017 10:10:20
+% Last Modified by GUIDE v2.5 29-Nov-2017 12:06:50
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,11 +54,11 @@ function visualiye_list_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for visualiye_list
 handles.output = hObject;
-addpath(genpath('../guide/User_database'))
-patient=load('Patient_3.mat');
-
-% Update handles structure
-struct2table(patient)
+addpath(genpath('../User_database'))
+% patient=load('Patient_3.mat');
+% 
+% % Update handles structure
+% struct2table(patient)
 guidata(hObject, handles);
 
 % UIWAIT makes visualiye_list wait for user response (see UIRESUME)
@@ -74,3 +74,44 @@ function varargout = visualiye_list_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
+
+
+% --- Executes on selection change in listbox2.
+function listbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox2 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox2
+
+
+% --- Executes during object creation, after setting all properties.
+function listbox2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+addpath(genpath('../User_database'))
+cd('User_database') 
+list_file = ls('*.mat');
+try     
+IDs=cell(size(list_file(:,1)));
+catch
+IDs={}; 
+end
+for i=1:size(list_file)
+    struct=load(list_file(i,:));
+    IDs{i}=struct.ID;
+end
+
+set(handles.text10,'String',str)
+set(hObject,'String',IDs)
+set(hObject,'String',IDs)
+set(hObject,'String',IDs)
+set(hObject,'String',IDs)

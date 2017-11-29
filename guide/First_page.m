@@ -36,6 +36,7 @@ if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
 
+
 if nargout
     [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
 else
@@ -53,8 +54,18 @@ function First_page_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to First_page (see VARARGIN)
 
 % Choose default command line output for First_page
-handles.output = hObject;
+current_folder=pwd;
 
+if(exist('Application_folder')==0)
+    mkdir('Application_folder');
+   
+end
+Application_folder_path='./Application_folder';
+handles.global_path=Application_folder_path;
+
+
+
+handles.output = hObject;
 % Update handles structure
 guidata(hObject, handles);
 
@@ -78,7 +89,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-add_user
+add_user(handles.global_path);
 
 
 % --- Executes on button press in pushbutton4.
