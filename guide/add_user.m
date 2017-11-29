@@ -194,10 +194,15 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+addpath(genpath('../guide/User_database'))
+ID=get(handles.edit1,'String');
+name=get(handles.edit2,'String');
+surname=get(handles.edit3,'String');
+date=get(handles.edit4,'String');
+pathologies=get(handles.edit5,'String');
+Analysis={};
+save(['User_database/','Patient_',ID],'name','surname','date','pathologies','Analysis');
 
-handles.ID=get(handles.edit1,'String');
-handles.name=get(handles.edit2,'String');
-handles.surname=get(handles.edit3,'String');
-handles.date=get(handles.edit4,'String');
-handles.pathologies=get(handles.edit5,'String');
+
+
 
