@@ -528,15 +528,19 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 try
     
 PathName=handles.PathName;
-mkdir ([PathName, '/id'])
+struct_path=load('function_interaction/Current_path');
+ID=struct_path.ID;
+PathName_1=strcat(PathName, '/',ID,'_PAclassification');
+mkdir (PathName_1)
 catch
     not_output_folder
     return
 end
-PathName_1=strcat(PathName, '/id');
+
 
 
 addpath(genpath('physical_activity_functions'))
@@ -870,6 +874,7 @@ end
 bx=[1:1:22]; barcode1=[bactv3 bx]; bar2=[bactv4 bx];
 tb=(1:length(barcode1))/60;
 fig1=figure
+set(fig1, 'Visible', 'off')
 ax1=subplot(211),imagesc(barcode1);colormap jet; 
 set(fig1,'visible','off');
 ax2=subplot(212),plot(tb,barcode1);
@@ -1006,6 +1011,7 @@ end
 
 t=(1:length(posture_DL))/(40*60);
 fig2=figure
+set(f2, 'Visible', 'off')
 ax1=gca;
 plot(t,posture_DL,'r','LineWidth',1);ylim([-8.2 8.2])
 hold on
@@ -1101,6 +1107,7 @@ duration_Wk_controls=duration_Wk_controls';
 [m33,n33]=size(DWk_CP)
 
 f2=figure
+set(f2, 'Visible', 'off')
 subplot(131)
  group = [repmat({'TD group'}, m1, n1); repmat({'CP patient'}, m11, n11); ];
  boxplot([duration_SiLy_controls; DSitLy_CP;], group);
@@ -1151,6 +1158,7 @@ actv=(length(find(posture_ref==3 | posture_ref==4)))/length(posture_ref)*100;
 
 X=[sedperc stperc wkperc];
 fig1=figure
+set(fig1, 'Visible', 'off')
 h=pie(X);
 set(h(2:2:6),'FontSize',20);
 legend(h(1:2:end),'sitting/lying','standing','walking','Orientation','horizontal','location','bestoutside');
@@ -1161,6 +1169,10 @@ path=strcat(PathName_1,'/PiePostures');
 savefig(fig1,[path,'.fig']);
 saveas(fig1,path,'png')
 saveas(fig1,path,'tif')
+
+% save in local path name
+copyfile(PathName_1,struct_path.path)
+PathName_1=struct_path.path;
 classification_results(PathName_1);
 
  

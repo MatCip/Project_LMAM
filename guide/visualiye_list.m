@@ -22,7 +22,7 @@ function varargout = visualiye_list(varargin)
 
 % Edit the above text to modify the response to help visualiye_list
 
-% Last Modified by GUIDE v2.5 29-Nov-2017 12:06:50
+% Last Modified by GUIDE v2.5 30-Nov-2017 09:11:45
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,8 +55,37 @@ function visualiye_list_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for visualiye_list
 handles.output = hObject;
 addpath(genpath('../User_database'))
+addpath(genpath('../User_database'))
+cd('User_database') 
+list_file = dir('*.mat');
+cd('..');
+try     
+IDs=cell(length(list_file),1);
+handles.patient_cell=cell(length(list_file));
+catch
+
+
+end
+
+for i=1:length(list_file)
+    
+    struct=load(list_file(i).name);
+    disp(struct)
+    IDs{i}=struct.ID;
+    handles.patient_cell{i}=struct;
+end
+disp(IDs)
+set(handles.listbox2,'String',IDs)
+Name=handles.patient_cell{1}.Name;
+Surname=handles.patient_cell{1}.Surname;
+Date=handles.patient_cell{1}.Date;
+Path=handles.patient_cell{1}.Name;
+set(handles.text10,'String',Name);
+set(handles.text11,'String',Surname);
+set(handles.text12,'String',Date);
+set(handles.text13,'String',Path);
 % patient=load('Patient_3.mat');
-set(handles.text10,'String','Name');
+
 % 
 % % Update handles structure
 % struct2table(patient)
@@ -85,6 +114,16 @@ function listbox2_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox2 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox2
+index=get(hObject,'Value');
+Name=handles.patient_cell{index}.Name;
+Surname=handles.patient_cell{index}.Surname;
+Date=handles.patient_cell{index}.Date;
+Path=handles.patient_cell{index}.local_path;
+set(handles.text10,'String',Name);
+set(handles.text11,'String',Surname);
+set(handles.text12,'String',Date);
+set(handles.text13,'String',Path);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -98,27 +137,24 @@ function listbox2_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-addpath(genpath('../User_database'))
-cd('User_database') 
-list_file = ls('*.mat');
-try     
-IDs=cell(size(list_file(:,1)));
-patien_cell=cell(size(list_file(:,1)));
-catch
-IDs={}; 
-end
-
-for i=1:size(list_file)
-    struct=load(list_file(i,:));
-    IDs{i}=struct.ID;
-    patient_cell{i}=struct;
-end
-set(hObject,'String',IDs)
-Name=patient_cell{1}.Name;
-
-set(handles.text10,'String',Name);
-set(hObject,'String',IDs)
-set(hObject,'String',IDs)
-set(hObject,'String',IDs)
-set(hObject,'String',IDs)
 guidata(hObject, handles);
+
+
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+index=get(handles.listbox2,'Value');
+path=handles.patient_cell{index}.local_path;
+ID=handles.patient_cell{index}.ID
+save(['function_interaction/','Current_path'],'ID','path')
+
+guide_version;
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

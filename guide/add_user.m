@@ -208,8 +208,11 @@ Pathologies=get(handles.edit5,'String');
 Analysis={};
 mkdir([handles.global_path,'/',ID]);
 
-save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis');
+local_path=[handles.global_path,'/',ID];
+
+save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path');
 save([[handles.global_path,'/',ID],'/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis');
+close
 
 
 
