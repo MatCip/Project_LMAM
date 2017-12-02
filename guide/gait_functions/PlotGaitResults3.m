@@ -1,5 +1,5 @@
 
-function PlotGaitResults3(RightLegLength,LeftLegLength,path_out)
+function pathword=PlotGaitResults3(RightLegLength,LeftLegLength,path_out,this_analysis_ID)
 %style='Heading 1';
 style='Titolo 1'; % if Word configured in French
 
@@ -974,7 +974,7 @@ saveas(fig25,path,'bmp')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Write PA parameters to Word Table
 
-WordFileName='TableGaitMetrics.doc';
+WordFileName=[this_analysis_ID,'_TableGaitMetrics.doc'];
 mkdir('temp_word')
 cd('temp_word')
 pathword=pwd;
@@ -1023,8 +1023,8 @@ DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP Follo
     %create table with data from DataCell
  WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
  CloseWord(ActXWord,WordHandle,FileSpec); 
- disp(path_out);
- copyfile(pathword,path_out);
+
+
  
  
  

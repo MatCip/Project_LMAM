@@ -582,8 +582,9 @@ mkdir(path_destination);
 copyfile(PathName_1,path_destination)
 
 
-PlotGaitResults3(RightLegLength,LeftLegLength,path_destination)
+pathword=PlotGaitResults3(RightLegLength,LeftLegLength,path_destination,this_analysis_ID);
 
+gait_results(path_destination);
 
 
 

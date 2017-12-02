@@ -56,7 +56,7 @@ function gait_results_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.path1=varargin{1};
 addpath(genpath('guide/pic'))
 
-I2=imread('../guide/pic/white.png');
+I2=imread('white.png');
 imshow(I2,'Parent',handles.axes1)
 
 handles.path=[handles.path1,'/gait_results'];
