@@ -1181,10 +1181,10 @@ saveas(fig1,path,'png')
 saveas(fig1,path,'tif')
 
 %get analysis ID
-
+path_destination=[struct_path.path,'/',this_analysis_ID];
 analysis_cell{num_analysis,1}=this_analysis_ID;
-type_of_analysis=get(handles.edit3,'String');
-analysis_cell{num_analysis,2}=type_of_analysis;
+Advance_of_analysis=get(handles.edit3,'String');
+analysis_cell{num_analysis,2}=path_destination;
 patient_struct.Analysis=analysis_cell;
 
 Name=patient_struct.Name
@@ -1194,12 +1194,14 @@ Date=patient_struct.Date
 Pathologies=patient_struct.Pathologies
 Analysis=patient_struct.Analysis;
 local_path=patient_struct.local_path;
-Type='Physical Analysis';
-path_destination=[struct_path.path,'/',this_analysis_ID];
 
 
+
+d = datetime('today')
+date=datestr(d);
 save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path');
-save(['Analysis_database/',this_analysis_ID],'this_analysis_ID',ID,'Name','Surname','path_destination');
+type_of_analysis='PA';
+save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis');
 
 % save in local path name
 

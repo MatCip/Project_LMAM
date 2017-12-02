@@ -964,7 +964,7 @@ saveas(fig25,path,'bmp')
 %calcul KS statistical distances
 [h,p,ks2stat_cad] = kstest2(cad_TD,m_cad);
 [h,p,ks2stat_Nspeed] = kstest2(Nspeed_TD,m_Nspeed);
-[h,p,ks2stat_NslR] = kstest2(NslR_TD,m_Nsl_R);
+[h,p,ks2stat_NslR] = kstest2(NslR_TD,m_Nsl_R); 
 [h,p,ks2stat_NslL] = kstest2(NslL_TD,m_Nsl_L);
 [h,p,ks2stat_swingR] = kstest2(swingR_TD,m_swing_R);
 [h,p,ks2stat_swingL] = kstest2(swingL_TD,m_swing_L);
@@ -975,8 +975,10 @@ saveas(fig25,path,'bmp')
 %Write PA parameters to Word Table
 
 WordFileName='TableGaitMetrics.doc';
-
-FileSpec = fullfile(path_out,WordFileName);
+mkdir('temp_word')
+cd('temp_word')
+pathword=pwd;
+FileSpec = fullfile(pathword,WordFileName);
 [ActXWord,WordHandle]=StartWord(FileSpec);
 fprintf('Gait metrics will be save in %s\n',FileSpec);   
 text='Gait Metrics';
@@ -1020,7 +1022,10 @@ DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP Follo
  [NoRows,NoCols]=size(DataCell);          
     %create table with data from DataCell
  WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
- CloseWord(ActXWord,WordHandle,FileSpec);    
+ CloseWord(ActXWord,WordHandle,FileSpec); 
+ disp(path_out);
+ copyfile(pathword,path_out);
+ 
  
  
 end

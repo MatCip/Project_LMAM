@@ -54,7 +54,47 @@ function Analysis_list_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for Analysis_list
 handles.output = hObject;
+handles.output = hObject;
+addpath(genpath('../Analysis_database'))
+addpath(genpath('../Analysis_database'))
+cd('Analysis_database') 
+list_file = dir('*.mat');
 
+try
+An_IDs=cell(length(list_file));    
+handles.analysis_cell=cell(length(list_file));
+catch
+
+
+end
+
+for i=1:length(list_file)
+    
+    struct=load(list_file(i).name);
+    disp(struct)
+    An_IDs{i}=struct.this_analysis_ID;
+    handles.patient_cell{i}=struct;
+end
+cd('..');
+disp(An_IDs)
+if(length(An_IDs)>0)
+    
+        set(handles.listbox1,'String',An_IDs)
+        Name=handles.patient_cell{1}.Name;
+        Surname=handles.patient_cell{1}.Surname;
+        Date=handles.patient_cell{1}.date;
+        Path=handles.patient_cell{1}.path_destination;
+        type_analysis=handles.patient_cell{1}.type_of_analysis;
+        ID=handles.patient_cell{1}.ID;
+        set(handles.text6,'String',ID);
+        set(handles.text7,'String',Path);
+        set(handles.text8,'String',Name);
+        set(handles.text9,'String',Surname);
+        set(handles.text12,'String',Date);
+        set(handles.text14,'String',type_analysis);
+else
+    set(handles.listbox1,'String','No Analysis')
+end
 % Update handles structure
 guidata(hObject, handles);
 
@@ -81,8 +121,21 @@ function listbox1_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox1
-
-
+index=get(hObject,'Value');
+        Name=handles.patient_cell{index}.Name;
+        Surname=handles.patient_cell{index}.Surname;
+        Date=handles.patient_cell{index}.date;
+        Path=handles.patient_cell{index}.path_destination;
+        ID=handles.patient_cell{index}.ID;
+        set(handles.text6,'String',ID);
+        set(handles.text7,'String',Path);
+        set(handles.text8,'String',Name);
+        set(handles.text9,'String',Surname);
+        set(handles.text12,'String',Date);
+        type_analysis=handles.patient_cell{index}.type_of_analysis;
+        set(handles.text14,'String',type_analysis);
+        advancement_analysis=handles.patient_cell{index}.Advance_of_analysis;
+        set(handles.text16,'String',advancement_analysis);
 % --- Executes during object creation, after setting all properties.
 function listbox1_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to listbox1 (see GCBO)
@@ -108,3 +161,10 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+index=get(handles.listbox1,'Value');
+Path=handles.patient_cell{index}.path_destination;
+if(strcmp(handles.patient_cell{index}.type_of_analysis,'PA')==1)
+classification_results(Path);
+end
+    
+

@@ -347,13 +347,24 @@ LegDim=[femur_length,tibia_length];
 try
     
 PathName=handles.PathName;
-mkdir ([PathName, '/id'])
 catch
     not_output_folder
     return
 end
-PathName_1=strcat(PathName, '/id');
-    
+
+
+struct_path=load('function_interaction/Current_path');
+ID=struct_path.ID;
+patient_struct=load(['User_database/','Patient_',ID]);
+analysis_cell=patient_struct.Analysis;
+dim=size(analysis_cell);
+num_analysis=dim(1)+1;
+num_analysis_str=num2str(num_analysis);
+this_analysis_ID=['Patient_',ID,'_Gait_Analysis_ID_'];
+this_analysis_ID=[this_analysis_ID,num_analysis_str];
+
+PathName_1=strcat(PathName, '/',this_analysis_ID);
+mkdir (PathName_1)
 
     val_thigh=get(handles.popupmenu7,'Value');
     inverse_thigh=get(handles.checkbox4,'Value');
@@ -541,8 +552,37 @@ walking_params_new = xlsread(filename,sheet,xlRange);
 % walking_params_new=res_gait;
  save ([PathName_1,'/walking_params_new'], 'walking_params_new');
 
-disp('qui');
-PlotGaitResults3(RightLegLength,LeftLegLength,PathName_1)
+%get analysis ID
+path_destination=[struct_path.path,'/',this_analysis_ID];
+
+analysis_cell{num_analysis,1}=this_analysis_ID;
+Advance_of_analysis=get(handles.edit3,'String');
+analysis_cell{num_analysis,2}=path_destination;
+patient_struct.Analysis=analysis_cell;
+
+Name=patient_struct.Name
+Surname=patient_struct.Surname
+Date=patient_struct.Date
+
+Pathologies=patient_struct.Pathologies
+Analysis=patient_struct.Analysis;
+local_path=patient_struct.local_path;
+
+
+
+d = datetime('today')
+date=datestr(d);
+save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path');
+type_of_analysis='PA';
+save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis');
+
+% save in local path name
+
+mkdir(path_destination);
+copyfile(PathName_1,path_destination)
+
+
+PlotGaitResults3(RightLegLength,LeftLegLength,path_destination)
 
 
 
