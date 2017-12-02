@@ -122,10 +122,11 @@ set(handles.togglebutton4,'Value',0);
 set(handles.togglebutton5,'Value',0);
 set(handles.togglebutton6,'Value',0);
 set(handles.togglebutton7,'Value',0);
-
+disp([handles.path,'/posture_allocation_per_hour.jpg']); 
 try
-    
+ 
 I1=imread([handles.path,'/posture_allocation_per_hour.jpg']);
+
 imshow(I1,'Parent',handles.axes2)
 catch
     file_not_found

@@ -58,7 +58,7 @@ addpath(genpath('../User_database'))
 addpath(genpath('../User_database'))
 cd('User_database') 
 list_file = dir('*.mat');
-cd('..');
+
 try     
 IDs=cell(length(list_file),1);
 handles.patient_cell=cell(length(list_file));
@@ -74,16 +74,24 @@ for i=1:length(list_file)
     IDs{i}=struct.ID;
     handles.patient_cell{i}=struct;
 end
+cd('..');
 disp(IDs)
-set(handles.listbox2,'String',IDs)
-Name=handles.patient_cell{1}.Name;
-Surname=handles.patient_cell{1}.Surname;
-Date=handles.patient_cell{1}.Date;
-Path=handles.patient_cell{1}.Name;
-set(handles.text10,'String',Name);
-set(handles.text11,'String',Surname);
-set(handles.text12,'String',Date);
-set(handles.text13,'String',Path);
+if(length(IDs)>0)
+    
+        set(handles.listbox2,'String',IDs)
+        Name=handles.patient_cell{1}.Name;
+        Surname=handles.patient_cell{1}.Surname;
+        Date=handles.patient_cell{1}.Date;
+        Path=handles.patient_cell{1}.Name;
+        set(handles.text10,'String',Name);
+        set(handles.text11,'String',Surname);
+        set(handles.text12,'String',Date);
+        set(handles.text13,'String',Path);
+else
+    set(handles.listbox2,'String','No patient')
+end
+    
+    
 % patient=load('Patient_3.mat');
 
 % 

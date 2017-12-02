@@ -55,6 +55,9 @@ function First_page_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for First_page
 current_folder=pwd;
+I=imread('./pic/Logo_EPFL.png');
+imshow(I,'Parent',handles.axes1)
+
 
 if(exist('Application_folder')==0)
     mkdir('Application_folder');

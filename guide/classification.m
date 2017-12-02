@@ -22,7 +22,7 @@ function varargout = classification(varargin)
 
 % Edit the above text to modify the response to help classification
 
-% Last Modified by GUIDE v2.5 10-Nov-2017 15:56:24
+% Last Modified by GUIDE v2.5 01-Dec-2017 09:38:03
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -532,15 +532,23 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 try
     
 PathName=handles.PathName;
-struct_path=load('function_interaction/Current_path');
-ID=struct_path.ID;
-PathName_1=strcat(PathName, '/',ID,'_PAclassification');
-mkdir (PathName_1)
+
 catch
     not_output_folder
     return
 end
+struct_path=load('function_interaction/Current_path');
+ID=struct_path.ID;
+patient_struct=load(['User_database/','Patient_',ID]);
+analysis_cell=patient_struct.Analysis;
+dim=size(analysis_cell);
+num_analysis=dim(1)+1;
+num_analysis_str=num2str(num_analysis);
+this_analysis_ID=['Patient_',ID,'_PA_Analysis_ID_'];
+this_analysis_ID=[this_analysis_ID,num_analysis_str];
 
+PathName_1=strcat(PathName, '/',this_analysis_ID);
+mkdir (PathName_1)
 
 
 addpath(genpath('physical_activity_functions'))
@@ -700,7 +708,8 @@ end
 verticalAccTr_lpf = sgolayfilt(verticalAccTr,1,1001);
 frontalAcc_Thigh_lpf = sgolayfilt(frontalAccThigh,1,1001);
 t=(1:length(verticalAccTr_lpf))/(200*60);
-figure
+fig1=figure
+set(fig1, 'Visible', 'off')
 ax1=subplot(411), plot(t,verticalAccTr_lpf,'LineWidth',1); title('Trunk Vertical Acc');
 ax2=subplot(412), plot(t,frontalAcc_Thigh_lpf,'LineWidth',1);title('Thigh Frontal Acc');
 ax3=subplot(413), plot(t,PitchGyroRShank,'LineWidth',1);title('RShank Pitch Gyro');
@@ -1011,7 +1020,7 @@ end
 
 t=(1:length(posture_DL))/(40*60);
 fig2=figure
-set(f2, 'Visible', 'off')
+set(fig2, 'Visible', 'off')
 ax1=gca;
 plot(t,posture_DL,'r','LineWidth',1);ylim([-8.2 8.2])
 hold on
@@ -1060,6 +1069,7 @@ act=[LySi; St; Wk];
 act=act';
 fig1=figure;
 bar(act,'stacked')
+set(fig1, 'Visible', 'off')
 legend('lying/sitting','standing','walking')
 xlabel('hours','FontSize',14)
 ylabel('duration(min)','FontSize',14)
@@ -1170,10 +1180,33 @@ savefig(fig1,[path,'.fig']);
 saveas(fig1,path,'png')
 saveas(fig1,path,'tif')
 
+%get analysis ID
+
+analysis_cell{num_analysis,1}=this_analysis_ID;
+type_of_analysis=get(handles.edit3,'String');
+analysis_cell{num_analysis,2}=type_of_analysis;
+patient_struct.Analysis=analysis_cell;
+
+Name=patient_struct.Name
+Surname=patient_struct.Surname
+Date=patient_struct.Date
+
+Pathologies=patient_struct.Pathologies
+Analysis=patient_struct.Analysis;
+local_path=patient_struct.local_path;
+Type='Physical Analysis';
+path_destination=[struct_path.path,'/',this_analysis_ID];
+
+
+save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path');
+save(['Analysis_database/',this_analysis_ID],'this_analysis_ID',ID,'Name','Surname','path_destination');
+
 % save in local path name
-copyfile(PathName_1,struct_path.path)
-PathName_1=struct_path.path;
-classification_results(PathName_1);
+
+mkdir(path_destination);
+copyfile(PathName_1,path_destination)
+classification_results(path_destination);
+
 
  
  
@@ -1684,3 +1717,26 @@ PathName = uigetdir;
 handles.PathName=PathName;
 set(handles.text12,'String',PathName);
 guidata(hObject,handles)
+
+
+
+function edit3_Callback(hObject, eventdata, handles)
+% hObject    handle to edit3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit3 as text
+%        str2double(get(hObject,'String')) returns contents of edit3 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
