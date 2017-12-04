@@ -1196,12 +1196,12 @@ Analysis=patient_struct.Analysis;
 local_path=patient_struct.local_path;
 
 
-
+other_details=load('function_interaction/other_analysis_details.mat');
 d = datetime('today')
 date=datestr(d);
 save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path');
 type_of_analysis='PA';
-save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis');
+save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis','other_details');
 
 % save in local path name
 

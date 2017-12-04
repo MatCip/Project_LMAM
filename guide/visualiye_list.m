@@ -154,11 +154,21 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 index=get(handles.listbox2,'Value');
+
 path=handles.patient_cell{index}.local_path;
+
 ID=handles.patient_cell{index}.ID
+
 save(['function_interaction/','Current_path'],'ID','path')
 
+
+
 guide_version;
+
+
+
+
+
 
 
 % --- Executes on button press in pushbutton2.
@@ -166,3 +176,6 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+index=get(handles.listbox2,'Value');
+
+analysis_per_user(handles.patient_cell{index})

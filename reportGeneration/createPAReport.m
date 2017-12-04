@@ -10,15 +10,28 @@ function createPAReport
    data.Image2    = fullfile(pwd, 'barcode.png');
    data.Image3    = fullfile(pwd, 'spider.png');
    %Create new object of class Document, based on AdvancedReportTemplate
-   doc = Document('PhysicalActivityReporsd', 'docx', 'sd');
+   doc = Document('PhysicalActivityReport_1', 'docx', 'PA_Analysis_template');
    %Move to the first hole
-
+    
+   
+    HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text('Hello World');
+     append(doc, textObj); 
    
    
+   HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text('Hello World');
+     append(doc, textObj); 
+   HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text('Hello World');
+     append(doc, textObj); 
    %Close the document and write the result to disc
    close(doc);
    %Show the result
-   rptview('PhysicalActivityReport', 'docx');
+   rptview('PhysicalActivityReport_1', 'docx');
 end
 
 

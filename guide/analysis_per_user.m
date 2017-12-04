@@ -54,7 +54,21 @@ function analysis_per_user_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for analysis_per_user
 handles.output = hObject;
+handles.user_struct=varargin{1};
+handles.Analysis_cell=handles.user_struct.Analysis;
+dim_cell=size(handles.Analysis_cell);
+set(handles.text17,'String',handles.user_struct.ID);
+if(dim_cell(1)>=1)
+    
+for i=1:length(dim_cell(1))
+    handles.Analysis_paths{i}=handles.Analysis_cell{i,2};
+    handles.Analysis_IDs{i}=handles.Analysis_cell{i,1};
 
+end
+set(handles.listbox1,'String',handles.Analysis_IDs)
+else
+    set(handles.listbox1,'String','No analysis for this user')
+end
 % Update handles structure
 guidata(hObject, handles);
 
@@ -81,7 +95,25 @@ function listbox1_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox1
+index=get(hObject,'Value');
+handles.ID_Anal_select=handles.Analysis_cell{index,1};
+ID_Anal=handles.ID_Anal_select;
+analysis_struct=load(['./Analysis_database/',ID_Anal,'.mat']);
 
+ID_patient=analysis_struct.ID;
+Date=analysis_struct.date;
+Name=analysis_struct.Name;
+Surname=analysis_struct.Surname;
+Type=analysis_struct.type_of_analysis;
+Advance=analysis_struct.Advance_of_analysis;
+Path=analysis_struct.path_destination;
+set(handles.text8,'String',Name);
+set(handles.text9,'String',Surname);
+set(handles.text11,'String',Date);
+set(handles.text7,'String',Path);
+set(handles.text6,'String',ID_patient);
+set(handles.text13,'String',Type);
+set(handles.text15,'String',Advance);
 
 % --- Executes during object creation, after setting all properties.
 function listbox1_CreateFcn(hObject, eventdata, handles)
