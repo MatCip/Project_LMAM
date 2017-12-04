@@ -154,17 +154,18 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 index=get(handles.listbox2,'Value');
-
+string=get(handles.listbox2,'String');
+if(strcmp(string,'No patient')==0)
 path=handles.patient_cell{index}.local_path;
 
 ID=handles.patient_cell{index}.ID
 
 save(['function_interaction/','Current_path'],'ID','path')
-
-
-
 guide_version;
-
+else
+    not_valid_selection
+    return
+end
 
 
 
@@ -177,5 +178,12 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 index=get(handles.listbox2,'Value');
-
+string=get(handles.listbox2,'String');
+if(strcmp(string,'No patient')==0)
+    
 analysis_per_user(handles.patient_cell{index})
+
+else
+    not_valid_selection
+    return
+end

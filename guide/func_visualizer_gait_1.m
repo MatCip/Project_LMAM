@@ -241,7 +241,7 @@ handles.output = get(hObject,'String');
        if( strcmp( 'Extracting Gate Parameter',func{index})==1)
            disp(handles.config_all);
           close
-           load_AnalyseGait_ShTh(handles.config_all);
+           add_analysis_details(handles.config_all,'gait');
        end
 % Update handles structure
 

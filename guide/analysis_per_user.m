@@ -59,12 +59,13 @@ handles.Analysis_cell=handles.user_struct.Analysis;
 dim_cell=size(handles.Analysis_cell);
 set(handles.text17,'String',handles.user_struct.ID);
 if(dim_cell(1)>=1)
-    
-for i=1:length(dim_cell(1))
+    disp(dim_cell(1));
+for i=1:dim_cell(1)
     handles.Analysis_paths{i}=handles.Analysis_cell{i,2};
     handles.Analysis_IDs{i}=handles.Analysis_cell{i,1};
 
 end
+disp(handles.Analysis_IDs)
 set(handles.listbox1,'String',handles.Analysis_IDs)
 else
     set(handles.listbox1,'String','No analysis for this user')

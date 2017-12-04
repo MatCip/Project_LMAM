@@ -333,6 +333,7 @@ saveas(fig3b,path,'bmp')
 % %%%%%%%%%%%%%%%%%%
 % 
 fig4=figure  %shank angle
+
 set(fig4,'visible','off');
 limy=max([RefValuesGaitParams_TD(14,1)+RefValuesGaitParams_TD(14,2),RefValuesGaitParams_TD(15,1)+RefValuesGaitParams_TD(15,2),max(m_ShAng_R)+max(sd_ShAng_R),max(m_ShAng_L)+max(sd_ShAng_L)]);
 subplot(221)
@@ -975,8 +976,8 @@ saveas(fig25,path,'bmp')
 %Write PA parameters to Word Table
 
 WordFileName=[this_analysis_ID,'_TableGaitMetrics.doc'];
-mkdir('temp_word')
-cd('temp_word')
+mkdir('temp_word_GAIT')
+cd('temp_word_GAIT')
 pathword=pwd;
 FileSpec = fullfile(pathword,WordFileName);
 [ActXWord,WordHandle]=StartWord(FileSpec);

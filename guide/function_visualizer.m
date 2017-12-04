@@ -235,7 +235,7 @@ handles.output = get(hObject,'String');
       end
        if( strcmp( 'Physical Activity Classification',func{index})==1)
            close
-             add_analysis_details(handles.config_all);
+             add_analysis_details(handles.config_all,'PA');
        end
 
 % Update handles structure

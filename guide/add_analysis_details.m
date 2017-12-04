@@ -55,6 +55,7 @@ function add_analysis_details_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for add_analysis_details
 handles.output = hObject;
 handles.config_all=varargin{1};
+handles.type=varargin{2}
 % Update handles structure
 guidata(hObject, handles);
 
@@ -193,8 +194,14 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+if(strcmp(handles.type,'PA')==1)
 close
 load_classification(handles.config_all)
+else
+ close
+load_AnalyseGait_ShTh(handles.config_all)
+end
+
 
 
 % --- Executes on button press in pushbutton2.
