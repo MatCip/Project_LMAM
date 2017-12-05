@@ -984,47 +984,47 @@ FileSpec = fullfile(pathword,WordFileName);
 fprintf('Gait metrics will be save in %s\n',FileSpec);   
 text='Gait Metrics';
 WordText(ActXWord,text,style,[1,1]);%enter before and after text 
-DataCell={' ','TD group','CP Baseline','CP FollowUp 1','CP FollowUp 2','CP FollowUp 3';
-              'Mean Cadence (steps/min)', num2str(mean(cad_TD)) ,num2str(mean(m_cad)),'','','';
-              'Median Cadence (steps/min)', num2str(median(cad_TD)),num2str(median(m_cad)),'','','';
-              'Maximum Cadence (steps/min)', num2str(max(cad_TD)) ,num2str(max(m_cad)),'','','';
-              'Mean Speed (m/s)', num2str(mean(speed_TD)) ,num2str(mean(m_speed)),'','','';
-              'Median Speed (m/s)', num2str(median(speed_TD)),num2str(median(m_speed)),'','','';
-              'Maximum Speed (m/s)', num2str(max(speed_TD)) ,num2str(max(m_speed)),'','','';
-              'Mean Normalized Speed (m/s)', num2str(mean(Nspeed_TD)) ,num2str(mean(m_Nspeed)),'','','';
-              'Median Normalized Speed (m/s)', num2str(median(Nspeed_TD)),num2str(median(m_Nspeed)),'','','';
-              'Maximum Normalized Speed (m/s)', num2str(max(Nspeed_TD)) ,num2str(max(m_Nspeed)),'','','';
-              'Mean Normalized Stride Length RL (m)', num2str(mean(NslR_TD)) ,num2str(mean(m_Nsl_R)),'','','';
-              'Median Normalized Stride Length RL (m)', num2str(median(NslR_TD)),num2str(median(m_Nsl_R)),'','','';
+DataCell={' ','TD group','CP This Analysis',;
+              'Mean Cadence (steps/min)', num2str(mean(cad_TD)) ,num2str(mean(m_cad));
+              'Median Cadence (steps/min)', num2str(median(cad_TD)),num2str(median(m_cad));
+              'Maximum Cadence (steps/min)', num2str(max(cad_TD)) ,num2str(max(m_cad));
+              'Mean Speed (m/s)', num2str(mean(speed_TD)) ,num2str(mean(m_speed));
+              'Median Speed (m/s)', num2str(median(speed_TD)),num2str(median(m_speed));
+              'Maximum Speed (m/s)', num2str(max(speed_TD)) ,num2str(max(m_speed));
+              'Mean Normalized Speed (m/s)', num2str(mean(Nspeed_TD)) ,num2str(mean(m_Nspeed));
+              'Median Normalized Speed (m/s)', num2str(median(Nspeed_TD)),num2str(median(m_Nspeed));
+              'Maximum Normalized Speed (m/s)', num2str(max(Nspeed_TD)) ,num2str(max(m_Nspeed));
+              'Mean Normalized Stride Length RL (m)', num2str(mean(NslR_TD)) ,num2str(mean(m_Nsl_R));
+              'Median Normalized Stride Length RL (m)', num2str(median(NslR_TD)),num2str(median(m_Nsl_R));
               %'Maximum Normalized Stride Length RL (m)', num2str(max(NslR_TD)) ,num2str(max(m_Nsl_R)),'','','';
-              'Mean Normalized Stride Length LL (m)', num2str(mean(NslL_TD)) ,num2str(mean(m_Nsl_L)),'','','';
-              'Median Normalized Stride Length LL (m)', num2str(median(NslL_TD)),num2str(median(m_Nsl_L)),'','','';
+              'Mean Normalized Stride Length LL (m)', num2str(mean(NslL_TD)) ,num2str(mean(m_Nsl_L));
+              'Median Normalized Stride Length LL (m)', num2str(median(NslL_TD)),num2str(median(m_Nsl_L));
              % 'Maximum Normalized Stride Length LL (m)', num2str(max(NslL_TD)) ,num2str(max(m_Nsl_L)),'','','';
-              'Mean Swing RL(%gct)', num2str(mean(swingR_TD)) ,num2str(mean(m_swing_R)),'','','';
-              'Median Swing RL(%gct)', num2str(median(swingR_TD)),num2str(median(m_swing_R)),'','','';
+              'Mean Swing RL(%gct)', num2str(mean(swingR_TD)) ,num2str(mean(m_swing_R));
+              'Median Swing RL(%gct)', num2str(median(swingR_TD)),num2str(median(m_swing_R));
               %'Maximum Swing RL(%gct)', num2str(max(swingR_TD)) ,num2str(max(m_swing_R)),'','','';
-              'Mean Swing LL(%gct)', num2str(mean(swingL_TD)) ,num2str(mean(m_swing_L)),'','','';
-              'Median Swing LL(%gct)', num2str(median(swingL_TD)),num2str(median(m_swing_L)),'','','';
+              'Mean Swing LL(%gct)', num2str(mean(swingL_TD)) ,num2str(mean(m_swing_L));
+              'Median Swing LL(%gct)', num2str(median(swingL_TD)),num2str(median(m_swing_L));
               %'Maximum Swing LL(%gct)', num2str(max(swingL_TD)) ,num2str(max(m_swing_L)),'','','';
-              'Mean Stance RL(%gct)', num2str(mean(stanceR_TD)) ,num2str(mean(m_stance_R)),'','','';
-              'Median Stance RL(%gct)', num2str(median(stanceR_TD)),num2str(median(m_stance_R)),'','','';
+              'Mean Stance RL(%gct)', num2str(mean(stanceR_TD)) ,num2str(mean(m_stance_R));
+              'Median Stance RL(%gct)', num2str(median(stanceR_TD)),num2str(median(m_stance_R));
              % 'Maximum Stance RL(%gct)', num2str(max(stanceR_TD)) ,num2str(max(m_stance_R)),'','','';
-              'Mean Stance LL(%gct)', num2str(mean(stanceL_TD)) ,num2str(mean(m_stance_L)),'','','';
-              'Median Stance LL(%gct)', num2str(median(stanceL_TD)),num2str(median(m_stance_L)),'','','';
+              'Mean Stance LL(%gct)', num2str(mean(stanceL_TD)) ,num2str(mean(m_stance_L));
+              'Median Stance LL(%gct)', num2str(median(stanceL_TD)),num2str(median(m_stance_L));
               %'Maximum Stance LL(%gct)', num2str(max(stanceL_TD)) ,num2str(max(m_stance_L)),'','','';
-              'Statistical Distance Cadence','',num2str(ks2stat_cad),'','','';
-              'Statistical Distance Normalized Speed','',num2str(ks2stat_Nspeed),'','','';
-              'Statistical Distance Normalized Stride Length RL','',num2str(ks2stat_NslR),'','','';
-              'Statistical Distance Normalized Stride Length LL','',num2str(ks2stat_NslL),'','','';
-              'Statistical Distance Swing RL','',num2str(ks2stat_swingR),'','','';
-              'Statistical Distance Swing LL','',num2str(ks2stat_swingL),'','','';
-              'Statistical Distance Stance RL','',num2str(ks2stat_stanceR),'','','';
-              'Statistical Distance Stance LL','',num2str(ks2stat_stanceL),'','','';}
+              'Statistical Distance Cadence','',num2str(ks2stat_cad);
+              'Statistical Distance Normalized Speed','',num2str(ks2stat_Nspeed);
+              'Statistical Distance Normalized Stride Length RL','',num2str(ks2stat_NslR);
+              'Statistical Distance Normalized Stride Length LL','',num2str(ks2stat_NslL);
+              'Statistical Distance Swing RL','',num2str(ks2stat_swingR);
+              'Statistical Distance Swing LL','',num2str(ks2stat_swingL);
+              'Statistical Distance Stance RL','',num2str(ks2stat_stanceR);
+              'Statistical Distance Stance LL','',num2str(ks2stat_stanceL);}
  [NoRows,NoCols]=size(DataCell);          
     %create table with data from DataCell
  WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
  CloseWord(ActXWord,WordHandle,FileSpec); 
-
+save('table_gaitMetrics','DataCell')
 
  
  

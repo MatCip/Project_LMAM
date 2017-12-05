@@ -564,18 +564,25 @@ Name=patient_struct.Name
 Surname=patient_struct.Surname
 Date=patient_struct.Date
 
+Gender=patient_struct.Gender;
+CP_Subtype=patient_struct.CP_Subtype;
+Height=patient_struct.Height;
+Weight=patient_struct.Weight;
+GMFCS_level=patient_struct.GMFCS_level;
+
 Pathologies=patient_struct.Pathologies
 Analysis=patient_struct.Analysis;
 local_path=patient_struct.local_path;
 
 
+
 other_details=load('function_interaction/other_analysis_details.mat');
 d = datetime('today')
 date=datestr(d);
-save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path');
+save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
 type_of_analysis='Gait';
 save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis','other_details');
-
+save(['function_interaction/current_analysis_report'],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis','other_details','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
 % save in local path name
 
 mkdir(path_destination);

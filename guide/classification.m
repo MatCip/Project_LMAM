@@ -708,7 +708,7 @@ end
 verticalAccTr_lpf = sgolayfilt(verticalAccTr,1,1001);
 frontalAcc_Thigh_lpf = sgolayfilt(frontalAccThigh,1,1001);
 t=(1:length(verticalAccTr_lpf))/(200*60);
-fig1=figure
+fig1=figure;
 set(fig1, 'Visible', 'off')
 ax1=subplot(411), plot(t,verticalAccTr_lpf,'LineWidth',1); title('Trunk Vertical Acc');
 ax2=subplot(412), plot(t,frontalAcc_Thigh_lpf,'LineWidth',1);title('Thigh Frontal Acc');
@@ -1100,10 +1100,10 @@ legend('TD Group', 'CP patient')
 ylabel('% of monitoring time','FontSize',14)
 path=strcat(PathName_1,'/BarplotPostures');
 supertitle('daily posture allocation');
-savefig(fig1,[path,'.fig'])
-saveas(fig1,path,'png')
-saveas(fig1,path,'tif')
-saveas(fig1,path,'jpg')
+savefig(gcf,[path,'.fig'])
+saveas(gcf,path,'png')
+saveas(gcf,path,'tif')
+saveas(gcf,path,'jpg')
 
 duration_St_controls=duration_St_controls';
 [m2,n2]=size(duration_St_controls)
@@ -1138,15 +1138,15 @@ duration_Wk_controls=duration_Wk_controls';
  boxplot([duration_Wk_controls; DWk_CP;], group);
  ylabel('walking (sec)');
  xtickangle(45);
- path=strcat(PathName_1,'/BoxPlotDurationPosturePeriods');
+ path=strcat(PathName_1,'/ BoxPlotDurationPosturePeriods');
  
  
  supertitle('duration of periods')
  
  savefig(fig2,[path,'.fig'])
- saveas(fig2,path,'png')
- saveas(fig2,path,'tif')
- saveas(fig2,path,'jpg')
+ saveas(gcf,path,'png')
+ saveas(gcf,path,'tif')
+ saveas(gcf,path,'jpg')
  
  [n2,m2]=size(walk_ref);
 StWk_ref=[];EndWk_ref=[];steps_ref=[];
@@ -1211,6 +1211,7 @@ ps17=(length(find(barcode1==17))/l)*100;ps18=(length(find(barcode1==18))/l)*100;
 ps19=(length(find(barcode1==19))/l)*100;ps20=(length(find(barcode1==20))/l)*100;
 PBarS=[ps1 ps2 ps3 ps4 ps5 ps6 ps7 ps8 ps9 ps10 ps11 ps12 ps13 ps14 ps15 ps16 ps17 ps18 ps19 ps20];
 
+addpath(genpath('function_interaction'))
 WordFileName=[this_analysis_ID,'_TablePAMetrics.doc'];
 mkdir('temp_word_PA')
 cd('temp_word_PA')
@@ -1226,51 +1227,56 @@ style='Titre 1'; % if Word configured in French
 text='Physical Activity Metrics';
 WordText(ActXWord,text,style,[1,1]);%enter before and after text  
 
-DataCell={'Metrics ','TD group(mean)','TD group(SD)','CP(baseline)','CP(Followup1)','CP(Followup2)','CP(Followup3)';
-              'Time spent Walking (%) ',num2str(round(MeanPercentPosturesControls(3))),num2str(round(SDPercentPosturesControls(3))),num2str(round(PWk_CP)),'','','';
-              'Time spent Standing (%)',num2str(round(MeanPercentPosturesControls(2))),num2str(round(SDPercentPosturesControls(2))),num2str(round(PSt_CP)),'','','';
-              'Time spent Sedentary (%)',num2str(round(MeanPercentPosturesControls(1))),num2str(round(SDPercentPosturesControls(1))),num2str(round(PSitLy_CP)),'','','';
-              'Statistics Walking Periods:','','' ,'','','',''; 
-              '10th Percentile(sec)', num2str(MeanPrctWk(1)) ,num2str(SDPrctWk(1)) ,num2str(prctile(DWk_CP,10)),'','','';
-              '20th Percentile(sec)', num2str(MeanPrctWk(2)) ,num2str(SDPrctWk(2)) ,num2str(prctile(DWk_CP,20)),'','','';
-              '30th Percentile(sec)', num2str(MeanPrctWk(3)) ,num2str(SDPrctWk(3)) ,num2str(prctile(DWk_CP,30)),'','','';
-              '40th Percentile(sec)', num2str(MeanPrctWk(4)) ,num2str(SDPrctWk(4)) ,num2str(prctile(DWk_CP,40)),'','','';
-              '50th Percentile(sec)', num2str(MeanPrctWk(5)) ,num2str(SDPrctWk(5)) ,num2str(prctile(DWk_CP,50)),'','','';
-              '60th Percentile(sec)', num2str(MeanPrctWk(6)) ,num2str(SDPrctWk(6)) ,num2str(prctile(DWk_CP,60)),'','','';
-              '70th Percentile(sec)', num2str(MeanPrctWk(7)) ,num2str(SDPrctWk(7)) ,num2str(prctile(DWk_CP,70)),'','','';
-              '80th Percentile(sec)', num2str(MeanPrctWk(8)) ,num2str(SDPrctWk(8)) ,num2str(prctile(DWk_CP,80)),'','','';
-              '90th Percentile(sec)', num2str(MeanPrctWk(9)) ,num2str(SDPrctWk(9)) ,num2str(prctile(DWk_CP,90)),'','','';
-              'Maximal Walking period (sec)', num2str(MeanPrctWk(10)) ,num2str(SDPrctWk(10)) ,num2str(max(DWk_CP)),'','','';
-              'Statistics Standing Periods:','','' ,'','','',''; 
-              '10th Percentile(sec)', num2str(MeanPrctSt(1)) ,num2str(SDPrctSt(1)) ,num2str(prctile(DSt_CP,10)),'','','';
-              '20th Percentile(sec)', num2str(MeanPrctSt(2)) ,num2str(SDPrctSt(2)) ,num2str(prctile(DSt_CP,20)),'','','';
-              '30th Percentile(sec)', num2str(MeanPrctSt(3)) ,num2str(SDPrctSt(3)) ,num2str(prctile(DSt_CP,30)),'','','';
-              '40th Percentile(sec)', num2str(MeanPrctSt(4)) ,num2str(SDPrctSt(4)) ,num2str(prctile(DSt_CP,40)),'','','';
-              '50th Percentile(sec)', num2str(MeanPrctSt(5)) ,num2str(SDPrctSt(5)) ,num2str(prctile(DSt_CP,50)),'','','';
-              '60th Percentile(sec)', num2str(MeanPrctSt(6)) ,num2str(SDPrctSt(6)) ,num2str(prctile(DSt_CP,60)),'','','';
-              '70th Percentile(sec)', num2str(MeanPrctSt(7)) ,num2str(SDPrctSt(7)) ,num2str(prctile(DSt_CP,70)),'','','';
-              '80th Percentile(sec)', num2str(MeanPrctSt(8)) ,num2str(SDPrctSt(8)) ,num2str(prctile(DSt_CP,80)),'','','';
-              '90th Percentile(sec)', num2str(MeanPrctSt(9)) ,num2str(SDPrctSt(9)) ,num2str(prctile(DSt_CP,90)),'','','';
-              'Maximal Standing period (sec)', num2str(MeanPrctSt(10)) ,num2str(SDPrctSt(10)) ,num2str(max(DSt_CP)),'','','';
-              'Statistics Sedentary Periods:','','' ,'','','',''; 
-              '10th Percentile(sec)', num2str(MeanPrctSitLy(1)) ,num2str(SDPrctSitLy(1)) ,num2str(prctile(DSitLy_CP,10)),'','','';
-              '20th Percentile(sec)', num2str(MeanPrctSitLy(2)) ,num2str(SDPrctSitLy(2)) ,num2str(prctile(DSitLy_CP,20)),'','','';
-              '30th Percentile(sec)', num2str(MeanPrctSitLy(3)) ,num2str(SDPrctSitLy(3)) ,num2str(prctile(DSitLy_CP,30)),'','','';
-              '40th Percentile(sec)', num2str(MeanPrctSitLy(4)) ,num2str(SDPrctSitLy(4)) ,num2str(prctile(DSitLy_CP,40)),'','','';
-              '50th Percentile(sec)', num2str(MeanPrctSitLy(5)) ,num2str(SDPrctSitLy(5)) ,num2str(prctile(DSitLy_CP,50)),'','','';
-              '60th Percentile(sec)', num2str(MeanPrctSitLy(6)) ,num2str(SDPrctSitLy(6)) ,num2str(prctile(DSitLy_CP,60)),'','','';
-              '70th Percentile(sec)', num2str(MeanPrctSitLy(7)) ,num2str(SDPrctSitLy(7)) ,num2str(prctile(DSitLy_CP,70)),'','','';
-              '80th Percentile(sec)', num2str(MeanPrctSitLy(8)) ,num2str(SDPrctSitLy(8)) ,num2str(prctile(DSitLy_CP,80)),'','','';
-              '90th Percentile(sec)', num2str(MeanPrctSitLy(9)) ,num2str(SDPrctSitLy(9)) ,num2str(prctile(DSitLy_CP,90)),'','','';
-              'Maximal Sedentary period (sec)', num2str(MeanPrctSitLy(10)) ,num2str(SDPrctSitLy(10)) ,num2str(max(DSitLy_CP)),'','','';
-              'Kolmogorov_Smirnov stat Dist:','','' ,'','','',''; 
-              'Stat Dist Walking periods','',num2str(ks2stat_wk),'','','','';
-              'Stat Dist Standing periods','',num2str(ks2stat_st),'','','','';
-              'Stat Dist Sedentary periods','',num2str(ks2stat_sed),'','','','';}                       
+DataCell={'Metrics ','TD group(mean)','TD group(SD)','CP(This Analysis)';
+              'Time spent Walking (%) ',num2str(round(MeanPercentPosturesControls(3))),num2str(round(SDPercentPosturesControls(3))),num2str(round(PWk_CP));
+              'Time spent Standing (%)',num2str(round(MeanPercentPosturesControls(2))),num2str(round(SDPercentPosturesControls(2))),num2str(round(PSt_CP));
+              'Time spent Sedentary (%)',num2str(round(MeanPercentPosturesControls(1))),num2str(round(SDPercentPosturesControls(1))),num2str(round(PSitLy_CP));
+              'Statistics Walking Periods:','','' ,''; 
+              '10th Percentile(sec)', num2str(MeanPrctWk(1)) ,num2str(SDPrctWk(1)) ,num2str(prctile(DWk_CP,10));
+              '20th Percentile(sec)', num2str(MeanPrctWk(2)) ,num2str(SDPrctWk(2)) ,num2str(prctile(DWk_CP,20));
+              '30th Percentile(sec)', num2str(MeanPrctWk(3)) ,num2str(SDPrctWk(3)) ,num2str(prctile(DWk_CP,30));
+              '40th Percentile(sec)', num2str(MeanPrctWk(4)) ,num2str(SDPrctWk(4)) ,num2str(prctile(DWk_CP,40));
+              '50th Percentile(sec)', num2str(MeanPrctWk(5)) ,num2str(SDPrctWk(5)) ,num2str(prctile(DWk_CP,50));
+              '60th Percentile(sec)', num2str(MeanPrctWk(6)) ,num2str(SDPrctWk(6)) ,num2str(prctile(DWk_CP,60));
+              '70th Percentile(sec)', num2str(MeanPrctWk(7)) ,num2str(SDPrctWk(7)) ,num2str(prctile(DWk_CP,70));
+              '80th Percentile(sec)', num2str(MeanPrctWk(8)) ,num2str(SDPrctWk(8)) ,num2str(prctile(DWk_CP,80));
+              '90th Percentile(sec)', num2str(MeanPrctWk(9)) ,num2str(SDPrctWk(9)) ,num2str(prctile(DWk_CP,90));
+              'Maximal Walking period (sec)', num2str(MeanPrctWk(10)) ,num2str(SDPrctWk(10)) ,num2str(max(DWk_CP));
+              'Statistics Standing Periods:','','' ,''; 
+              '10th Percentile(sec)', num2str(MeanPrctSt(1)) ,num2str(SDPrctSt(1)) ,num2str(prctile(DSt_CP,10));
+              '20th Percentile(sec)', num2str(MeanPrctSt(2)) ,num2str(SDPrctSt(2)) ,num2str(prctile(DSt_CP,20));
+              '30th Percentile(sec)', num2str(MeanPrctSt(3)) ,num2str(SDPrctSt(3)) ,num2str(prctile(DSt_CP,30));
+              '40th Percentile(sec)', num2str(MeanPrctSt(4)) ,num2str(SDPrctSt(4)) ,num2str(prctile(DSt_CP,40));
+              '50th Percentile(sec)', num2str(MeanPrctSt(5)) ,num2str(SDPrctSt(5)) ,num2str(prctile(DSt_CP,50));
+              '60th Percentile(sec)', num2str(MeanPrctSt(6)) ,num2str(SDPrctSt(6)) ,num2str(prctile(DSt_CP,60));
+              '70th Percentile(sec)', num2str(MeanPrctSt(7)) ,num2str(SDPrctSt(7)) ,num2str(prctile(DSt_CP,70));
+              '80th Percentile(sec)', num2str(MeanPrctSt(8)) ,num2str(SDPrctSt(8)) ,num2str(prctile(DSt_CP,80));
+              '90th Percentile(sec)', num2str(MeanPrctSt(9)) ,num2str(SDPrctSt(9)) ,num2str(prctile(DSt_CP,90));
+              'Maximal Standing period (sec)', num2str(MeanPrctSt(10)) ,num2str(SDPrctSt(10)) ,num2str(max(DSt_CP));
+              'Statistics Sedentary Periods:','','' ,''; 
+              '10th Percentile(sec)', num2str(MeanPrctSitLy(1)) ,num2str(SDPrctSitLy(1)) ,num2str(prctile(DSitLy_CP,10));
+              '20th Percentile(sec)', num2str(MeanPrctSitLy(2)) ,num2str(SDPrctSitLy(2)) ,num2str(prctile(DSitLy_CP,20));
+              '30th Percentile(sec)', num2str(MeanPrctSitLy(3)) ,num2str(SDPrctSitLy(3)) ,num2str(prctile(DSitLy_CP,30));
+              '40th Percentile(sec)', num2str(MeanPrctSitLy(4)) ,num2str(SDPrctSitLy(4)) ,num2str(prctile(DSitLy_CP,40));
+              '50th Percentile(sec)', num2str(MeanPrctSitLy(5)) ,num2str(SDPrctSitLy(5)) ,num2str(prctile(DSitLy_CP,50));
+              '60th Percentile(sec)', num2str(MeanPrctSitLy(6)) ,num2str(SDPrctSitLy(6)) ,num2str(prctile(DSitLy_CP,60));
+              '70th Percentile(sec)', num2str(MeanPrctSitLy(7)) ,num2str(SDPrctSitLy(7)) ,num2str(prctile(DSitLy_CP,70));
+              '80th Percentile(sec)', num2str(MeanPrctSitLy(8)) ,num2str(SDPrctSitLy(8)) ,num2str(prctile(DSitLy_CP,80));
+              '90th Percentile(sec)', num2str(MeanPrctSitLy(9)) ,num2str(SDPrctSitLy(9)) ,num2str(prctile(DSitLy_CP,90));
+              'Maximal Sedentary period (sec)', num2str(MeanPrctSitLy(10)) ,num2str(SDPrctSitLy(10)) ,num2str(max(DSitLy_CP));
+              'Kolmogorov_Smirnov stat Dist:','','' ,''; 
+              'Stat Dist Walking periods','',num2str(ks2stat_wk),'';
+              'Stat Dist Standing periods','',num2str(ks2stat_st),'';
+              'Stat Dist Sedentary periods','',num2str(ks2stat_sed),'';}                       
 [NoRows,NoCols]=size(DataCell);          
 %create table with data from DataCell
+
 WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
 CloseWord(ActXWord,WordHandle,FileSpec); 
+
+
+save('table_PATableMetric','DataCell')
+
 
 
 WordFileName=[this_analysis_ID,'_TablePercentBarcodeStates.doc'];
@@ -1283,38 +1289,39 @@ fprintf('Performance metrics will be save in %s\n',FileSpec);
 text='Percent Barcode states';
 WordText(ActXWord,text,style,[1,1]);%enter before and after text 
 
-DataCell={'Barcode states ','TD group (%,mean)','TD group (%,SD)','CP (%,baseline)','CP (%,Followup1)','CP (%,Followup2)','CP (%,Followup3)';
-'1', num2str(MPAS_controls(1)),num2str(SDPAS_controls(1)),num2str(PBarS(1)),'','','';
-'2', num2str(MPAS_controls(2)),num2str(SDPAS_controls(2)),num2str(PBarS(2)),'','','';
-'3', num2str(MPAS_controls(3)),num2str(SDPAS_controls(3)),num2str(PBarS(3)),'','','';
-'4', num2str(MPAS_controls(4)),num2str(SDPAS_controls(4)),num2str(PBarS(4)),'','','';
-'5', num2str(MPAS_controls(5)),num2str(SDPAS_controls(5)),num2str(PBarS(5)),'','','';
-'6', num2str(MPAS_controls(6)),num2str(SDPAS_controls(6)),num2str(PBarS(6)),'','','';
-'7', num2str(MPAS_controls(7)),num2str(SDPAS_controls(7)),num2str(PBarS(7)),'','','';
-'8', num2str(MPAS_controls(8)),num2str(SDPAS_controls(8)),num2str(PBarS(8)),'','','';
-'9', num2str(MPAS_controls(9)),num2str(SDPAS_controls(9)),num2str(PBarS(9)),'','','';
-'10', num2str(MPAS_controls(10)),num2str(SDPAS_controls(10)),num2str(PBarS(10)),'','','';
-'11', num2str(MPAS_controls(11)),num2str(SDPAS_controls(11)),num2str(PBarS(11)),'','','';
-'12', num2str(MPAS_controls(12)),num2str(SDPAS_controls(12)),num2str(PBarS(12)),'','','';
-'13', num2str(MPAS_controls(13)),num2str(SDPAS_controls(13)),num2str(PBarS(13)),'','','';
-'14', num2str(MPAS_controls(14)),num2str(SDPAS_controls(14)),num2str(PBarS(14)),'','','';
-'15', num2str(MPAS_controls(15)),num2str(SDPAS_controls(15)),num2str(PBarS(15)),'','','';
-'16', num2str(MPAS_controls(16)),num2str(SDPAS_controls(16)),num2str(PBarS(16)),'','','';
-'17', num2str(MPAS_controls(17)),num2str(SDPAS_controls(17)),num2str(PBarS(17)),'','','';
-'18', num2str(MPAS_controls(18)),num2str(SDPAS_controls(18)),num2str(PBarS(18)),'','','';
-'19', num2str(MPAS_controls(19)),num2str(SDPAS_controls(19)),num2str(PBarS(19)),'','','';
-'20', num2str(MPAS_controls(20)),num2str(SDPAS_controls(20)),num2str(PBarS(20)),'','','';}
+DataCell={'Barcode states ','TD group (%,mean)','TD group (%,SD)','CP (%,This Analysis)',;
+'1', num2str(MPAS_controls(1)),num2str(SDPAS_controls(1)),num2str(PBarS(1));
+'2', num2str(MPAS_controls(2)),num2str(SDPAS_controls(2)),num2str(PBarS(2));
+'3', num2str(MPAS_controls(3)),num2str(SDPAS_controls(3)),num2str(PBarS(3))';
+'4', num2str(MPAS_controls(4)),num2str(SDPAS_controls(4)),num2str(PBarS(4));
+'5', num2str(MPAS_controls(5)),num2str(SDPAS_controls(5)),num2str(PBarS(5));
+'6', num2str(MPAS_controls(6)),num2str(SDPAS_controls(6)),num2str(PBarS(6));
+'7', num2str(MPAS_controls(7)),num2str(SDPAS_controls(7)),num2str(PBarS(7));
+'8', num2str(MPAS_controls(8)),num2str(SDPAS_controls(8)),num2str(PBarS(8));
+'9', num2str(MPAS_controls(9)),num2str(SDPAS_controls(9)),num2str(PBarS(9));
+'10', num2str(MPAS_controls(10)),num2str(SDPAS_controls(10)),num2str(PBarS(10));
+'11', num2str(MPAS_controls(11)),num2str(SDPAS_controls(11)),num2str(PBarS(11));
+'12', num2str(MPAS_controls(12)),num2str(SDPAS_controls(12)),num2str(PBarS(12));
+'13', num2str(MPAS_controls(13)),num2str(SDPAS_controls(13)),num2str(PBarS(13));
+'14', num2str(MPAS_controls(14)),num2str(SDPAS_controls(14)),num2str(PBarS(14));
+'15', num2str(MPAS_controls(15)),num2str(SDPAS_controls(15)),num2str(PBarS(15));
+'16', num2str(MPAS_controls(16)),num2str(SDPAS_controls(16)),num2str(PBarS(16));
+'17', num2str(MPAS_controls(17)),num2str(SDPAS_controls(17)),num2str(PBarS(17));
+'18', num2str(MPAS_controls(18)),num2str(SDPAS_controls(18)),num2str(PBarS(18));
+'19', num2str(MPAS_controls(19)),num2str(SDPAS_controls(19)),num2str(PBarS(19));
+'20', num2str(MPAS_controls(20)),num2str(SDPAS_controls(20)),num2str(PBarS(20))   ;}
  
 [NoRows,NoCols]=size(DataCell);          
 %create table with data from DataCell
 WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
 CloseWord(ActXWord,WordHandle,FileSpec);    
+save('table_percentBarcode','DataCell')
 
 
 %get analysis ID
 path_destination=[struct_path.path,'/',this_analysis_ID];
 analysis_cell{num_analysis,1}=this_analysis_ID;
-Advance_of_analysis=get(handles.edit3,'String');
+
 analysis_cell{num_analysis,2}=path_destination;
 patient_struct.Analysis=analysis_cell;
 
@@ -1340,8 +1347,8 @@ d = datetime('today')
 date=datestr(d);
 save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
 type_of_analysis='PA';
-save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis','other_details');
-save(['function_interaction/current_analysis_report'],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis','other_details','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
+save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','type_of_analysis','other_details');
+save(['function_interaction/current_analysis_report'],'this_analysis_ID','ID','Name','Surname','path_destination','date','type_of_analysis','other_details','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
 % save in local path name
 
 mkdir(path_destination);

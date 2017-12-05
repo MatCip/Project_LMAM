@@ -10,23 +10,59 @@ function createPAReport
 %    data.Image2    = fullfile(pwd, 'barcode.png');
 %    data.Image3    = fullfile(pwd, 'spider.png');
    %Create new object of class Document, based on AdvancedReportTemplate
-   doc = Document('PhysicalActivityReport_1', 'docx', 'PA_Analysis_template_4');
+   doc = Document('PhysicalActivityReport_2', 'docx', 'PA_Analysis_template_14');
    struct=load('function_interaction/current_analysis_report.mat');
-   disp(pwd);
+   parts_cell_report=load('function_interaction/parts_cell_report_PA.mat');
+   PATableMatric_struct=load('temp_word_PA/table_PATableMetric.mat');
+   percentBarcode_table_struct=load('temp_word_PA/table_percentBarcode.mat');
+   MetricPA_table_Cell=PATableMatric_struct.DataCell;
+   Barcode_table=percentBarcode_table_struct.DataCell;
+   
+   %% create the structures
+   cell_part=parts_cell_report.cell_part;
+   dim_cell=size(cell_part);
+   chr = blanks(6);
+   str_conf='';
+   for i=1:dim_cell(2)
+       if(isempty(cell_part{i})==1)
+           
+           cell_part{i}='';
+           disp(i)
+       end
+       str_conf=[str_conf,chr,cell_part{i}];
+       
+   end
+   
+   other_details=struct.other_details;
+   
+   P_Name=[struct.Name,blanks(2),struct.Surname];
+   %% import the images
+   path_imgs=struct.path_destination;
+   data.Image2    = fullfile(path_imgs, 'PiePostures.tif');
+   data.Image1    = fullfile(path_imgs, 'BarplotPostures.tif');
+   data.Image4    = fullfile(path_imgs, 'BoxPlotDurationPosturePeriods.tif');
+    data.Image3    = fullfile(path_imgs, 'posture_allocation_per_hour.jpg');
+    data.Image5    = fullfile(path_imgs, 'PAPattern.jpg');
+    data.Image6    = fullfile(path_imgs, 'Barcode.jpg');
    %Move to the first hole
     
-   %1
-    HoleId = moveToNextHole(doc); 
+    %1
+     HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
      textObj = Text(struct.ID);
      append(doc, textObj); 
    
-   %2
-   HoleId = moveToNextHole(doc); 
+%    %2
+     HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
      textObj = Text(struct.this_analysis_ID);
      append(doc, textObj); 
-     %3
+     3
+      HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(P_Name);
+     append(doc, textObj); 
+     
     HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
      textObj = Text(struct.date);
@@ -69,11 +105,116 @@ function createPAReport
      textObj = Text(struct.Weight);
      append(doc, textObj);
      
+     HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(struct.Advance_of_analysis);
+     append(doc, textObj);
+     
+     HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(other_details.monitoring_day);
+     append(doc, textObj);
+     
+      HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(str_conf);
+     append(doc, textObj);
+     
+      HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(other_details.duration);
+     append(doc, textObj);
+     
+     HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(other_details.start_time_end_time);
+     append(doc, textObj);
+     
+     HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(other_details.weather);
+     append(doc, textObj);
+     
+    
+     
+     
+       HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(other_details.remarks);
+     append(doc, textObj);
+     
+     
+     HoleId = moveToNextHole(doc); 
+     img1 = Image(data.Image1);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img1.Width  = '6cm';
+     img1.Height = '6cm';
+     append(doc, img1);
+    
+     
+       HoleId = moveToNextHole(doc); 
+       fprintf('Current hole ID: %s\n', HoleId);
+     img2 = Image(data.Image2);
+     img2.Width  = '9cm';
+     img2.Height = '8cm';
+     append(doc, img2)
+     
+     HoleId = moveToNextHole(doc);
+     table = Table( MetricPA_table_Cell, 'AR_Table');
+     fprintf('Current hole ID: %s\n', HoleId);
+     table.Style={FontSize('10')};
+     table.Border = 'single';
+     table.ColSep = 'single';
+     table.RowSep = 'single';
+     append(doc, table);   
+     
+     HoleId = moveToNextHole(doc); 
+     img3 = Image(data.Image3);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img3.Width  = '9cm';
+     img3.Height = '8cm';
+     append(doc, img3)
+     
+     HoleId = moveToNextHole(doc); 
+     img4 = Image(data.Image4);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img4.Width  = '9cm';
+     img4.Height = '8cm';
+     append(doc, img4)
+
+     HoleId = moveToNextHole(doc); 
+     img5 = Image(data.Image5);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img5.Width  = '9cm';
+     img5.Height = '8cm';
+     append(doc, img5)
+     
+     HoleId = moveToNextHole(doc); 
+     img6= Image(data.Image6);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img6.Width  = '9cm';
+     img6.Height = '8cm';
+     append(doc, img6)
+     
+     HoleId = moveToNextHole(doc);
+     table = Table( Barcode_table, 'AR_Table');
+     fprintf('Current hole ID: %s\n', HoleId);
+     table.Style={FontSize('10')};
+     table.Border = 'single';
+     table.ColSep = 'single';
+     table.RowSep = 'single';
+     append(doc, table);   
+     
+     
+     
      
    %Close the document and write the result to disc
    close(doc);
    %Show the result
-   rptview('PhysicalActivityReport_1', 'docx');
+   rptview('PhysicalActivityReport_2', 'docx');
+   
+   
+   
 end
 
 
