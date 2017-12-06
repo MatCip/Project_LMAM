@@ -1,5 +1,5 @@
 
-function pathword=PlotGaitResults3(RightLegLength,LeftLegLength,path_out,this_analysis_ID)
+function pathword=PlotGaitResults3(RightLegLength,LeftLegLength,path_out,this_analysis_ID,th_sp)
 %style='Heading 1';
 style='Titolo 1'; % if Word configured in French
 
@@ -64,7 +64,6 @@ SR_sw_TD=SR_sw_TD_gr1w;
 SR_st_TD=SR_st_TD_gr1w; 
 SR_knan_TD=SR_knan_TD_gr1w; 
 
-
 [mc,nc]=size(cad_TD)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 load([path_out,'/walking_params_new'])
@@ -81,7 +80,7 @@ PATH_GAIT=[path_out,'/gait_results']
 mkdir (PATH_GAIT);
 
 %select to compare with TD group only walking episodes (speed<=1.25m/s))
-th_sp=1.25;
+
 k1=find(MeanParamsGait_all(:,16)<=th_sp);
 steps=2*walking_params_new(:,1);
 m_steps=steps(k1);
@@ -187,6 +186,38 @@ sd_Nspeed=SDParamsGait(:,16)/ll;
 sd_Nsl_R=SDParamsGait(:,14)/Rll;
 sd_Nsl_L=SDParamsGait(:,15)/Lll;
 
+SymetryIndex(1,1)=m_SR_sl;SymetryIndex(1,2)=sd_SR_sl;
+SymetryIndex(2,1)=m_SR_st;SymetryIndex(2,2)=sd_SR_st;
+SymetryIndex(3,1)=m_SR_sw;SymetryIndex(3,2)=sd_SR_sw;
+SymetryIndex(4,1)=m_SR_knan;SymetryIndex(4,2)=sd_SR_knan;
+save([path_out,'/SymetryIndex'],'SymetryIndex')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+GaitParamsSelectedBySpeed=[];
+GaitParamsSelectedBySpeed(:,1)=m_cad; 
+GaitParamsSelectedBySpeed(:,2)=m_gct; 
+GaitParamsSelectedBySpeed(:,3)=m_speed; 
+GaitParamsSelectedBySpeed(:,4)=m_Nspeed; 
+GaitParamsSelectedBySpeed(:,5)=m_sl_R; 
+GaitParamsSelectedBySpeed(:,6)=m_sl_L; 
+GaitParamsSelectedBySpeed(:,7)=m_Nsl_R; 
+GaitParamsSelectedBySpeed(:,8)=m_Nsl_L; 
+GaitParamsSelectedBySpeed(:,9)=m_swing_R; 
+GaitParamsSelectedBySpeed(:,10)=m_swing_L; 
+GaitParamsSelectedBySpeed(:,11)=m_stance_R; 
+GaitParamsSelectedBySpeed(:,12)=m_stance_L; 
+GaitParamsSelectedBySpeed(:,13)=m_ShAng_R; 
+GaitParamsSelectedBySpeed(:,14)=m_ShAng_L; 
+GaitParamsSelectedBySpeed(:,15)=m_ThAng_R; 
+GaitParamsSelectedBySpeed(:,16)=m_ThAng_L; 
+GaitParamsSelectedBySpeed(:,17)=m_KnAng_R; 
+GaitParamsSelectedBySpeed(:,18)=m_KnAng_L;
+GaitParamsSelectedBySpeed(:,19)=m_steps;
+GaitParamsSelectedBySpeed(:,20)=m_limp; 
+save([path_out,'/GaitParamsSelectedBySpeed'],'GaitParamsSelectedBySpeed')
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 [mp,np]=size(m_cad)
@@ -195,9 +226,11 @@ m=m+1;
 xt=1:m;
 
 
+%% Save the results 
 
-fig125=figure   %cadence
+fig125=figure;   %cadence
 set(fig125,'visible','off');
+set(0, 'currentfigure', fig125); 
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(3,1);
 a(1:m)=RefValuesGaitParams_TD(3,1)+RefValuesGaitParams_TD(3,2);
@@ -222,14 +255,9 @@ savefig(fig125,[path,'.fig']);
 saveas(fig125,path,'bmp')
 
 
-% saveas(fig1,'Cadence','')
-% saveas(fig1,'Cadence','bmp')
-
-% 
-
-% 
-fig2=figure %speed
+fig2=figure; %speed
 set(fig2,'visible','off');
+set(0, 'currentfigure', fig2);
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(1,1);
 a(1:m)=RefValuesGaitParams_TD(1,1)+RefValuesGaitParams_TD(1,2);
@@ -253,8 +281,9 @@ path=strcat(PATH_GAIT,'/Speed');
 savefig(fig2,[path,'.fig']);
 saveas(fig2,path,'bmp')
 % 
-fig22=figure %normalized speed
+fig22=figure; %normalized speed
 set(fig22,'visible','off');
+set(0, 'currentfigure', fig22);
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(2,1);
 a(1:m)=RefValuesGaitParams_TD(2,1)+RefValuesGaitParams_TD(2,2);
@@ -280,8 +309,9 @@ saveas(fig22,path,'bmp')
 
 % 
 % 
-fig3=figure  %double support
+fig3=figure;  %double support
 set(fig3,'visible','off');
+set(0, 'currentfigure', fig3);
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(5,1);
 a(1:m)=RefValuesGaitParams_TD(5,1)+RefValuesGaitParams_TD(5,2);
@@ -306,8 +336,9 @@ savefig(fig3,[path,'.fig']);
 saveas(fig3,path,'bmp')
 % 
 % 
-fig3b=figure  %gct
+fig3b=figure;  %gct
 set(fig3b,'visible','off');
+set(0, 'currentfigure', fig3b);
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(4,1);
 a(1:m)=RefValuesGaitParams_TD(4,1)+RefValuesGaitParams_TD(4,2);
@@ -332,8 +363,8 @@ saveas(fig3b,path,'bmp')
 % 
 % %%%%%%%%%%%%%%%%%%
 % 
-fig4=figure  %shank angle
-
+fig4=figure;  %shank angle
+set(0, 'currentfigure', fig4);
 set(fig4,'visible','off');
 limy=max([RefValuesGaitParams_TD(14,1)+RefValuesGaitParams_TD(14,2),RefValuesGaitParams_TD(15,1)+RefValuesGaitParams_TD(15,2),max(m_ShAng_R)+max(sd_ShAng_R),max(m_ShAng_L)+max(sd_ShAng_L)]);
 subplot(221)
@@ -385,7 +416,8 @@ saveas(fig4,path,'bmp')
 
 % %%%%%%%%%%%%%%%%%%
 limy=max([RefValuesGaitParams_TD(16,1)+RefValuesGaitParams_TD(16,2),RefValuesGaitParams_TD(17,1)+RefValuesGaitParams_TD(17,2),max(m_ThAng_R)+max(sd_ThAng_R),max(m_ThAng_L)+max(sd_ThAng_L)]);
-fig4x=figure  %Thigh angle
+fig4x=figure;  %Thigh angle
+set(0, 'currentfigure', fig4x);
 set(fig4x,'visible','off');
 subplot(221)
 title('right')
@@ -434,8 +466,9 @@ savefig(fig4x,[path,'.fig']);
 saveas(fig4x,path,'bmp')
 % 
 %
-fig4y=figure  %Knee angle
+fig4y=figure;  %Knee angle
 set(fig4y,'visible','off');
+set(0, 'currentfigure', fig4y);
 limy=max([RefValuesGaitParams_TD(18,1)+RefValuesGaitParams_TD(18,2),RefValuesGaitParams_TD(19,1)+RefValuesGaitParams_TD(19,2),max(m_KnAng_R)+max(sd_KnAng_R),max(m_KnAng_L)+max(sd_KnAng_L)]);
 subplot(221)
 title('right')
@@ -486,8 +519,9 @@ saveas(fig4y,path,'bmp')
 % 
 % %%%%%%%%%%%%%%%%%%
 % 
-fig5=figure  %stride length
+fig5=figure;  %stride length
 set(fig5,'visible','off');
+set(0, 'currentfigure', fig5);
 limy=max([RefValuesGaitParams_TD(6,1)+RefValuesGaitParams_TD(6,2),RefValuesGaitParams_TD(7,1)+RefValuesGaitParams_TD(7,2),max(m_sl_R)+max(sd_sl_R),max(m_sl_L)+max(sd_sl_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(6,1);
@@ -543,8 +577,9 @@ savefig(fig5,[path,'.fig']);
 saveas(fig5,path,'bmp')
 % %%%%%%%%%%%%%%
 % 
-fig5y=figure  %stride length
+fig5y=figure;  %stride length
 set(fig5y,'visible','off');
+set(0, 'currentfigure', fig5y);
 limy=max([RefValuesGaitParams_TD(8,1)+RefValuesGaitParams_TD(8,2),RefValuesGaitParams_TD(9,1)+RefValuesGaitParams_TD(9,2),max(m_Nsl_R)+max(sd_Nsl_R),max(m_Nsl_L)+max(sd_Nsl_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(8,1);
@@ -601,8 +636,9 @@ saveas(fig5y,path,'bmp')
 % %%%%%%%%%%%%%%
 % 
 % 
-fig6=figure  %swing 
+fig6=figure;  %swing 
 set(fig6,'visible','off');
+set(0, 'currentfigure', fig6);
 limy=max([RefValuesGaitParams_TD(12,1)+RefValuesGaitParams_TD(12,2),RefValuesGaitParams_TD(13,1)+RefValuesGaitParams_TD(13,2),max(m_swing_R)+max(sd_swing_R),max(m_swing_L)+max(sd_swing_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(12,1);
@@ -651,8 +687,9 @@ savefig(fig6,[path,'.fig']);
 saveas(fig6,path,'bmp')
 % %%%%%%%%%%%%%%
 % 
-fig7=figure  %stance
+fig7=figure;  %stance
 set(fig7,'visible','off');
+set(0, 'currentfigure', fig7);
 limy=max([RefValuesGaitParams_TD(10,1)+RefValuesGaitParams_TD(10,2),RefValuesGaitParams_TD(11,1)+RefValuesGaitParams_TD(11,2),max(m_stance_R)+max(sd_stance_R),max(m_stance_L)+max(sd_stance_L)]);
 subplot(221)
 x(1:m)=RefValuesGaitParams_TD(10,1);
@@ -751,8 +788,9 @@ saveas(fig7,path,'bmp')
 % % % % % saveas(fig20,'SymmetryIndex','jpg')
 
 %%%%%%%%%%%%%%
-fig20=figure %symmetry
+fig20=figure; %symmetry
 set(fig20,'visible','off');
+set(0, 'currentfigure', fig20);
 subplot(221);
 title('SrideLength')
 mas=[RefValuesGaitParams_TD(20,1); m_SR_sl];
@@ -808,8 +846,9 @@ saveas(fig20,path,'bmp')
 
 
 
-fig21=figure   %Limp
+fig21=figure;   %Limp
 set(fig21,'visible','off');
+set(0, 'currentfigure', fig21);
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(24,1);
 a(1:m)=RefValuesGaitParams_TD(24,1)+RefValuesGaitParams_TD(24,2);
@@ -835,8 +874,9 @@ savefig(fig21,[path,'.fig']);
 saveas(fig21,path,'bmp')
 % 
 
-fig22=figure   %steps 
+fig22=figure;   %steps 
 set(fig22,'visible','off');
+set(0, 'currentfigure', fig22);
 subplot(121);
 x(1:m)=RefValuesGaitParams_TD(25,1);
 a(1:m)=RefValuesGaitParams_TD(25,1)+RefValuesGaitParams_TD(25,2);
@@ -891,8 +931,9 @@ load ([path_out,'/mat_folder/KneeAngleL_maxWalk'])
 %%%%%%%%%%%%%%%%%%
 Time=[0:0.5:99.5];  
 %
-fig25=figure
+fig25=figure;
 set(fig25,'visible','off');
+set(0, 'currentfigure', fig25);
 subplot(231)
 hold on
 for j=1:m
@@ -960,6 +1001,32 @@ supertitle('Angles: Shank; Thigh; Knee','FontSize',14,'Color','k')
 path=strcat(PATH_GAIT,'/KinematicalCurves_MaxWalk');
 savefig(fig25,[path,'.fig']);
 saveas(fig25,path,'bmp')
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%radarplot  gait parameters
+X=RefValuesGaitParams_TD;
+mean_ref=[X(1,1) round(X(3,1)) X(4,1) round(X(5,1)) X(24,1) X(20,1) X(21,1) X(22,1) X(23,1) X(6,1) X(7,1) round(X(12,1)) round(X(13,1)) round(X(10,1)) round(X(11,1)) round(X(25,1))];
+sd1_ref=[X(1,1)+X(1,2) X(3,1)+X(3,2) X(4,1)+X(4,2) X(5,1)+X(5,2) X(24,1)+X(24,2) X(20,1)+X(20,2) X(21,1)+X(21,2) X(22,1)+X(22,2) X(23,1)+X(23,2) X(6,1)+X(6,2) X(7,1)+X(7,2) round(X(12,1)+X(12,2)) round(X(13,1)+X(13,2)) round(X(10,1)+X(10,2)) round(X(11,1)+X(11,2)) round(X(25,1)+X(25,2))];
+sd2_ref=[X(1,1)-X(1,2) X(3,1)-X(3,2) X(4,1)-X(4,2) X(5,1)-X(5,2) X(24,1)-X(24,2) X(20,1)-X(20,2) X(21,1)-X(21,2) X(22,1)-X(22,2) X(23,1)-X(23,2) X(6,1)-X(6,2) X(7,1)-X(7,2) round(X(12,1)-X(12,2)) round(X(13,1)-X(13,2)) round(X(10,1)-X(10,2)) round(X(11,1)-X(11,2)) round(X(25,1)-X(25,2))];
+params_CP=[mean(m_speed) round(mean(m_cad)) mean(m_gct) round(mean(m_DS)) mean(m_limp) abs(m_SR_sl) abs(m_SR_sw) abs(m_SR_st) abs(m_SR_knan) mean(m_sl_R) mean(m_sl_L) round(mean(m_swing_R)) round(mean(m_swing_L)) round(mean(m_stance_R)) round(mean(m_stance_L)) round(mean(m_steps))];
+params_tot=[mean_ref; sd1_ref; sd2_ref; params_CP;]';
+fig26=spider(params_tot,'CP vs.TDs',[],{'spd'; 'cad'; 'gct'; 'DS';'Limp';'SR-sl'; 'SR-sw'; 'SR-st'; 'SR-knan'; 'slR';'slL';'swR';'swL';'siR';'stL';'steps' },{'TD(Mean)' 'TD(Mean+SD)' 'TD(Mean-SD)' 'CP'});
+path=strcat(PATH_GAIT,'/Spider1');
+savefig(fig26,[path,'.fig']);
+saveas(fig26,path,'bmp')
+
+mean_ref=[X(1,1) round(X(3,1)) X(4,1) round(X(5,1)) X(24,1) X(20,1) X(21,1) X(22,1) X(23,1) X(6,1) X(7,1) round(X(12,1)) round(X(13,1)) round(X(10,1)) round(X(11,1)) round(X(25,1))];
+params_CP=[mean(m_speed) round(mean(m_cad)) mean(m_gct) round(mean(m_DS)) mean(m_limp) abs(m_SR_sl) abs(m_SR_sw) abs(m_SR_st) abs(m_SR_knan) mean(m_sl_R) mean(m_sl_L) round(mean(m_swing_R)) round(mean(m_swing_L)) round(mean(m_stance_R)) round(mean(m_stance_L)) round(mean(m_steps))];
+params_tot2=[mean_ref;  params_CP;]';
+fig27=spider(params_tot2,'CP vs.TDs',[],{'spd'; 'cad'; 'gct'; 'DS';'Limp';'SR-sl'; 'SR-sw'; 'SR-st'; 'SR-knan'; 'slR';'slL';'swR';'swL';'stR';'stL';'steps' },{'TD(Mean)'  'CP'});
+path=strcat(PATH_GAIT,'/Spider2');
+savefig(fig27,[path,'.fig']);
+saveas(fig27,path,'bmp')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %calcul KS statistical distances

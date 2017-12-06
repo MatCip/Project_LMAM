@@ -22,7 +22,7 @@ function varargout = analyze_gait(varargin)
 
 % Edit the above text to modify the response to help analyze_gait
 
-% Last Modified by GUIDE v2.5 06-Dec-2017 12:08:07
+% Last Modified by GUIDE v2.5 06-Dec-2017 16:27:30
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -58,7 +58,7 @@ I1=imread('./pic/folder-icon.png');
 imshow(I1,'Parent',handles.axes3);
 I2=imread('./pic/img-thing.jpeg');
 imshow(I2,'Parent',handles.axes1)
-I2=imread('./pic/img-thing.jpeg');
+
 imshow(I2,'Parent',handles.axes2)
 
 handles.gyr1_LThigh_1=varargin{1};
@@ -478,8 +478,14 @@ Thighs=[Pitch_RThigh';Pitch_LThigh']';
 addpath(genpath('gait_functions'))
 disp(PathName_1);
 
-
-thres_step=handles.threshold;
+thres=get(handles.edit5,'String');
+if(isempty(str2num(thres))==1)
+    input_not_correct
+    return
+end
+    thres_step=str2num(thres);
+    disp(thres)
+    disp(size(thres))
 
 % starting gait analysis 
 res_gait = AutoGaitAnalyze_CPalsy(Shanks,Thighs,LegDim,PathName_1,thres_step);
@@ -592,9 +598,22 @@ save(['function_interaction/current_analysis_report'],'this_analysis_ID','ID','N
 mkdir(path_destination);
 copyfile(PathName_1,path_destination)
 
+th_sp=get(handles.edit6,'String');
+if(isempty(th_sp)==1)
+    th_sp=1.4;
 
-pathword=PlotGaitResults3(RightLegLength,LeftLegLength,path_destination,this_analysis_ID);
-disp('indirizzzzoooooo')
+else
+
+if(isempty(str2num(th_sp))==1)
+    input_not_correct
+    return
+end
+    th_sp=str2num(th_sp);
+end
+    
+    
+pathword=PlotGaitResults3(RightLegLength,LeftLegLength,path_destination,this_analysis_ID,th_sp);
+
 disp(pwd)
 cd('..')
 disp(path_destination)
@@ -1039,6 +1058,29 @@ end
 % --- Executes during object creation, after setting all properties.
 function edit5_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit6_Callback(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit6 as text
+%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit6_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 

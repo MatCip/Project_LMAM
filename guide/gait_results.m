@@ -22,7 +22,7 @@ function varargout = gait_results(varargin)
 
 % Edit the above text to modify the response to help gait_results
 
-% Last Modified by GUIDE v2.5 28-Nov-2017 11:00:40
+% Last Modified by GUIDE v2.5 06-Dec-2017 17:24:00
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -103,6 +103,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/KneeAngle.bmp']);
@@ -133,6 +135,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Symmetry_index.bmp']);
@@ -163,6 +167,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Normal_Stride_length.bmp']);
@@ -193,6 +199,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Swing.bmp']);
@@ -223,6 +231,8 @@ set(handles.togglebutton7,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Stance.bmp']);
@@ -253,6 +263,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton7,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Limp.bmp']);
@@ -283,6 +295,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton7,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/StepsPerWalkingPeriods.bmp']);
@@ -313,6 +327,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton7,'Value',0);
 set(handles.togglebutton15,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/KinematicalCurves_MaxWalk.bmp']);
@@ -344,6 +360,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Cadence.bmp']);
@@ -375,7 +393,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
-
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 try
 I1=imread([handles.path,'/Gait_cycle_time.bmp']);
 imshow(I1,'Parent',handles.axes1)
@@ -406,6 +425,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Normalized_Speed.bmp']);
@@ -437,6 +458,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Double_Support.bmp']);
@@ -468,6 +491,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/StrideLength.bmp']);
@@ -499,6 +524,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/Speed.bmp']);
@@ -531,6 +558,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/ShankAngle.bmp']);
@@ -562,6 +591,8 @@ set(handles.togglebutton13,'Value',0);
 set(handles.togglebutton14,'Value',0);
 set(handles.togglebutton15,'Value',0);
 set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+set(handles.togglebutton18,'Value',0);
 
 try
 I1=imread([handles.path,'/ThighAngle.bmp']);
@@ -639,6 +670,12 @@ end
 if(get(handles.togglebutton16,'Value')==1)
     openfig([handles.path,'/KinematicalCurves_MaxWalk.fig'],'visible')
 end
+if(get(handles.togglebutton17,'Value')==1)
+    openfig([handles.path,'/Spider1.fig'],'visible')
+end
+if(get(handles.togglebutton18,'Value')==1)
+    openfig([handles.path,'/Spider2.fig'],'visible')
+end
 
 
 
@@ -667,4 +704,68 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
     createGaitReport
+
+
+
+% --- Executes on button press in togglebutton17.
+function togglebutton17_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton17 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton17
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton1,'Value',0);
+set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton7,'Value',0);
+set(handles.togglebutton9,'Value',0);
+set(handles.togglebutton10,'Value',0);
+set(handles.togglebutton11,'Value',0);
+set(handles.togglebutton12,'Value',0);
+set(handles.togglebutton13,'Value',0);
+set(handles.togglebutton14,'Value',0);
+set(handles.togglebutton15,'Value',0);
+set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton18,'Value',0);
+try
+I1=imread([handles.path,'/Spider1.bmp']);
+imshow(I1,'Parent',handles.axes1)
+catch
+    file_not_found
+end
+
+
+% --- Executes on button press in togglebutton18.
+function togglebutton18_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton18 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton1,'Value',0);
+set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton7,'Value',0);
+set(handles.togglebutton9,'Value',0);
+set(handles.togglebutton10,'Value',0);
+set(handles.togglebutton11,'Value',0);
+set(handles.togglebutton12,'Value',0);
+set(handles.togglebutton13,'Value',0);
+set(handles.togglebutton14,'Value',0);
+set(handles.togglebutton15,'Value',0);
+set(handles.togglebutton16,'Value',0);
+set(handles.togglebutton17,'Value',0);
+try
+I1=imread([handles.path,'/Spider2.bmp']);
+imshow(I1,'Parent',handles.axes1)
+catch
+    file_not_found
+end
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton18
+
 

@@ -1040,7 +1040,7 @@ saveas(fig2,path,'jpg')
 
 %%%%%Plot posture Results%%%%%%%%%%
 %cd E:\CP\RefValuesControlsDL\posture
-
+format short G
 addpath(genpath('classification/posture'))
 load duration_SiLy_controls 
 load duration_St_controls 
@@ -1080,6 +1080,9 @@ savefig(fig1,[path,'.fig']);
 saveas(fig1,path,'jpg')
 
 %%%%%%%%%%%%%%%%%
+addpath(genpath('classification'))
+
+
 
 l=round(length(posture_ref)/40);
 indx1=groupfind(posture_ref==1 | posture_ref==2); 
@@ -1088,10 +1091,19 @@ indx3=groupfind(posture_ref==4);
 DSitLy_CP=round((indx1(:,2)-indx1(:,1))/40);
 DSt_CP=round((indx2(:,2)-indx2(:,1))/40);
 DWk_CP=round((indx3(:,2)-indx3(:,1))/40);
-addpath(genpath('classification'))
+DurationPeriodPostures={DSitLy_CP,DSt_CP,DWk_CP};  %%%%%%%%%%%%%%%
+path=strcat(PathName_1,'/DurationPeriodPostures');
+save (path, 'DurationPeriodPostures')
+
+
 PSitLy_CP=(sum(DSitLy_CP)/l)*100;
 PSt_CP=(sum(DSt_CP)/l)*100;
 PWk_CP=(sum(DWk_CP)/l)*100;
+PercentPostures=[PSitLy_CP  PSt_CP PWk_CP]
+path=strcat(PathName_1,'/PercentPostures');
+save (path, 'PercentPostures')
+ clear indx1; clear indx2;  clear indx3; 
+
 
 MeanPostures=[MeanPercentPosturesControls; PSitLy_CP  PSt_CP PWk_CP];
 SDPostures=[SDPercentPosturesControls; 0  0 0];
@@ -1104,6 +1116,44 @@ savefig(gcf,[path,'.fig'])
 saveas(gcf,path,'png')
 saveas(gcf,path,'tif')
 saveas(gcf,path,'jpg')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%percent of barcode states
+load MPAS_controls 
+load SDPAS_controls 
+load MeanPrctWk 
+load SDPrctWk 
+load MeanPrctSt 
+load SDPrctSt 
+load MeanPrctSitLy 
+load SDPrctSitLy 
+l=length(barcode1);
+ps1=(length(find(barcode1==1))/l)*100;ps2=(length(find(barcode1==2))/l)*100;
+ps3=(length(find(barcode1==3))/l)*100;ps4=(length(find(barcode1==4))/l)*100;
+ps5=(length(find(barcode1==5))/l)*100;ps6=(length(find(barcode1==6))/l)*100;
+ps7=(length(find(barcode1==7))/l)*100;ps8=(length(find(barcode1==8))/l)*100;
+ps9=(length(find(barcode1==9))/l)*100;ps10=(length(find(barcode1==10))/l)*100;
+ps11=(length(find(barcode1==11))/l)*100;ps12=(length(find(barcode1==12))/l)*100;
+ps13=(length(find(barcode1==13))/l)*100;ps14=(length(find(barcode1==14))/l)*100;
+ps15=(length(find(barcode1==15))/l)*100;ps16=(length(find(barcode1==16))/l)*100;
+ps17=(length(find(barcode1==17))/l)*100;ps18=(length(find(barcode1==18))/l)*100;
+ps19=(length(find(barcode1==19))/l)*100;ps20=(length(find(barcode1==20))/l)*100;
+ps21=(length(find(barcode1==21))/l)*100;ps22=(length(find(barcode1==22))/l)*100;
+
+
+PBarS=zeros(1,22);
+PBarS=[ps1 ps2 ps3 ps4 ps5 ps6 ps7 ps8 ps9 ps10 ps11 ps12 ps13 ps14 ps15 ps16 ps17 ps18 ps19 ps20 ps21 ps22];
+PercentBarcodeStates=PBarS;
+path=strcat(PathName_1,'/PercentBarcodeStates');
+save (path, 'PercentBarcodeStates');
+
+MeanBarStates=[MPAS_controls; ps1 ps2 ps3 ps4 ps5 ps6 ps7 ps8 ps9 ps10 ps11 ps12 ps13 ps14 ps15 ps16 ps17 ps18 ps19 ps20 ps21 ps22];
+SDMeanBarStates=[SDPAS_controls; 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 duration_St_controls=duration_St_controls';
 [m2,n2]=size(duration_St_controls)
@@ -1147,6 +1197,9 @@ duration_Wk_controls=duration_Wk_controls';
  saveas(gcf,path,'png')
  saveas(gcf,path,'tif')
  saveas(gcf,path,'jpg')
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%Plot Performance Results%%%%%%%%%%
+ 
  
  [n2,m2]=size(walk_ref);
 StWk_ref=[];EndWk_ref=[];steps_ref=[];
@@ -1184,16 +1237,40 @@ saveas(fig1,path,'png')
 saveas(fig1,path,'tif')
 
 
+
+
+%%% spider graph
+
+load metrics_perf
+sp_tot= metrics_perf(1);
+sp_max=metrics_perf(2);
+spd_max=metrics_perf(3);
+acv=metrics_perf(4);
+clear metrics_perf
+
+%cd E:\CP\RefValuesControlsDL\performance 
+load RefValuesPerf_TD 
+
+mean_ref=[round(RefValuesPerf_TD(1,1)) round(RefValuesPerf_TD(2,1)) RefValuesPerf_TD(3,1) round(RefValuesPerf_TD(4,1))];
+sd1_ref=[round(RefValuesPerf_TD(1,1)+RefValuesPerf_TD(1,2)) round(RefValuesPerf_TD(2,1)+RefValuesPerf_TD(2,2)) RefValuesPerf_TD(3,1)+RefValuesPerf_TD(3,2) round(RefValuesPerf_TD(4,1)+RefValuesPerf_TD(4,2))];
+sd2_ref=[round(RefValuesPerf_TD(1,1)-RefValuesPerf_TD(1,2)) round(RefValuesPerf_TD(2,1)-RefValuesPerf_TD(2,2)) RefValuesPerf_TD(3,1)-RefValuesPerf_TD(3,2) round(RefValuesPerf_TD(4,1)-RefValuesPerf_TD(4,2))];
+%params_CP=[round(acv) round(sp_max) spd_max round(sp_tot)];
+params_CP=[round(sp_tot) round(sp_max) spd_max round(acv)];
+params_tot=[mean_ref; sd1_ref; sd2_ref; params_CP;]';
+
+path=strcat(PathName_1,'/spider_perf_DL');
+
+
+fig1=spider(params_tot,'CP vs.TDs',[],{'total steps' ''; 'max walk' 'steps'; 'max speed' 'm/s'; 'activ' '%'},{'TD(Mean)' 'TD(Mean+SD)' 'TD(Mean-SD)' 'CP'})
+savefig(fig1,[path,'.fig']);
+% saveas(fig1,'spider_perf_DL','png')
+% saveas(fig1,'spider_perf_DL','tif')
+saveas(fig1,path,'png')
+
 %generate report
 
-load MPAS_controls 
-load SDPAS_controls 
-load MeanPrctWk 
-load SDPrctWk 
-load MeanPrctSt 
-load SDPrctSt 
-load MeanPrctSitLy 
-load SDPrctSitLy 
+
+
 [h,p,ks2stat_wk] = kstest2(duration_Wk_controls,DWk_CP);
 [h,p,ks2stat_st] = kstest2(duration_St_controls,DSt_CP);
 [h,p,ks2stat_sed] = kstest2(duration_SiLy_controls,DSitLy_CP);

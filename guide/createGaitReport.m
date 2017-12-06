@@ -10,8 +10,9 @@ function createGaitReport
 %    data.Image2    = fullfile(pwd, 'barcode.png');
 %    data.Image3    = fullfile(pwd, 'spider.png');
    %Create new object of class Document, based on AdvancedReportTemplate
-   doc = Document('PhysicalActivityReport_2', 'docx', 'PA_Gait_template_3');
    struct=load('function_interaction/current_analysis_report.mat');
+   doc = Document(['GaitAnalysisReport_',struct.this_analysis_ID] ,'docx', 'PA_Gait_template_6');
+   
    parts_cell_report=load('function_interaction/parts_cell_report_gait.mat');
    Gait_TableMetric_struct=load('temp_word_GAIT/table_gaitMetrics.mat');
    
@@ -49,7 +50,10 @@ function createGaitReport
     data.Image9    = fullfile(path_imgs, 'ThighAngle.bmp');
     data.Image10    = fullfile(path_imgs, 'ShankAngle.bmp');
     data.Image11   = fullfile(path_imgs, 'KneeAngle.bmp');
- 
+    data.Image12    = fullfile(path_imgs, 'Symmetry_index.bmp');
+    data.Image13   = fullfile(path_imgs, 'KinematicalCurves_MaxWalk.bmp');
+    data.Image14   = fullfile(path_imgs, 'Spider1.bmp');
+    data.Image15   = fullfile(path_imgs, 'Spider2.bmp');
    %Move to the first hole
     
     %1
@@ -242,6 +246,39 @@ function createGaitReport
      table.ColSep = 'single';
      table.RowSep = 'single';
      append(doc, table);   
+     
+     HoleId = moveToNextHole(doc); 
+       fprintf('Current hole ID: %s\n', HoleId);
+     img12 = Image(data.Image12);
+      img12.Width  = '16.5cm';
+     img12.Height = '15cm';
+     append(doc, img12)
+     
+      HoleId = moveToNextHole(doc); 
+       fprintf('Current hole ID: %s\n', HoleId);
+     img13 = Image(data.Image13);
+    img13.Width  = '17 cm';
+     img13.Height = '15cm';
+     append(doc, img13)
+
+     HoleId = moveToNextHole(doc); 
+       fprintf('Current hole ID: %s\n', HoleId);
+     img14 = Image(data.Image14);
+    img14.Width  = '11  cm';
+     img14.Height = '9 cm';
+     append(doc, img14)
+     
+     
+     
+     HoleId = moveToNextHole(doc); 
+       fprintf('Current hole ID: %s\n', HoleId);
+     img15 = Image(data.Image15);
+    img15.Width  = '11 cm';
+     img15.Height = '9 cm';
+     append(doc, img15)
+     
+      
+     
 %      
 %      HoleId = moveToNextHole(doc); 
 %      img3 = Image(data.Image3);
@@ -286,7 +323,7 @@ function createGaitReport
    %Close the document and write the result to disc
    close(doc);
    %Show the result
-   rptview('PhysicalActivityReport_2', 'docx');
+   rptview(['GaitAnalysisReport_',struct.this_analysis_ID], 'docx');
    
    
    

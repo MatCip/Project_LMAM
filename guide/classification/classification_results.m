@@ -22,7 +22,7 @@ function varargout = classification_results(varargin)
 
 % Edit the above text to modify the response to help classification_results
 
-% Last Modified by GUIDE v2.5 06-Dec-2017 10:30:07
+% Last Modified by GUIDE v2.5 06-Dec-2017 20:16:02
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -96,6 +96,7 @@ set(handles.togglebutton4,'Value',0);
 set(handles.togglebutton5,'Value',0);
 set(handles.togglebutton6,'Value',0);
 set(handles.togglebutton7,'Value',0);
+set(handles.togglebutton9,'Value',0);
 try
     
 I1=imread([handles.path,'/Barcode.jpg']);
@@ -122,6 +123,7 @@ set(handles.togglebutton4,'Value',0);
 set(handles.togglebutton5,'Value',0);
 set(handles.togglebutton6,'Value',0);
 set(handles.togglebutton7,'Value',0);
+set(handles.togglebutton9,'Value',0);
 disp([handles.path,'/posture_allocation_per_hour.jpg']); 
 try
  
@@ -144,6 +146,7 @@ set(handles.togglebutton3,'Value',0);
 set(handles.togglebutton5,'Value',0);
 set(handles.togglebutton6,'Value',0);
 set(handles.togglebutton7,'Value',0);
+set(handles.togglebutton9,'Value',0);
 try
     
 I1=imread([handles.path,'/BarplotPostures.png']);
@@ -164,6 +167,7 @@ set(handles.togglebutton3,'Value',0);
 set(handles.togglebutton4,'Value',0);
 set(handles.togglebutton6,'Value',0);
 set(handles.togglebutton7,'Value',0);
+set(handles.togglebutton9,'Value',0);
 try
     
 I1=imread([handles.path,'/BoxPlotDurationPosturePeriods.tif']);
@@ -184,6 +188,7 @@ set(handles.togglebutton3,'Value',0);
 set(handles.togglebutton4,'Value',0);
 set(handles.togglebutton5,'Value',0);
 set(handles.togglebutton7,'Value',0);
+set(handles.togglebutton9,'Value',0);
 try
     
 I1=imread([handles.path,'/PiePostures.tif']);
@@ -211,6 +216,7 @@ set(handles.togglebutton3,'Value',0);
 set(handles.togglebutton4,'Value',0);
 set(handles.togglebutton5,'Value',0);
 set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton9,'Value',0);
 try
     
 I1=imread([handles.path,'/PAPattern.jpg']);
@@ -274,3 +280,25 @@ function togglebutton8_Callback(hObject, eventdata, handles)
 
 createPAReport
 cd('classification');
+
+
+% --- Executes on button press in togglebutton9.
+function togglebutton9_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton9
+set(handles.togglebutton2,'Value',0);
+set(handles.togglebutton3,'Value',0);
+set(handles.togglebutton4,'Value',0);
+set(handles.togglebutton5,'Value',0);
+set(handles.togglebutton6,'Value',0);
+set(handles.togglebutton7,'Value',0);
+try
+    
+I1=imread([handles.path,'/spider_perf_DL.jpg']);
+imshow(I1,'Parent',handles.axes2)
+catch
+    file_not_found
+end

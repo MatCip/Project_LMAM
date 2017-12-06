@@ -10,7 +10,7 @@ function createPAReport
 %    data.Image2    = fullfile(pwd, 'barcode.png');
 %    data.Image3    = fullfile(pwd, 'spider.png');
    %Create new object of class Document, based on AdvancedReportTemplate
-   doc = Document('PhysicalActivityReport_2', 'docx', 'PA_Analysis_template_14');
+   doc = Document('PhysicalActivityReport', 'docx', 'PA_Analysis_template_17');
    struct=load('function_interaction/current_analysis_report.mat');
    parts_cell_report=load('function_interaction/parts_cell_report_PA.mat');
    PATableMatric_struct=load('temp_word_PA/table_PATableMetric.mat');
@@ -44,6 +44,7 @@ function createPAReport
     data.Image3    = fullfile(path_imgs, 'posture_allocation_per_hour.jpg');
     data.Image5    = fullfile(path_imgs, 'PAPattern.jpg');
     data.Image6    = fullfile(path_imgs, 'Barcode.jpg');
+   data.Image7    = fullfile(path_imgs, 'spider_perf_DL.png');
    %Move to the first hole
     
     %1
@@ -196,22 +197,29 @@ function createPAReport
      img6.Height = '8cm';
      append(doc, img6)
      
-     HoleId = moveToNextHole(doc);
+        HoleId = moveToNextHole(doc);
      table = Table( Barcode_table, 'AR_Table');
      fprintf('Current hole ID: %s\n', HoleId);
      table.Style={FontSize('10')};
      table.Border = 'single';
      table.ColSep = 'single';
      table.RowSep = 'single';
-     append(doc, table);   
+     append(doc, table);
      
+     HoleId = moveToNextHole(doc); 
+     img7 = Image(data.Image7);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img7.Width  = '12cm';
+     img7.Height = '11cm';
+     append(doc, img7)
+      
      
      
      
    %Close the document and write the result to disc
    close(doc);
    %Show the result
-   rptview('PhysicalActivityReport_2', 'docx');
+   rptview('PhysicalActivityReport', 'docx');
    
    
    
