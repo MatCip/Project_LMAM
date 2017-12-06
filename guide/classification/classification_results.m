@@ -22,7 +22,7 @@ function varargout = classification_results(varargin)
 
 % Edit the above text to modify the response to help classification_results
 
-% Last Modified by GUIDE v2.5 11-Nov-2017 13:21:12
+% Last Modified by GUIDE v2.5 06-Dec-2017 10:30:07
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -262,3 +262,15 @@ if(get(handles.togglebutton7,'Value')==1)
 end
 
 
+
+
+% --- Executes on button press in togglebutton8.
+function togglebutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton8
+
+createPAReport
+cd('classification');

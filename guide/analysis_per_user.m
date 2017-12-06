@@ -96,7 +96,14 @@ function listbox1_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox1
+
+string=get(hObject,'String');
+if(strcmp(string,'No analysis for this user'))
+    return
+end
+
 index=get(hObject,'Value');
+
 handles.ID_Anal_select=handles.Analysis_cell{index,1};
 ID_Anal=handles.ID_Anal_select;
 analysis_struct=load(['./Analysis_database/',ID_Anal,'.mat']);

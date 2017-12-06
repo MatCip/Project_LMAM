@@ -1,4 +1,4 @@
-function r = AutoGaitAnalyze_CPalsy(shank, thigh, Height,path_out)
+function r = AutoGaitAnalyze_CPalsy(shank, thigh, Height,path_out,thres_step)
 
 s(:,1) = RemoveDrift(shank(:,1));
 s(:,2) = RemoveDrift(shank(:,2));
@@ -46,9 +46,9 @@ end
 if nargin < 3
     height = 100;
 end
-%thres=15;
+
 r = [];
-f = find([w.steps] > 20); % 15
+f = find([w.steps] > thres_step); % 15
 k = 1;
 for i=f
     %res = GaitAnalyze(s(w(i).start:w(i).end, :)); %, height);

@@ -22,7 +22,7 @@ function varargout = analyze_gait(varargin)
 
 % Edit the above text to modify the response to help analyze_gait
 
-% Last Modified by GUIDE v2.5 22-Nov-2017 20:04:41
+% Last Modified by GUIDE v2.5 06-Dec-2017 12:08:07
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -477,8 +477,12 @@ Thighs=[Pitch_RThigh';Pitch_LThigh']';
 
 addpath(genpath('gait_functions'))
 disp(PathName_1);
+
+
+thres_step=handles.threshold;
+
 % starting gait analysis 
-res_gait = AutoGaitAnalyze_CPalsy(Shanks,Thighs,LegDim,PathName_1);
+res_gait = AutoGaitAnalyze_CPalsy(Shanks,Thighs,LegDim,PathName_1,thres_step);
 [m1,n1]=size(res_gait);
 steps=[];
 for j=1:n1
@@ -1004,6 +1008,37 @@ function edit4_Callback(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function edit4_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit5_Callback(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit5 as text
+%        str2double(get(hObject,'String')) returns contents of edit5 as a double
+thres=get(hObject,'String');
+if(isempty(num2str(thres))==1)
+    input_not_correct
+else
+    handles.threshold=thres;
+    
+end
+
+
+
+% --- Executes during object creation, after setting all properties.
+function edit5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
