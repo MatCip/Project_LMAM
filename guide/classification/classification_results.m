@@ -54,11 +54,13 @@ function classification_results_OpeningFcn(hObject, eventdata, handles, varargin
 
 % Choose default command line output for classification_resultss
 
-
-
+disp('1uiiiiiii');
 handles.path=varargin{1};
+handles.ID_patient=varargin{2};
+handles.Analysis_ID=varargin{3};
 addpath(genpath('../guide/error_functions'))
-
+set(handles.text6,'tring',handles.ID_patient);
+set(handles.text7,'String',handles.Analysis_ID);
 I1=imread('../guide/pic/white.png');
 imshow(I1,'Parent',handles.axes2)
 
@@ -277,9 +279,20 @@ function togglebutton8_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of togglebutton8
+list=dir(handles.path);
+for i=1:length(list)
+
+TF=contains(list(i).name,'PhysicalActivityReport');
+
+
+if (TF==1)
+    open([handles.path,'/',list(i).name]);
+    return
+end
+end
 
 createPAReport
-cd('classification');
+
 
 
 % --- Executes on button press in togglebutton9.
@@ -297,7 +310,7 @@ set(handles.togglebutton6,'Value',0);
 set(handles.togglebutton7,'Value',0);
 try
     
-I1=imread([handles.path,'/spider_perf_DL.jpg']);
+I1=imread([handles.path,'/spider_perf_DL.png']);
 imshow(I1,'Parent',handles.axes2)
 catch
     file_not_found

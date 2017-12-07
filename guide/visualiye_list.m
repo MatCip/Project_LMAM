@@ -122,7 +122,16 @@ function listbox2_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox2 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox2
+
+
+string=get(hObject,'String');
+if(strcmp(string,'No patient'))
+    return
+end
+
+
 index=get(hObject,'Value');
+
 Name=handles.patient_cell{index}.Name;
 Surname=handles.patient_cell{index}.Surname;
 Date=handles.patient_cell{index}.Date;

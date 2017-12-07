@@ -11,7 +11,7 @@ function createGaitReport
 %    data.Image3    = fullfile(pwd, 'spider.png');
    %Create new object of class Document, based on AdvancedReportTemplate
    struct=load('function_interaction/current_analysis_report.mat');
-   doc = Document(['GaitAnalysisReport_',struct.this_analysis_ID] ,'docx', 'PA_Gait_template_6');
+   doc = Document(['Application_folder/GaitAnalysisReport_',struct.this_analysis_ID] ,'docx', 'PA_Gait_template_6');
    
    parts_cell_report=load('function_interaction/parts_cell_report_gait.mat');
    Gait_TableMetric_struct=load('temp_word_GAIT/table_gaitMetrics.mat');
@@ -117,7 +117,7 @@ function createGaitReport
      
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.Advance_of_analysis);
+     textObj = Text(other_details.Advance_of_analysis);
      append(doc, textObj);
      
      HoleId = moveToNextHole(doc); 
@@ -323,7 +323,7 @@ function createGaitReport
    %Close the document and write the result to disc
    close(doc);
    %Show the result
-   rptview(['GaitAnalysisReport_',struct.this_analysis_ID], 'docx');
+   rptview(['Application_folder/GaitAnalysisReport_',struct.this_analysis_ID], 'docx');
    
    
    

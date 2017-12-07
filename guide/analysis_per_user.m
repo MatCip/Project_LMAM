@@ -22,7 +22,7 @@ function varargout = analysis_per_user(varargin)
 
 % Edit the above text to modify the response to help analysis_per_user
 
-% Last Modified by GUIDE v2.5 02-Dec-2017 20:24:32
+% Last Modified by GUIDE v2.5 07-Dec-2017 09:57:43
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -68,7 +68,7 @@ end
 disp(handles.Analysis_IDs)
 set(handles.listbox1,'String',handles.Analysis_IDs)
 else
-    set(handles.listbox1,'String','No analysis for this user')
+    set(handles.listbox1,'String','No analysis for this patient')
 end
 % Update handles structure
 guidata(hObject, handles);
@@ -98,7 +98,7 @@ function listbox1_Callback(hObject, eventdata, handles)
 %        contents{get(hObject,'Value')} returns selected item from listbox1
 
 string=get(hObject,'String');
-if(strcmp(string,'No analysis for this user'))
+if(strcmp(string,'No analysis for this patient'))
     return
 end
 
@@ -108,19 +108,22 @@ handles.ID_Anal_select=handles.Analysis_cell{index,1};
 ID_Anal=handles.ID_Anal_select;
 analysis_struct=load(['./Analysis_database/',ID_Anal,'.mat']);
 
-ID_patient=analysis_struct.ID;
+handles.ID_patient=analysis_struct.ID;
+disp(handles.ID_patient);
+
 Date=analysis_struct.date;
 Name=analysis_struct.Name;
 Surname=analysis_struct.Surname;
-Type=analysis_struct.type_of_analysis;
-Advance=analysis_struct.Advance_of_analysis;
-Path=analysis_struct.path_destination;
+handles.Type=analysis_struct.type_of_analysis;
+other_details=analysis_struct.other_details;
+Advance=other_details.Advance_of_analysis;
+handles.Path=analysis_struct.path_destination;
 set(handles.text8,'String',Name);
 set(handles.text9,'String',Surname);
 set(handles.text11,'String',Date);
-set(handles.text7,'String',Path);
-set(handles.text6,'String',ID_patient);
-set(handles.text13,'String',Type);
+set(handles.text7,'String',handles.Path);
+set(handles.text6,'String',handles.ID_patient);
+set(handles.text13,'String',handles.Type);
 set(handles.text15,'String',Advance);
 
 % --- Executes during object creation, after setting all properties.
@@ -141,3 +144,73 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+try
+delete(handles.Path)
+
+catch
+end
+try
+s=load(['User_database/Patient_',handles.ID_patient]);
+Analysis=s.Analysis;
+
+dim=size(Analysis);
+for i=1:dim(0)
+if(strcmp(Analysis{i},handles.ID_Anal_select))
+    Analysis{i}=[]; 
+end
+s.Analysis=Analysis;
+
+save(['User_database/Patient_',handles.ID_patient],s);
+handles.Analysis_cell=s.Analysis;
+dim_cell=size(handles.Analysis_cell);
+set(handles.text17,'String',handles.user_struct.ID);
+if(dim_cell(1)>=1)
+    disp(dim_cell(1));
+for i=1:dim_cell(1)
+    handles.Analysis_paths{i}=handles.Analysis_cell{i,2};
+    handles.Analysis_IDs{i}=handles.Analysis_cell{i,1};
+
+end
+disp(handles.Analysis_IDs)
+set(handles.listbox1,'String',handles.Analysis_IDs)
+else
+    set(handles.listbox1,'String','No analysis for this user')
+end
+end
+catch
+end
+    
+
+
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+addpath(genpath('error_functions'));
+%   try
+if(strcmp(get(handles.text13,'String'),'PA'))
+    addpath(genpath('classification'));
+    Path=get(handles.text7,'String');
+    ID_patient=get(handles.text6,'String');
+    classification_results(Path,ID_patient,handles.ID_Anal_select)
+end
+
+if(strcmp(get(handles.text13,'String'),'Gait'))
+    
+    Path=get(handles.text7,'String');
+    gait_results(Path,handles.ID_patient,)
+end
+
+%   catch
+% 
+%     no_analysis_selected
+%   end

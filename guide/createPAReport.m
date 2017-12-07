@@ -10,8 +10,8 @@ function createPAReport
 %    data.Image2    = fullfile(pwd, 'barcode.png');
 %    data.Image3    = fullfile(pwd, 'spider.png');
    %Create new object of class Document, based on AdvancedReportTemplate
-   doc = Document('PhysicalActivityReport', 'docx', 'PA_Analysis_template_17');
    struct=load('function_interaction/current_analysis_report.mat');
+   doc = Document([struct.path_destination,'/PhysicalActivityReport_',struct.this_analysis_ID], 'docx', 'PA_Analysis_template_21');
    parts_cell_report=load('function_interaction/parts_cell_report_PA.mat');
    PATableMatric_struct=load('temp_word_PA/table_PATableMetric.mat');
    percentBarcode_table_struct=load('temp_word_PA/table_percentBarcode.mat');
@@ -58,7 +58,7 @@ function createPAReport
      fprintf('Current hole ID: %s\n', HoleId);
      textObj = Text(struct.this_analysis_ID);
      append(doc, textObj); 
-     3
+     
       HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
      textObj = Text(P_Name);
@@ -219,7 +219,8 @@ function createPAReport
    %Close the document and write the result to disc
    close(doc);
    %Show the result
-   rptview('PhysicalActivityReport', 'docx');
+   rptview([struct.path_destination,'/PhysicalActivityReport_',struct.this_analysis_ID], 'docx');
+ 
    
    
    

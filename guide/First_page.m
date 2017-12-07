@@ -22,7 +22,7 @@ function varargout = First_page(varargin)
 
 % Edit the above text to modify the response to help First_page
 
-% Last Modified by GUIDE v2.5 29-Nov-2017 10:08:24
+% Last Modified by GUIDE v2.5 07-Dec-2017 09:49:51
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -121,5 +121,12 @@ visualiye_list
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

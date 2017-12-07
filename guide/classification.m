@@ -1260,8 +1260,9 @@ params_tot=[mean_ref; sd1_ref; sd2_ref; params_CP;]';
 
 path=strcat(PathName_1,'/spider_perf_DL');
 
-
-fig1=spider(params_tot,'CP vs.TDs',[],{'total steps' ''; 'max walk' 'steps'; 'max speed' 'm/s'; 'activ' '%'},{'TD(Mean)' 'TD(Mean+SD)' 'TD(Mean-SD)' 'CP'})
+addpath(genpath('physical_activity_functions'));
+fig1=spider(params_tot,'CP vs.TDs',[],{'total steps' ''; 'max walk' 'steps'; 'max speed' 'm/s'; 'activ' '%'},{'TD(Mean)' 'TD(Mean+SD)' 'TD(Mean-SD)' 'CP'});
+set(fig1, 'Visible', 'off')
 savefig(fig1,[path,'.fig']);
 % saveas(fig1,'spider_perf_DL','png')
 % saveas(fig1,'spider_perf_DL','tif')
@@ -1431,7 +1432,7 @@ save(['function_interaction/current_analysis_report'],'this_analysis_ID','ID','N
 mkdir(path_destination);
 copyfile(PathName_1,path_destination)
 
-classification_results(path_destination);
+classification_results(path_destination,ID,this_analysis_ID);
 
 
  
