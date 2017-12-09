@@ -616,8 +616,9 @@ pathword=PlotGaitResults3(RightLegLength,LeftLegLength,path_destination,this_ana
 
 disp(pwd)
 cd('..')
-disp(path_destination)
-gait_results(path_destination);
+
+gait_results(path_destination,ID,Analysis)
+
 
 
 

@@ -56,12 +56,12 @@ function createPAReport
 %    %2
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.this_analysis_ID);
+     textObj = Text(P_Name);
      append(doc, textObj); 
      
       HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(P_Name);
+     textObj = Text(struct.this_analysis_ID);
      append(doc, textObj); 
      
     HoleId = moveToNextHole(doc); 

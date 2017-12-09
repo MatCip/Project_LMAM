@@ -125,6 +125,7 @@ set(handles.text7,'String',handles.Path);
 set(handles.text6,'String',handles.ID_patient);
 set(handles.text13,'String',handles.Type);
 set(handles.text15,'String',Advance);
+guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function listbox1_CreateFcn(hObject, eventdata, handles)
@@ -151,24 +152,40 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-try
-delete(handles.Path)
 
-catch
-end
-try
 s=load(['User_database/Patient_',handles.ID_patient]);
 Analysis=s.Analysis;
 
 dim=size(Analysis);
-for i=1:dim(0)
-if(strcmp(Analysis{i},handles.ID_Anal_select))
-    Analysis{i}=[]; 
+New_analysis=cell(dim(1)-1,2);
+cont=1;
+for i=1:dim(1)
+if(strcmp(Analysis{i,1},handles.ID_Anal_select))
+   New_analysis{cont,1}=Analysis{i,1};
+   New_analysis{cont,2}=Analysis{i,2};
 end
-s.Analysis=Analysis;
+Analysis=New_analysis;
 
-save(['User_database/Patient_',handles.ID_patient],s);
-handles.Analysis_cell=s.Analysis;
+ID=handles.ID_patient;
+Name=s.Name;
+Surname=s.Surname
+Date=s.Date
+
+Pathologies=s.Pathologies;
+
+
+
+local_path=s.local_path;
+
+Gender=s.Gender;
+CP_Subtype=s.CP_Subtype;
+Height=s.Height;
+Weight=s.Weight;
+GMFCS_level=s.GMFCS_level;
+
+save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
+
+handles.Analysis_cell=New_analysis;
 dim_cell=size(handles.Analysis_cell);
 set(handles.text17,'String',handles.user_struct.ID);
 if(dim_cell(1)>=1)
@@ -184,9 +201,7 @@ else
     set(handles.listbox1,'String','No analysis for this user')
 end
 end
-catch
-end
-    
+
 
 
 
@@ -207,7 +222,7 @@ end
 if(strcmp(get(handles.text13,'String'),'Gait'))
     
     Path=get(handles.text7,'String');
-    gait_results(Path,handles.ID_patient,)
+    gait_results(Path,handles.ID_patient,handles.ID_Anal_select)
 end
 
 %   catch

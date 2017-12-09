@@ -60,6 +60,11 @@ I2=imread('white.png');
 imshow(I2,'Parent',handles.axes1)
 
 handles.path=[handles.path1,'/gait_results'];
+handles.ID_patient=varargin{2};
+handles.Analysis_ID=varargin{3};
+addpath(genpath('../guide/error_functions'))
+set(handles.text5,'String',handles.ID_patient);
+set(handles.text6,'String',handles.Analysis_ID);
 
 handles.output = hObject;
 

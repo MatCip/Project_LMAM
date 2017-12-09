@@ -59,7 +59,7 @@ handles.path=varargin{1};
 handles.ID_patient=varargin{2};
 handles.Analysis_ID=varargin{3};
 addpath(genpath('../guide/error_functions'))
-set(handles.text6,'tring',handles.ID_patient);
+set(handles.text6,'String',handles.ID_patient);
 set(handles.text7,'String',handles.Analysis_ID);
 I1=imread('../guide/pic/white.png');
 imshow(I1,'Parent',handles.axes2)
