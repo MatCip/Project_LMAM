@@ -82,7 +82,7 @@ if(length(IDs)>0)
         Name=handles.patient_cell{1}.Name;
         Surname=handles.patient_cell{1}.Surname;
         Date=handles.patient_cell{1}.Date;
-        Path=handles.patient_cell{1}.Name;
+        Path=handles.patient_cell{1}.local_path;
         set(handles.text10,'String',Name);
         set(handles.text11,'String',Surname);
         set(handles.text12,'String',Date);

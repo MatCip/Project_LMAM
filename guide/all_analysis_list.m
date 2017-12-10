@@ -56,9 +56,27 @@ list=dir('*.mat')
 disp(list)
 handles.Analysis_cell={};
 for i=1:length(list)
-   handles.Analysis_cell{i}=list(i).name;
+   struct_temp=load(list(i).name);
+   handles.Analysis_cell{i}=struct_temp.this_analysis_ID;
+   
 end
 set(handles.listbox2,'String',handles.Analysis_cell)
+        struct_temp=load(list(1).name);
+        Name=struct_temp.Name;
+        Surname=struct_temp.Surname;
+        Date=struct_temp.date;
+        Path=struct_temp.path_destination;
+        ID=struct_temp.ID;
+        Type=struct_temp.type_of_analysis;
+        Advance=struct_temp.Advance_of_analysis;
+        set(handles.text24,'String',Name);
+        set(handles.text25,'String',Surname);
+        set(handles.text27,'String',Date);
+        set(handles.text23,'String',Path);
+        set(handles.text22,'String',ID);
+        set(handles.text29,'String',Type);
+        set(handles.text31,'String',Advance);
+
 cd('..');
 % Choose default command line output for all_analysis_list
 handles.output = hObject;
@@ -89,6 +107,38 @@ function listbox2_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns listbox2 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from listbox2
+string=get(hObject,'String');
+if(strcmp(string,'No analysis for this patient'))
+    return
+end
+
+index=get(hObject,'Value');
+
+handles.ID_Anal_select=handles.Analysis_cell{index};
+ID_Anal=handles.ID_Anal_select;
+analysis_struct=load(['./Analysis_database/',ID_Anal,'.mat']);
+
+ID=analysis_struct.ID;
+other_details=analysis_struct.other_details;
+Advance=other_details.Advance_of_analysis;
+
+Date=analysis_struct.date;
+Name=analysis_struct.Name;
+Surname=analysis_struct.Surname;
+Type=analysis_struct.type_of_analysis;
+
+
+Path=analysis_struct.path_destination;
+  set(handles.text24,'String',Name);
+        set(handles.text25,'String',Surname);
+        set(handles.text27,'String',Date);
+        set(handles.text23,'String',Path);
+        set(handles.text22,'String',ID);
+        set(handles.text29,'String',Type);
+        set(handles.text31,'String',Advance);
+
+
+guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -109,3 +159,18 @@ function pushbutton3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+addpath(genpath('error_functions'));
+%   try
+if(strcmp(get(handles.text29,'String'),'PA'))
+    addpath(genpath('classification'));
+    Path=get(handles.text23,'String');
+    ID_patient=get(handles.text22,'String');
+    classification_results(Path,ID_patient,handles.ID_Anal_select)
+end
+
+if(strcmp(get(handles.text29,'String'),'Gait'))
+    Path=get(handles.text23,'String');
+    ID_patient=get(handles.text22,'String');
+    Path=get(handles.text23,'String');
+    gait_results(Path,ID_patient,handles.ID_Anal_select)
+end
