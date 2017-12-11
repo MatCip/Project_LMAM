@@ -107,25 +107,25 @@ index=get(hObject,'Value');
 handles.ID_Anal_select=handles.Analysis_cell{index,1};
 ID_Anal=handles.ID_Anal_select;
 
-% analysis_struct=load(['./Analysis_database/',ID_Anal,'.mat']);
+analysis_struct=load(['./Analysis_database/',ID_Anal,'.mat']);
 
 handles.ID_patient=handles.user_struct.ID;
 
 
-% Date=analysis_struct.date;
-% Name=analysis_struct.Name;
-% Surname=analysis_struct.Surname;
-% handles.Type=analysis_struct.type_of_analysis;
-% other_details=analysis_struct.other_details;
-% Advance=other_details.Advance_of_analysis;
-% handles.Path=analysis_struct.path_destination;
-% set(handles.text8,'String',Name);
-% set(handles.text9,'String',Surname);
-% set(handles.text11,'String',Date);
-% set(handles.text7,'String',handles.Path);
-% set(handles.text6,'String',handles.ID_patient);
-% set(handles.text13,'String',handles.Type);
-% set(handles.text15,'String',Advance);
+Date=analysis_struct.date;
+Name=analysis_struct.Name;
+Surname=analysis_struct.Surname;
+handles.Type=analysis_struct.type_of_analysis;
+other_details=analysis_struct.other_details;
+Advance=other_details.Advance_of_analysis;
+handles.Path=analysis_struct.path_destination;
+set(handles.text8,'String',Name);
+set(handles.text9,'String',Surname);
+set(handles.text11,'String',Date);
+set(handles.text7,'String',handles.Path);
+set(handles.text6,'String',handles.ID_patient);
+set(handles.text13,'String',handles.Type);
+set(handles.text15,'String',Advance);
 guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
@@ -153,8 +153,14 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+addpath(genpath('error_functions'))
 
+try
 s=load(['User_database/Patient_',handles.ID_patient]);
+catch
+    no_analysis_selected;
+    return
+end
 Analysis=s.Analysis;
 
 dim=size(Analysis);

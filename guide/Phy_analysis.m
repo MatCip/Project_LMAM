@@ -115,12 +115,14 @@ function pushbutton1_Callback(hObject, eventdata, handles)
     PathName_LS= handles.PathName_LS;
     FileName_RS= handles.FileName_RS;
     PathName_RS= handles.PathName_RS;
-    cell_part=handles.cell
+    cell_part=handles.cell;
     save('function_interaction/parts_struct','FileName_trunk','PathName_trunk','FileName_LT','PathName_LT','FileName_RT','PathName_RT','FileName_LS','PathName_LS','FileName_RS','PathName_RS');
     save('function_interaction/parts_cell_report_PA','cell_part');
     try
     input={handles.cell,handles.config_all};
+   
     function_visualizer(input);
+    
     catch
     end
 

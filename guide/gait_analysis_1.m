@@ -109,9 +109,11 @@ function pushbutton10_Callback(hObject, eventdata, handles)
     
     save('function_interaction/parts_struct_gait','FileName_trunk','PathName_trunk','FileName_LT','PathName_LT','FileName_RT','PathName_RT','FileName_LS','PathName_LS','FileName_RS','PathName_RS');
     save('function_interaction/parts_cell_report_gait','Patient_cell');
+    
     try 
     input={handles.cell,handles.config_all};
     func_visualizer_gait_1(input);
+    close
     catch
     end
 

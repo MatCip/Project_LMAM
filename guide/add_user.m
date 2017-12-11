@@ -199,7 +199,26 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 addpath(genpath('../User_database'))
+addpath(genpath('error_functions'))
+
 ID=get(handles.edit1,'String');
+if(strcmp(ID,"")==1)
+   ID_not_inserted;
+   return
+end
+cd('User_database')
+list=dir('*.mat');
+cd('..');
+for i=1:length(list)
+    s=load(['User_database/',list(i).name]);
+    if(strcmp(ID,s.ID)==1)
+        duplicate_ID;
+       return
+    end
+    
+end
+
+
 Name=get(handles.edit2,'String');
 Surname=get(handles.edit3,'String');
 Date=get(handles.edit4,'String');
@@ -215,6 +234,39 @@ CP_Subtype=get(handles.edit7,'String');
 Height=get(handles.edit8,'String');
 Weight=get(handles.edit9,'String');
 GMFCS_level=get(handles.edit10,'String');
+disp('Gender')
+
+
+if(strcmp(Name,"")==1)
+    Name='Not inserted';
+end
+if(strcmp(Surname,"")==1)
+    Surname='Not inserted';
+end
+if(strcmp(Gender,"")==1)
+    Gender='Not inserted';
+end
+if(strcmp(Pathologies,"")==1)
+    Pathologies='Not inserted';
+end
+if(strcmp(CP_Subtype,"")==1)
+    CP_Subtype='Not inserted';
+end
+if(strcmp(Height,"")==1)
+    Height='Not inserted';
+end
+if(strcmp(Weight,"")==1)
+    Weight='Not inserted';
+end
+
+if(strcmp(GMFCS_level,"")==1)
+    GMFCS_level='Not inserted';
+end
+
+
+if(strcmp(Date,"")==1)
+    Date='Not inserted';
+end
 
 save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
 %save([[handles.global_path,'/',ID],'/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis');

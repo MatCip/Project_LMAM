@@ -164,6 +164,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 index=get(handles.listbox2,'Value');
 string=get(handles.listbox2,'String');
+addpath(genpath('error_functions'))
 if(strcmp(string,'No patient')==0)
 path=handles.patient_cell{index}.local_path;
 
