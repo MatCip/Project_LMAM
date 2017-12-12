@@ -215,6 +215,7 @@ GaitParamsSelectedBySpeed(:,17)=m_KnAng_R;
 GaitParamsSelectedBySpeed(:,18)=m_KnAng_L;
 GaitParamsSelectedBySpeed(:,19)=m_steps;
 GaitParamsSelectedBySpeed(:,20)=m_limp; 
+GaitParamsSelectedBySpeed(:,21)=m_DS; 
 save([path_out,'/GaitParamsSelectedBySpeed'],'GaitParamsSelectedBySpeed')
 
 

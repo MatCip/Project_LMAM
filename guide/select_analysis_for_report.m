@@ -22,7 +22,7 @@ function varargout = select_analysis_for_report(varargin)
 
 % Edit the above text to modify the response to help select_analysis_for_report
 
-% Last Modified by GUIDE v2.5 12-Dec-2017 11:13:55
+% Last Modified by GUIDE v2.5 12-Dec-2017 15:55:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -194,3 +194,25 @@ switch handles.index_selection
 end
 set(handles.text42,'String',handles.index_selection);
 guidata(hObject, handles);
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if(all(handles.is_all_selected)==1)
+    PA_Baseline=get(handles.text2,'String');
+    Gait_Baseline=get(handles.text20,'String');
+    PA_FW1=get(handles.text3,'String');
+    Gait_FW1=get(handles.text21,'String');
+    PA_FW2=get(handles.text4,'String');
+    Gait_FW2=get(handles.text22,'String');
+    PA_FW3=get(handles.text5,'String');
+    Gait_FW3=get(handles.text23,'String');
+    
+    
+    
+    addpath(genpath('create_Advanced_report'))
+    PlotMultitestResults1(PA_Baseline,Gait_Baseline,PA_FW1,Gait_FW1,PA_FW2,Gait_FW2,PA_FW3,Gait_FW3)
+end
