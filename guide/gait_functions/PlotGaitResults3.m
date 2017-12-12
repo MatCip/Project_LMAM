@@ -795,7 +795,7 @@ subplot(221);
 title('SrideLength')
 mas=[RefValuesGaitParams_TD(20,1); m_SR_sl];
 sas=[RefValuesGaitParams_TD(20,2); sd_SR_sl];
-barwitherr_ani(mas,sas);
+barwitherr_ani(sas,mas);
 set(gca,'XTickLabel',{'TD group','CP patient'})
 title('StrideLength')
 ylabel('Symmetry Index')
@@ -805,7 +805,7 @@ subplot(224);
 title('Stance')
 mas=[RefValuesGaitParams_TD(22,1); m_SR_st];
 sas=[RefValuesGaitParams_TD(22,2); sd_SR_st];
-barwitherr_ani(mas,sas);
+barwitherr_ani(sas,mas);
 set(gca,'XTickLabel',{'TD group','CP patient'})
 title('Stance')
 %xticklabel_rotate([],45,[],'Fontsize',12)
@@ -814,7 +814,7 @@ subplot(223);
 title('Swing')
 mas=[RefValuesGaitParams_TD(21,1); m_SR_sw];
 sas=[RefValuesGaitParams_TD(21,2); sd_SR_sw];
-barwitherr_ani(mas,sas);
+barwitherr_ani(sas,mas);
 set(gca,'XTickLabel',{'TD group','CP patient'})
 ylabel('Symmetry Index')
 title('Swing')
@@ -824,7 +824,7 @@ subplot(222);
 title('KneeAngle')
 mas=[RefValuesGaitParams_TD(23,1); m_SR_knan];
 sas=[RefValuesGaitParams_TD(23,2); sd_SR_knan];
-barwitherr_ani(mas,sas);
+barwitherr_ani(sas,mas);
 set(gca,'XTickLabel',{'TD group','CP patient'})
 title('KneeAngle')
 maxy=abs(m_SR_knan+sd_SR_knan);
@@ -1046,6 +1046,7 @@ WordFileName=[this_analysis_ID,'_TableGaitMetrics.doc'];
 mkdir('temp_word_GAIT')
 cd('temp_word_GAIT')
 pathword=pwd;
+
 FileSpec = fullfile(pathword,WordFileName);
 [ActXWord,WordHandle]=StartWord(FileSpec);
 fprintf('Gait metrics will be save in %s\n',FileSpec);   

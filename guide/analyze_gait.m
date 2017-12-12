@@ -310,7 +310,7 @@ femur_length_str=get(handles.edit1,'String');
    end
    
    
-   left_leg_length_str=get(handles.edit3,'String');
+   left_leg_length_str=get(handles.edit7,'String');
   addpath(genpath('error_functions'))
     
    
@@ -566,7 +566,7 @@ walking_params_new = xlsread(filename,sheet,xlRange);
 path_destination=[struct_path.path,'/',this_analysis_ID];
 
 analysis_cell{num_analysis,1}=this_analysis_ID;
-Advance_of_analysis=get(handles.edit3,'String');
+
 analysis_cell{num_analysis,2}=path_destination;
 patient_struct.Analysis=analysis_cell;
 
@@ -591,8 +591,8 @@ d = datetime('today')
 date=datestr(d);
 save(['User_database/','Patient_',ID],'ID','Name','Surname','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
 type_of_analysis='Gait';
-save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis','other_details');
-save(['function_interaction/current_analysis_report'],'this_analysis_ID','ID','Name','Surname','path_destination','date','Advance_of_analysis','type_of_analysis','other_details','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
+save(['Analysis_database/',this_analysis_ID],'this_analysis_ID','ID','Name','Surname','path_destination','date','type_of_analysis','other_details');
+save(['function_interaction/current_analysis_report'],'this_analysis_ID','ID','Name','Surname','path_destination','date','type_of_analysis','other_details','Date','Pathologies','Analysis','local_path','Gender','CP_Subtype','Height','Weight','GMFCS_level');
 % save in local path name
 
 mkdir(path_destination);

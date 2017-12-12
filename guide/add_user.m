@@ -202,7 +202,7 @@ addpath(genpath('../User_database'))
 addpath(genpath('error_functions'))
 
 ID=get(handles.edit1,'String');
-if(strcmp(ID,"")==1)
+if(strcmp(ID,'')==1)
    ID_not_inserted;
    return
 end
@@ -237,34 +237,34 @@ GMFCS_level=get(handles.edit10,'String');
 disp('Gender')
 
 
-if(strcmp(Name,"")==1)
+if(strcmp(Name,'')==1)
     Name='Not inserted';
 end
-if(strcmp(Surname,"")==1)
+if(strcmp(Surname,'')==1)
     Surname='Not inserted';
 end
-if(strcmp(Gender,"")==1)
+if(strcmp(Gender,'')==1)
     Gender='Not inserted';
 end
-if(strcmp(Pathologies,"")==1)
+if(strcmp(Pathologies,'')==1)
     Pathologies='Not inserted';
 end
-if(strcmp(CP_Subtype,"")==1)
+if(strcmp(CP_Subtype,'')==1)
     CP_Subtype='Not inserted';
 end
-if(strcmp(Height,"")==1)
+if(strcmp(Height,'')==1)
     Height='Not inserted';
 end
-if(strcmp(Weight,"")==1)
+if(strcmp(Weight,'')==1)
     Weight='Not inserted';
 end
 
-if(strcmp(GMFCS_level,"")==1)
+if(strcmp(GMFCS_level,'')==1)
     GMFCS_level='Not inserted';
 end
 
 
-if(strcmp(Date,"")==1)
+if(strcmp(Date,'')==1)
     Date='Not inserted';
 end
 

@@ -22,7 +22,7 @@ function varargout = analysis_per_user(varargin)
 
 % Edit the above text to modify the response to help analysis_per_user
 
-% Last Modified by GUIDE v2.5 07-Dec-2017 09:57:43
+% Last Modified by GUIDE v2.5 12-Dec-2017 12:46:59
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -240,3 +240,11 @@ end
 % 
 %     no_analysis_selected
 %   end
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+select_analysis_for_report(handles.Analysis_IDs);

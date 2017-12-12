@@ -216,22 +216,22 @@ weather=get(handles.edit4,'String');
 remarks=get(handles.edit5,'String');
 Advance_of_analysis=get(handles.edit6,'String');
 
-if(strcmp(monitoring_day,"")==1)
+if(strcmp(monitoring_day,'')==1)
     monitoring_day='Not inserted';
 end
-if(strcmp(duration,"")==1)
+if(strcmp(duration,'')==1)
     duration='Not inserted';
 end
-if(strcmp(start_time_end_time,"")==1)
+if(strcmp(start_time_end_time,'')==1)
     start_time_end_time='Not inserted';
 end
-if(strcmp(weather,"")==1)
+if(strcmp(weather,'')==1)
     weather='Not inserted';
 end
-if(strcmp(remarks,"")==1)
+if(strcmp(remarks,'')==1)
     remarks='Not inserted';
 end
-if(strcmp(Advance_of_analysis,"")==1)
+if(strcmp(Advance_of_analysis,'')==1)
     Advance_of_analysis='Not inserted';
 end
 
