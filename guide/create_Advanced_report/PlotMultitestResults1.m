@@ -629,7 +629,8 @@ DataCell={' ','TD group','CP Baseline','CP Pre','CP Post','CP Followup';
  WordCreateTable(ActXWord,NoRows,NoCols,DataCell,1);%enter before table
  CloseWord(ActXWord,WordHandle,FileSpec);    
  save('TableGaitMetrics_allTests','DataCell')
+ path_multi=pwd;
  cd(oldfolder)
- disp(oldfolder);
+ save(['function_interaction/multi_report_struct'],'analysis_struct_PA_Baseline','analysis_struct_PA_FW1','analysis_struct_PA_FW2','analysis_struct_PA_FW3','analysis_struct_Gait_Baseline','analysis_struct_Gait_FW1','analysis_struct_Gait_FW2','analysis_struct_Gait_FW3','path_multi')
  
 end
