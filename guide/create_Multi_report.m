@@ -12,52 +12,46 @@ function createGaitReport
    %Create new object of class Document, based on AdvancedReportTemplate
    struct=load('function_interaction/multi_report_struct.mat');
    path=struct.path_multi;
+   
    analysis_struct_PA_Baseline=struct.analysis_struct_PA_Baseline;
    patient_ID=analysis_struct_PA_Baseline.ID;
-   doc = Document([path,'/Multiple_Perform_report_',patient_ID] ,'docx', 'Multi_report_template');
-   
-   
-   %% create the structures
-   cell_part=parts_cell_report.Patient_cell;
-   dim_cell=size(cell_part);
-   chr = blanks(6);
-   str_conf='';
-   for i=1:dim_cell(2)
-       if(isempty(cell_part{i})==1)
-           
-           cell_part{i}='';
-           disp(i)
-       end
-       str_conf=[str_conf,chr,cell_part{i}];
-       
-   end
-   
-   other_details=struct.other_details;
-   
-   P_Name=[struct.Name,blanks(2),struct.Surname];
+   patient_struct=load(['User_database/Patient_',patient_ID]);
+   doc = Document(['Multiple_Perform_report_',patient_ID] ,'docx', 'Multi_report_template_7');
+   analysis_struct_PA_Baseline=struct.analysis_struct_PA_Baseline;
+   P_Name=[analysis_struct_PA_Baseline.Name,blanks(2),analysis_struct_PA_Baseline.Surname];
+   table=load([path,'/TableGaitMetrics_allTests.mat']);
+   TableGaitMetrics_allTests_cell=table.DataCell;
+   table=load([path,'/TablePAMetrics_allTests.mat']);
+   TablePAMetrics_allTests_cell=table.DataCell;
+   table=load([path,'/TablePercentBarcodeStates_allTests.mat']);
+   TablePercentBarcodeStates_allTests_cell=table.DataCell;
    %% import the images
-   path_imgs=[struct.path_destination,'/gait_results'];
-   data.Image1    = fullfile(path_imgs, 'Speed.bmp');
-   data.Image2    = fullfile(path_imgs, 'Normalized_Speed.bmp');
-   data.Image3    = fullfile(path_imgs, 'Cadence.bmp');
-    data.Image4    = fullfile(path_imgs, 'Double_Support.bmp');
-    data.Image5    = fullfile(path_imgs, 'StrideLength.bmp');
-    data.Image6    = fullfile(path_imgs, 'Normal_Stride_length.bmp');
-    data.Image7    = fullfile(path_imgs, 'Swing.bmp');
-    data.Image8    = fullfile(path_imgs, 'Stance.bmp');
-    data.Image9    = fullfile(path_imgs, 'ThighAngle.bmp');
-    data.Image10    = fullfile(path_imgs, 'ShankAngle.bmp');
-    data.Image11   = fullfile(path_imgs, 'KneeAngle.bmp');
-    data.Image12    = fullfile(path_imgs, 'Symmetry_index.bmp');
-    data.Image13   = fullfile(path_imgs, 'KinematicalCurves_MaxWalk.bmp');
-    data.Image14   = fullfile(path_imgs, 'Spider1.bmp');
-    data.Image15   = fullfile(path_imgs, 'Spider2.bmp');
+%    
+     data.Image1    = fullfile(path, 'BarplotPostures_allTests.jpg');
+     data.Image2    = fullfile(path, 'BoxPlotDurationPosturePeriods_allTests.jpg');
+     data.Image3    = fullfile(path, 'BoxPlotDurationPosturePeriods_allTestsTD.jpg');
+     data.Image4    = fullfile(path , 'CDFPlotDurationPosturePeriods_allTestsTD.jpg');
+     data.Image9    = fullfile(path, 'cadence_allTests.jpg');
+     data.Image9_1    = fullfile(path, 'Steps_allTests.jpg');
+    data.Image5    = fullfile(path, 'KneeAngle_allTests.jpg');
+    data.Image6    = fullfile(path, 'Limp_allTests.jpg');
+    data.Image7    = fullfile(path, 'Speed_allTests.jpg');
+     data.Image8    = fullfile(path, 'NormalizedSpeed_allTests.jpg');
+    data.Image10   = fullfile(path, 'SymmetryIndex_KneeAngle_allTests.jpg');
+    data.Image11    = fullfile(path, 'SymmetryIndex_Stance_allTests.jpg');
+    data.Image12   = fullfile(path, 'SymmetryIndex_StrideLength_allTests.jpg');
+    data.Image13    = fullfile(path, 'SymmetryIndex_Swing_allTests.jpg');
+    data.Image14    = fullfile(path, 'spider_GaitParams_allTests.jpg');
+    data.Image15    = fullfile(path, 'spider_perf_DL_allTests.jpg');
+%     data.Image13   = fullfile(path_imgs, 'KinematicalCurves_MaxWalk.bmp');
+%     data.Image14   = fullfile(path_imgs, 'Spider1.bmp');
+%     data.Image15   = fullfile(path_imgs, 'Spider2.bmp');
    %Move to the first hole
     
     %1
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.ID);
+     textObj = Text(patient_ID);
      append(doc, textObj); 
    
 %    %2
@@ -65,15 +59,15 @@ function createGaitReport
      fprintf('Current hole ID: %s\n', HoleId);
      textObj = Text(P_Name);
      append(doc, textObj); 
-     3
+     
       HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.this_analysis_ID);
+     textObj = Text(patient_struct.Date);
      append(doc, textObj); 
      
     HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.date);
+     textObj = Text(patient_struct.Gender);
      append(doc, textObj); 
      
      
@@ -82,74 +76,66 @@ function createGaitReport
      %6
      HoleId = moveToNextHole(doc); 
         fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.Date);
+     textObj = Text(patient_struct.CP_Subtype);
      append(doc, textObj); 
      
      %7
      HoleId = moveToNextHole(doc); 
       fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.Gender);
+     textObj = Text(patient_struct.GMFCS_level);
      append(doc, textObj); 
      
      %8
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.CP_Subtype);
+     textObj = Text(patient_struct.Height);
      append(doc, textObj);
      
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.GMFCS_level);
+     textObj = Text(patient_struct.Weight);
      append(doc, textObj);
      
      
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.Height);
+     textObj = Text(struct.analysis_struct_PA_Baseline.this_analysis_ID);
      append(doc, textObj);
      
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(struct.Weight);
+     textObj = Text(struct.analysis_struct_Gait_Baseline.this_analysis_ID);
      append(doc, textObj);
      
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(other_details.Advance_of_analysis);
+     textObj = Text(struct.analysis_struct_PA_FW1.this_analysis_ID);
      append(doc, textObj);
      
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(other_details.monitoring_day);
+     textObj = Text(struct.analysis_struct_Gait_FW1.this_analysis_ID);
      append(doc, textObj);
      
+     HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(struct.analysis_struct_PA_FW2.this_analysis_ID);
+     append(doc, textObj);
+     
+     HoleId = moveToNextHole(doc); 
+     fprintf('Current hole ID: %s\n', HoleId);
+     textObj = Text(struct.analysis_struct_Gait_FW2.this_analysis_ID);
+     append(doc, textObj);
       HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(str_conf);
-     append(doc, textObj);
-     
-      HoleId = moveToNextHole(doc); 
-     fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(other_details.duration);
+     textObj = Text(struct.analysis_struct_PA_FW3.this_analysis_ID);
      append(doc, textObj);
      
      HoleId = moveToNextHole(doc); 
      fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(other_details.start_time_end_time);
+     textObj = Text(struct.analysis_struct_Gait_FW3.this_analysis_ID);
      append(doc, textObj);
-     
-     HoleId = moveToNextHole(doc); 
-     fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(other_details.weather);
-     append(doc, textObj);
-     
-    
-     
-     
-       HoleId = moveToNextHole(doc); 
-     fprintf('Current hole ID: %s\n', HoleId);
-     textObj = Text(other_details.remarks);
-     append(doc, textObj);
+
      
      
      HoleId = moveToNextHole(doc); 
@@ -171,8 +157,8 @@ function createGaitReport
        fprintf('Current hole ID: %s\n', HoleId);
      img3 = Image(data.Image3);
      img3.Width  = '7cm';
-     img3.Height = '6cm';
-     append(doc, img3)
+    img3.Height = '6cm';
+    append(doc, img3)
 
 
  HoleId = moveToNextHole(doc); 
@@ -183,61 +169,83 @@ function createGaitReport
      append(doc, img4)
      
      
-      HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
+     
+    
+     
+      
+ 
+     HoleId = moveToNextHole(doc); 
      img5 = Image(data.Image5);
-     img5.Width  = '6cm';
+     fprintf('Current hole ID: %s\n', HoleId);
+     img5.Width  = '7cm';
      img5.Height = '6cm';
      append(doc, img5)
-%      
-
- HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
-     img6 = Image(data.Image6);
-     img6.Width  = '6cm';
-     img6.Height = '6cm';
+     
+     HoleId = moveToNextHole(doc); 
+     img6= Image(data.Image6);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img6.Width  = '9cm';
+     img6.Height = '8cm';
      append(doc, img6)
      
-     
-      HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
-     img7 = Image(data.Image7);
-     img7.Width  = '6cm';
-     img7.Height = '6cm';
+       HoleId = moveToNextHole(doc); 
+     img7= Image(data.Image7);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img7.Width  = '9cm';
+     img7.Height = '8cm';
      append(doc, img7)
      
-      HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
+     HoleId = moveToNextHole(doc); 
      img8 = Image(data.Image8);
-     img8.Width  = '6cm';
-     img8.Height = '6cm';
+     fprintf('Current hole ID: %s\n', HoleId);
+     img8.Width  = '9cm';
+     img8.Height = '8cm';
      append(doc, img8)
      
       HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
      img9 = Image(data.Image9);
-     img9.Width  = '6cm';
-     img9.Height = '6cm';
+     fprintf('Current hole ID: %s\n', HoleId);
+     img9.Width  = '9cm';
+     img9.Height = '8cm';
+     append(doc, img9)
+      HoleId = moveToNextHole(doc); 
+     img9 = Image(data.Image9_1);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img9.Width  = '9cm';
+     img9.Height = '8cm';
      append(doc, img9)
      
       HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
-     img10 = Image(data.Image10);
-     img10.Width  = '6cm';
-     img10.Height = '6cm';
+     img10= Image(data.Image10);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img10.Width  = '9cm';
+     img10.Height = '8cm';
      append(doc, img10)
      
-     
-      HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
-     img11 = Image(data.Image11);
-     img11.Width  = '6cm';
-     img11.Height = '6cm';
+       HoleId = moveToNextHole(doc); 
+     img11= Image(data.Image11);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img11.Width  = '9cm';
+     img11.Height = '8cm';
      append(doc, img11)
      
+     HoleId = moveToNextHole(doc); 
+     img12 = Image(data.Image12);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img12.Width  = '9cm';
+     img12.Height = '8cm';
+     append(doc, img12)
      
-     HoleId = moveToNextHole(doc);
-     table = Table( Gait_TableMetric_table_Cell, 'AR_Table');
+    HoleId = moveToNextHole(doc); 
+     img13 = Image(data.Image13);
+     fprintf('Current hole ID: %s\n', HoleId);
+     img13.Width  = '9cm';
+     img13.Height = '8cm';
+     append(doc, img13)
+     
+     
+      HoleId = moveToNextHole(doc);
+     table = Table( TableGaitMetrics_allTests_cell, 'AR_Table');
      fprintf('Current hole ID: %s\n', HoleId);
      table.Style={FontSize('10')};
      table.Border = 'single';
@@ -245,67 +253,40 @@ function createGaitReport
      table.RowSep = 'single';
      append(doc, table);   
      
-     HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
-     img12 = Image(data.Image12);
-      img12.Width  = '16.5cm';
-     img12.Height = '15cm';
-     append(doc, img12)
+     HoleId = moveToNextHole(doc);
+     table = Table( TablePAMetrics_allTests_cell, 'AR_Table');
+     fprintf('Current hole ID: %s\n', HoleId);
+     table.Style={FontSize('10')};
+     table.Border = 'single';
+     table.ColSep = 'single';
+     table.RowSep = 'single';
+     append(doc, table);   
+   
      
-      HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
-     img13 = Image(data.Image13);
-    img13.Width  = '17 cm';
-     img13.Height = '15cm';
-     append(doc, img13)
-
-     HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
+     HoleId = moveToNextHole(doc);
+     table_1 = Table( TablePercentBarcodeStates_allTests_cell, 'AR_Table');
+     fprintf('Current hole ID: %s\n', HoleId);
+     table_1.Style={FontSize('10')};
+     table_1.Border = 'single';
+     table_1.ColSep = 'single';
+     table_1.RowSep = 'single';
+     append(doc, table_1);   
+     
+       HoleId = moveToNextHole(doc); 
      img14 = Image(data.Image14);
-    img14.Width  = '11  cm';
-     img14.Height = '9 cm';
+     fprintf('Current hole ID: %s\n', HoleId);
+     img14.Width  = '9cm';
+     img14.Height = '8cm';
      append(doc, img14)
      
-     
-     
-     HoleId = moveToNextHole(doc); 
-       fprintf('Current hole ID: %s\n', HoleId);
+       HoleId = moveToNextHole(doc); 
      img15 = Image(data.Image15);
-    img15.Width  = '11 cm';
-     img15.Height = '9 cm';
+     fprintf('Current hole ID: %s\n', HoleId);
+     img15.Width  = '9cm';
+     img15.Height = '8cm';
      append(doc, img15)
-     
-      
-     
-%      
-%      HoleId = moveToNextHole(doc); 
-%      img3 = Image(data.Image3);
-%      fprintf('Current hole ID: %s\n', HoleId);
-%      img3.Width  = '9cm';
-%      img3.Height = '8cm';
-%      append(doc, img3)
-%      
-%      HoleId = moveToNextHole(doc); 
-%      img4 = Image(data.Image4);
-%      fprintf('Current hole ID: %s\n', HoleId);
-%      img4.Width  = '9cm';
-%      img4.Height = '8cm';
-%      append(doc, img4)
-% 
-%      HoleId = moveToNextHole(doc); 
-%      img5 = Image(data.Image5);
-%      fprintf('Current hole ID: %s\n', HoleId);
-%      img5.Width  = '9cm';
-%      img5.Height = '8cm';
-%      append(doc, img5)
-%      
-%      HoleId = moveToNextHole(doc); 
-%      img6= Image(data.Image6);
-%      fprintf('Current hole ID: %s\n', HoleId);
-%      img6.Width  = '9cm';
-%      img6.Height = '8cm';
-%      append(doc, img6)
-%      
+   
+    
 %      HoleId = moveToNextHole(doc);
 %      table = Table( Barcode_table, 'AR_Table');
 %      fprintf('Current hole ID: %s\n', HoleId);
@@ -321,7 +302,7 @@ function createGaitReport
    %Close the document and write the result to disc
    close(doc);
    %Show the result
-   rptview([struct.path_destination,'/GaitAnalysisReport_',struct.this_analysis_ID], 'docx');
+   rptview(['Multiple_Perform_report_',patient_ID], 'docx');
    
    
    
